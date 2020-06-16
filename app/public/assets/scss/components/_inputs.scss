@@ -1,0 +1,30 @@
+// INPUTS
+.v__input{
+  border:none !important;
+  border-bottom: 0.5px solid rgba(79, 79, 79, 0.6) !important;
+  background: #fff !important;
+  border-radius: 0 !important;
+  &:focus{
+      border: none !important;
+      border-bottom: 1px solid $color-1 !important;
+      outline-color: none  !important;
+      box-shadow: none !important;
+  }
+}
+.v__input-textarea{
+  border:0.5px solid rgba(79, 79, 79, 0.6) !important;
+  height: 130px !important;
+}
+.v__textarea-msg{
+  height: 450px !important;
+  border:none !important;
+}
+.select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: none ;
+    border-bottom:  0.5px solid rgba(79, 79, 79, 0.6) !important;
+    border-radius: 4px;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+  text-align: left;
+}

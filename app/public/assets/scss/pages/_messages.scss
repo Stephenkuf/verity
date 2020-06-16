@@ -1,0 +1,56 @@
+.messages{
+  max-height: 450px;
+  overflow-y: scroll;
+}
+.message.message-received{
+  text-align: left;
+  @include screenSize(ss-phone){
+    text-align: none;
+  }
+  span{
+    padding: 10px 5px;
+    background: #e5e5e5;
+    border-radius: 20px;
+    @include screenSize(ss-phone){
+      line-height: 38px;
+      border-radius: 3px;
+      font-size: 14px;
+    }
+  }
+}
+.message.message-sent{
+  text-align: right;
+  span{
+    padding: 10px 5px;
+    background: $color-1;
+    color: #fff;
+    border-radius: 20px;
+    @include screenSize(ss-phone){
+      line-height: 38px;
+      border-radius: 3px;
+      font-size: 14px;
+    }
+  }
+}
+.message-image-addon, .message-file-addon{
+  display: inline-block;
+}
+.message-image-input, .message-file-input{
+  width: 30px;
+    height: 30px;
+    position: absolute;
+    left: 16px;
+    top: 4px;
+    visibility: hidden;
+}
+.write-message{
+  width: 720px;
+  position: fixed;
+  bottom: 0;
+  @include screenSize(ss-phone){
+    width: 400px;
+    .send-message{
+      display: none;
+    }
+  }
+}

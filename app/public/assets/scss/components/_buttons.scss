@@ -1,0 +1,25 @@
+// BUTTONS
+.btn-brand{
+    height: 44px;
+    width: 134px;
+    background: linear-gradient(180deg, #D97159 0%, #08587D 100%);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+    &:hover{
+        box-shadow: -2px -1px 7px 1px rgba(8, 88, 125, 1);
+    }
+    &:focus{
+        box-shadow: inset 2px -2px 13px -1px rgba(217, 113, 89, 1);
+    }
+}
+.btn-brand-lg{
+  width: 160px;
+}
+.signUp-btn{
+    padding: 10px 3rem;
+    background: linear-gradient(180deg, #D97159 0%, #08587D 100%);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+    border: none;
+    color: #fff;
+}
