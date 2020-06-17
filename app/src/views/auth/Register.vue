@@ -15,55 +15,112 @@
               industry. Lorem
             </p>
           </div>
-          <form class="f-16" action="">
+          <form @submit.prevent="registerUser()" class="f-16" action="">
             <div class="form-group">
               <input
                 type="text"
                 id="fullname"
+                v-model="sign_up_data.full_name"
                 class="form-control v__input"
                 placeholder="Full Name"
                 required
               />
+              <small
+                v-if="!$v.sign_up_data.full_name.required"
+                class="text-danger"
+                >Full name is required</small
+              >
+            </div>
+            <div class="form-group">
+              <input
+                type="text"
+                id="username"
+                v-model="sign_up_data.username"
+                class="form-control v__input"
+                placeholder="Username"
+                required
+              />
+              <small
+                v-if="!$v.sign_up_data.username.required"
+                class="text-danger"
+                >Username is required</small
+              >
             </div>
             <div class="form-group mt-4">
               <input
                 type="email"
                 id="email"
                 class="form-control v__input"
+                v-model="sign_up_data.email"
                 placeholder="Email address"
                 required
               />
+              <small v-if="!$v.sign_up_data.email.required" class="text-danger"
+                >Email is required</small
+              >
+              <small v-if="!$v.sign_up_data.email.email" class="text-danger"
+                >Failed email validation</small
+              >
             </div>
-            <div class="form-group mt-4">
-              <input
-                type="password"
-                id="password"
-                class="form-control v__input"
-                placeholder="Password"
-                required
-              />
-            </div>
+
             <div class="form-group mt-4">
               <input
                 type="text"
                 id="phonenumber"
                 class="form-control v__input"
+                v-model="sign_up_data.phone_number"
                 placeholder="Phone Number"
                 required
               />
+              <small
+                v-if="!$v.sign_up_data.phone_number.required"
+                class="text-danger"
+                >Phone Number is required</small
+              >
+              <small
+                v-if="!$v.sign_up_data.phone_number.numeric"
+                class="text-danger"
+                >Only numbers are allowed</small
+              >
+              <small
+                v-if="!$v.sign_up_data.phone_number.minLength"
+                class="text-danger"
+                >Phone Number must be more than 7 digits</small
+              >
             </div>
             <div class="form-group mt-4">
               <input
                 type="text"
                 id="denomination"
                 class="form-control v__input"
+                v-model="sign_up_data.denomination"
                 placeholder="Denomination"
                 required
               />
+              <small
+                v-if="!$v.sign_up_data.denomination.required"
+                class="text-danger"
+                >Denomination is required</small
+              >
+            </div>
+            <div class="form-group mt-4">
+              <input
+                type="password"
+                id="password"
+                v-model="sign_up_data.password"
+                class="form-control v__input"
+                placeholder="Password"
+                required
+              />
+              <small
+                v-if="!$v.sign_up_data.password.required"
+                class="text-danger"
+                >Password is required</small
+              >
             </div>
 
             <div class="form-group mt-5 text-center">
-              <button class="signUp-btn">Sign Up</button>
+              <button type="submit" class="signUp-btn">Sign Up</button>
             </div>
 
             <div class="form-group mt-3 mb-5 text-center">
@@ -82,6 +139,10 @@
 </template>
 
 <script>
+import Nprogress from "nprogress";
+import { notifications } from "../../../public/assets/mixins/notifications";
+import { required, minLength, email, numeric } from "vuelidate/lib/validators";
+
 import HomeLogo from "@/components/UI/HomeLogo";
 
 export default {
@@ -89,6 +150,63 @@ export default {
   components: {
     appHomeLogo: HomeLogo,
   },
+  mixins: [notifications],
+  data() {
+    return {
+      sign_up_data: {
+        full_name: "",
+        username: "",
+        email: "",
+        password: "",
+        denomination: "",
+        phone_number: "",
+        user_role_id: 2,
+      },
+    };
+  },
+  validations: {
+    sign_up_data: {
+      full_name: {
+        required,
+      },
+      username: {
+        required,
+      },
+      email: {
+        required,
+        email,
+      },
+      phone_number: {
+        required,
+        numeric,
+        minLength: minLength(8),
+      },
+      password: {
+        required,
+      },
+      denomination: {
+        required,
+      },
+    },
+  },
+  methods: {
+    async registerUser() {
+      console.log("signup user >> ", this.sign_up_data, " >> ", this.$v);
+      this.$v.sign_up_data.$touch();
+      if (this.$v.sign_up_data.$invalid) {
+        return;
+      }
+      Nprogress.start();
+      const data = await this.$store.dispatch(
+        "auth/registerUser",
+        this.sign_up_data
+      );
+
+      this.showSuccessNotification(data.message);
+      console.log("get signup response >> ", data);
+    },
+  },
+  mounted() {},
 };
 </script>
 
