@@ -39,4 +39,4 @@ Route.post(
 Route.post("/additionalUserInfo", "Auth/UserController.additionalUserInfo").middleware(['auth']);
 
 //User Post routes
-Route.post("createPost", "Posts/PostController.createPost");
+Route.post("/createPost", "Posts/PostController.createPost").middleware(['auth']);

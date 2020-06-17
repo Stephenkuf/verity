@@ -24,10 +24,9 @@ class RegisterController {
     } = request.all()
 
     //create user 
-    console.log(email);
 
 
-    const [userLookupError, userLookup] = await safeAwait(User.find(email));
+    const [userLookupError, userLookup] = await safeAwait(User.findBy("email", email));
     if (userLookupError) {
       return response.status(400).json({
         error: userLookupError,
@@ -36,11 +35,18 @@ class RegisterController {
         message: `There was an error looking up that user `,
       })
     }
-    // return response.status(400).json({
-    //   label: `User Registration`,
-    //   statusCode: 400,
-    //   message: `That email has been used to register`
-    // })
+    if (userLookup) {
+      const val = userLookup.toJSON();
+      if (val != null) {
+        return response.status(200).json({
+          label: `User Registration`,
+          statusCode: 200,
+          message: `That email has been used to register`
+        })
+      }
+    }
+
+
 
 
 
