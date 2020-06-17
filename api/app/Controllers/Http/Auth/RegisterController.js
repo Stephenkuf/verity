@@ -6,6 +6,8 @@ const {
 const User = use('App/Models/User')
 const randomString = require('random-string')
 const Mail = use('Mail')
+const safeAwait = require("safe-await");
+
 
 class RegisterController {
   async register({
@@ -22,18 +24,47 @@ class RegisterController {
     } = request.all()
 
     //create user 
+    console.log(email);
 
-    const user = await User.create({
-      full_name,
-      username,
-      email,
-      password,
-      phone_number,
-      confirmation_token: randomString({
-        length: 40
+
+    const [userLookupError, userLookup] = await safeAwait(User.find(email));
+    if (userLookupError) {
+      return response.status(400).json({
+        error: userLookupError,
+        label: `User Registration`,
+        statusCode: 400,
+        message: `There was an error looking up that user `,
       })
-    })
+    }
+    // return response.status(400).json({
+    //   label: `User Registration`,
+    //   statusCode: 400,
+    //   message: `That email has been used to register`
+    // })
 
+
+
+
+    const [userError, user] = await safeAwait(
+      User.create({
+        full_name,
+        username,
+        email,
+        password,
+        phone_number,
+        confirmation_token: randomString({
+          length: 40
+        })
+      })
+    )
+    if (userError) {
+      return response.status(400).json({
+        error: userError,
+        label: `User Registration`,
+        statusCode: 400,
+        message: `We were unable to register User `,
+      })
+    }
 
     //send confirmation Email 
     await Mail.send('auth.emails.confirm-email', user.toJSON(), message => {
@@ -69,6 +100,8 @@ class RegisterController {
     //display success message
 
     response.status(200).json({
+      status: success,
+      label: `user Registration`,
       message: 'Your Email has ben confirmed , LogIn'
     })
 

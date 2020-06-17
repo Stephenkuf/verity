@@ -7,6 +7,7 @@ class DenominationController {
   async registerDenomination({
     request,
     response,
+    auth
   }) {
     const {
       denomination_name,
@@ -20,8 +21,11 @@ class DenominationController {
       designation
     } = request.all();
 
+    const loggedInUser = await auth.current.user;
+    // console.log(loggedInUser.id);
 
-    const [lookUpError, lookUp] = await safeAwait(User.findBy("phone_number", denomination_phone))
+
+    const [lookUpError, lookUp] = await safeAwait(User.findBy("id", loggedInUser.id))
 
     if (lookUpError) {
       return response.status(400).json({
@@ -38,7 +42,6 @@ class DenominationController {
         statusCode: 400,
         message: `We were unable to find that Userr`,
       })
-
     }
 
     const currentUser = lookUp.toJSON()
@@ -68,6 +71,25 @@ class DenominationController {
       })
     }
 
+
+
+    const [registeredError, registered] = await safeAwait(
+      User.query()
+      .where('id', currentUser.id)
+      .update({
+        is_complete_registration: 1
+      })
+    )
+    if (registeredError) {
+      return response.status(400).json({
+        error: registeredError,
+        label: `is registered Error`,
+        statusCode: 400,
+        message: `User fully registered error`
+      })
+    }
+
+
     return response.status(200).json({
       result: denomination,
       label: `Denomination Registeration`,
@@ -75,7 +97,6 @@ class DenominationController {
       message: `Denomination Registered successfully`,
     })
   }
-
 }
 
 module.exports = DenominationController;

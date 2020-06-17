@@ -18,8 +18,12 @@ class UserController {
       user_phone
     } = request.all();
 
-    // const user = await auth.current;
-    const [lookUpError, lookUp] = await safeAwait(User.findBy("phone_number", user_phone))
+
+    const loggedInUser = await auth.current.user;
+    // console.log(loggedInUser.id);
+
+
+    const [lookUpError, lookUp] = await safeAwait(User.findBy("id", loggedInUser.id))
 
     if (lookUpError) {
       return response.status(400).json({
@@ -57,6 +61,22 @@ class UserController {
         label: `User Addditional Info Registration`,
         statusCode: 400,
         message: `We were unable to add user details`,
+      })
+    }
+
+    const [registeredError, registered] = await safeAwait(
+      User.query()
+      .where('id', loggedInUser.id)
+      .update({
+        is_complete_registration: 1
+      })
+    )
+    if (registeredError) {
+      return response.status(400).json({
+        error: registeredError,
+        label: `is registered Error`,
+        statusCode: 400,
+        message: `User fully registered error`
       })
     }
 

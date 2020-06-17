@@ -27,16 +27,16 @@ Route.get("register/confirm/:token", "Auth/RegisterController.confirmEmail");
 Route.post("/login", "Auth/LoginController.login");
 // Route.get("/logout", "Auth/Authenticated.logout");
 
-
-// additional Information routes 
+// additional Information routes
 Route.post(
-  "/registerDenomination", "Auth/DenominationController.registerDenomination")
-
+  "/registerDenomination",
+  "Auth/DenominationController.registerDenomination"
+).middleware(['auth'])
 Route.post(
-  "/registerBranch", "Auth/BranchController.registerDenominationBranch")
+  "/registerBranch",
+  "Auth/BranchController.registerDenominationBranch"
+).middleware(['auth']);
+Route.post("/additionalUserInfo", "Auth/UserController.additionalUserInfo").middleware(['auth']);
 
-Route.post("/additionalUserInfo", "Auth/UserController.additionalUserInfo");
-
-
-//User Post routes 
-Route.post("createMemberPost", "Posts/PostController.createMemberPost")
+//User Post routes
+Route.post("createPost", "Posts/PostController.createPost");

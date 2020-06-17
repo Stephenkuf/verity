@@ -15,6 +15,7 @@ class UserSchema extends Schema {
       table.boolean('is_active').defaultTo(0)
       table.string('confirmation_token')
       table.integer('user_role_id')
+      table.boolean("is_complete_registration").defaultTo(0)
       table.timestamps()
     })
   }
