@@ -15,24 +15,35 @@
               industry. Lorem
             </p>
           </div>
-          <form class="f-16">
+          <form class="f-16" @submit.prevent="loginUser()">
             <div class="form-group ">
               <input
                 type="email"
                 id="email"
                 class="form-control v__input"
+                v-model="login_data.email"
                 placeholder="Email address"
                 required
               />
+              <small v-if="!$v.login_data.email.required" class="text-danger"
+                >Email is required</small
+              >
+              <small v-if="!$v.login_data.email.email" class="text-danger"
+                >Failed email validation</small
+              >
             </div>
             <div class="form-group mt-4">
               <input
                 type="password"
                 id="password"
+                v-model="login_data.password"
                 class="form-control v__input"
                 placeholder="Password"
                 required
               />
+              <small v-if="!$v.login_data.password.required" class="text-danger"
+                >Password is required</small
+              >
             </div>
             <div class="form-group mt-4 text-center">
               <a class="c-brand f-16 f-bold" href="forgot_password.html"
@@ -40,9 +51,9 @@
               >
             </div>
             <div class="form-group mt-5 text-center">
-              <router-link tag="button" to="/account" class="signUp-btn"
-                >Log In</router-link
-              >
+              <button class="signUp-btn" type="submit">
+                {{ is_processing ? "Processing ... " : "Login" }}
+              </button>
             </div>
 
             <div class="form-group mt-3 mb-5 text-center">
@@ -62,12 +73,57 @@
 </template>
 
 <script>
+import Nprogress from "nprogress";
+import { notifications } from "@/mixins/Notification";
+import { required, email } from "vuelidate/lib/validators";
+
 import HomeLogo from "@/components/UI/HomeLogo";
 
 export default {
   name: "Login",
   components: {
     appHomeLogo: HomeLogo,
+  },
+  mixins: [notifications],
+  data() {
+    return {
+      is_processing: false,
+      login_data: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  validations: {
+    login_data: {
+      email: {
+        required,
+        email,
+      },
+      password: {
+        required,
+      },
+    },
+  },
+  methods: {
+    async loginUser() {
+      this.is_processing = true;
+      console.log("login user >> ", this.login_data, " >> ", this.$v);
+      Nprogress.start();
+      this.$v.login_data.$touch();
+      if (this.$v.login_data.$invalid) {
+        return;
+      }
+      const data = await this.$store.dispatch(
+        "auth/loginUser",
+        this.login_data
+      );
+
+      this.showSuccessNotification(data.message);
+      console.log("get login response >> ", data);
+      this.is_processing = false;
+      location.replace("/account");
+    },
   },
 };
 </script>

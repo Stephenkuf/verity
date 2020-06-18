@@ -23,7 +23,7 @@
             <span class="fas fa-bars c-blue"></span>
           </button>
           <div class="collapse navbar-collapse" id="basicExampleNav">
-            <ul class="navbar-nav ml-auto" v-if="!check_route">
+            <!-- <ul class="navbar-nav ml-auto" v-if="!check_route">
               <li class="nav-item">
                 <router-link tag="a" class="nav-link nav-border" to="/login">
                   Login
@@ -34,7 +34,7 @@
                   Sign Up
                 </router-link>
               </li>
-            </ul>
+            </ul> -->
           </div>
         </nav>
       </div>

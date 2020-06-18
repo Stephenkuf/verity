@@ -9,6 +9,7 @@ import Vuelidate from "vuelidate";
 import VueIziToast from "vue-izitoast";
 import "izitoast/dist/css/iziToast.css";
 import Nprogress from "nprogress";
+import "nprogress/nprogress.css";
 
 // Registering Plugins
 Vue.use(Vuelidate);

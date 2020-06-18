@@ -120,7 +120,13 @@
             </div>
 
             <div class="form-group mt-5 text-center">
-              <button type="submit" class="signUp-btn">Sign Up</button>
+              <button
+                :disabled="is_processing"
+                type="submit"
+                class="signUp-btn"
+              >
+                {{ is_processing ? "Creating ..." : "Sign Up" }}
+              </button>
             </div>
 
             <div class="form-group mt-3 mb-5 text-center">
@@ -140,7 +146,7 @@
 
 <script>
 import Nprogress from "nprogress";
-import { notifications } from "../../../public/assets/mixins/notifications";
+import { notifications } from "@/mixins/Notification";
 import { required, minLength, email, numeric } from "vuelidate/lib/validators";
 
 import HomeLogo from "@/components/UI/HomeLogo";
@@ -153,6 +159,7 @@ export default {
   mixins: [notifications],
   data() {
     return {
+      is_processing: false,
       sign_up_data: {
         full_name: "",
         username: "",
@@ -191,12 +198,13 @@ export default {
   },
   methods: {
     async registerUser() {
+      this.is_processing = true;
       console.log("signup user >> ", this.sign_up_data, " >> ", this.$v);
+      Nprogress.start();
       this.$v.sign_up_data.$touch();
       if (this.$v.sign_up_data.$invalid) {
         return;
       }
-      Nprogress.start();
       const data = await this.$store.dispatch(
         "auth/registerUser",
         this.sign_up_data
@@ -204,6 +212,8 @@ export default {
 
       this.showSuccessNotification(data.message);
       console.log("get signup response >> ", data);
+      this.is_processing = false;
+      location.replace("/login");
     },
   },
   mounted() {},
