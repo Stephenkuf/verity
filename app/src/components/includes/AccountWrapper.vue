@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="$route.meta.group == 'Dashboard' && 'bg-grey-light'">
     <appTopbar v-if="!($route.name == 'Landing')"></appTopbar>
     <router-view></router-view>
   </div>

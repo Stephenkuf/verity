@@ -1,19 +1,19 @@
 <template>
   <main class="mt-5 mb-6e">
     <app-navbar></app-navbar>
-    <appBeliversFellowshipDashBoard />
+    <app-church-organisation-dashboard />
   </main>
 </template>
 
 <script>
 import appNavbar from "@/components/Account/Navbar";
-import appBeliversFellowshipDashBoard from "@/components/dashboard/BeliversFellowship";
+import appChurchOrganisationDashboard from "@/components/dashboard/ChurchOrganisation";
 
 export default {
-  name: "BeliversNetworkDashboard",
+  name: "ChurchOrganisationDashboard",
   components: {
     appNavbar,
-    appBeliversFellowshipDashBoard,
+    appChurchOrganisationDashboard,
   },
 };
 </script>

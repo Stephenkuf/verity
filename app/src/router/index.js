@@ -10,7 +10,8 @@ import Account from "../components/includes/AccountWrapper.vue";
 import Landing from "../views/account/Landing.vue";
 
 //church organisation platform
-import Dashboard from "@/views/account/Dashboard";
+import BeliversNetworkDashboard from "@/views/account/Dashboard";
+import ChurchOrganisationDashboard from "@/views/account/ChurchOrganisationDashboard";
 
 Vue.use(VueRouter);
 
@@ -53,11 +54,21 @@ const routes = [
         },
       },
       {
-        path: "/dashboard",
-        component: Dashboard,
-        name: "Dashboard",
+        path: "dashboard/belivers-network",
+        component: BeliversNetworkDashboard,
+        name: "BeliversNetworkDashboard",
         meta: {
           title: "Variety - Dashboard",
+          group: "Dashboard",
+        },
+      },
+      {
+        path: "dashboard/church-organisation",
+        component: ChurchOrganisationDashboard,
+        name: "ChurchOrganisationDashboard",
+        meta: {
+          title: "Variety - Dashboard",
+          group: "Dashboard",
         },
       },
     ],

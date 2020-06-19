@@ -18,12 +18,28 @@
 
     <div class="info text-center mt-6e">
       <div class="square-container">
-        <div class="square">
+        <div
+          class="square"
+          @click="
+            $store.state.landing_page.platformModal =
+              'belivers’ fellowship platform/network'
+          "
+          data-toggle="modal"
+          data-target="#platformModal"
+        >
           <span>Belivers’ Fellowship Platform/Network</span>
         </div>
       </div>
       <div class="square-container">
-        <div class="square" data-toggle="modal" data-target="#platformModal">
+        <div
+          class="square"
+          @click="
+            $store.state.landing_page.platformModal =
+              'church organisation platform'
+          "
+          data-toggle="modal"
+          data-target="#platformModal"
+        >
           <span>Church Organisation Platform</span>
         </div>
       </div>

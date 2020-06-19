@@ -25,7 +25,7 @@
         <div class="modal-body">
           <div class="heading">
             <h3 class="text-center f-bold f-24 c-brand">
-              Welcome to the church organization Platform
+              Welcome to the {{ $store.state.landing_page.platformModal }}
             </h3>
             <p class="text-center c-brown f-20 mt-3">
               Please select a platform for you to enter
