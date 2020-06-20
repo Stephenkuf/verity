@@ -31,12 +31,20 @@ Route.post("/login", "Auth/LoginController.login");
 Route.post(
   "/registerDenomination",
   "Auth/DenominationController.registerDenomination"
-).middleware(['auth'])
+).middleware(["auth"]);
 Route.post(
   "/registerBranch",
   "Auth/BranchController.registerDenominationBranch"
-).middleware(['auth']);
-Route.post("/additionalUserInfo", "Auth/UserController.additionalUserInfo").middleware(['auth']);
+).middleware(["auth"]);
+Route.post(
+  "/additionalUserInfo",
+  "Auth/UserController.additionalUserInfo"
+).middleware(["auth"]);
 
 //User Post routes
-Route.post("/createPost", "Posts/PostController.createPost").middleware(['auth']);
+Route.post("/createPost", "Posts/PostController.createPost").middleware([
+  "auth"
+]);
+
+//metadata routes
+Route.get("/getMetadata", "Metadata/MetadatumController.getMetadata");
