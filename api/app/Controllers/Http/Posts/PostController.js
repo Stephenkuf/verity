@@ -1,6 +1,42 @@
 'use strict'
-const Post = use("App/Models/Post")
+const Post = use("App/Models/Post");
+const safeAwait = require("safe-await");
 
-class PostController {}
+
+class PostController {
+  async createPost({
+    request,
+    response,
+    auth
+  }) {
+    const {
+      post_body,
+      post_image
+    } = request.all();
+
+    const user = auth.current.user;
+
+    const newPost = await new Post()
+    const [postCreationError, postCreation] = await safeAwait(
+      newPost.user_id = user.id,
+      newPost.post_body = post_body,
+      // newPost.post_image = post_image
+    )
+    if (postCreationError) {
+      return response.status(400).json({
+        error: postCreationError,
+        label: `Post Creation`,
+        statusCode: 400,
+        message: `There was an error creating a post `,
+      })
+    }
+    response.status(200).json({
+      label: "Post Creatiom",
+      message: 'Post Created Successfully',
+      data: postCreation
+    })
+
+  }
+}
 
 module.exports = PostController

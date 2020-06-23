@@ -22,7 +22,12 @@ class BranchController {
       branch_designation
     } = request.all();
 
-    const [lookUpError, lookUp] = await safeAwait(User.findBy("phone_number", branch_phone))
+
+    const loggedInUser = await auth.current.user;
+    // console.log(loggedInUser.id);
+
+
+    const [lookUpError, lookUp] = await safeAwait(User.findBy("id", loggedInUser.id))
 
     if (lookUpError) {
       return response.status(400).json({
@@ -39,7 +44,6 @@ class BranchController {
         statusCode: 400,
         message: `We were unable to find that Userr`,
       })
-
     }
 
     const currentUser = lookUp.toJSON()
@@ -68,13 +72,28 @@ class BranchController {
       })
     }
 
+    const [registeredError, registered] = await safeAwait(
+      User.query()
+      .where('id', loggedInUser.id)
+      .update({
+        is_complete_registration: 1
+      })
+    )
+    if (registeredError) {
+      return response.status(400).json({
+        error: registeredError,
+        label: `is registered Error`,
+        statusCode: 400,
+        message: `User fully registered error`
+      })
+    }
+
     return response.status(200).json({
       error: branch,
       label: `Denomination Registration`,
       statusCode: 200,
       message: `Denomination Registered successfully`,
     })
-
   }
 }
 
