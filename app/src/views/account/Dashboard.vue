@@ -1,5 +1,5 @@
 <template>
-  <main class="mt-5 mb-6e">
+  <main class="mt-5 pb-5">
     <app-navbar></app-navbar>
     <appBeliversFellowshipDashBoard />
   </main>
