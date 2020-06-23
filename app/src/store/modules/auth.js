@@ -25,6 +25,7 @@ export default {
         return result.data;
       } catch (error) {
         console.log("error >> ", error.response);
+        throw error.response;
       }
     },
     async createDenomination(store, Details) {
@@ -48,6 +49,7 @@ export default {
         return result.data;
       } catch (error) {
         console.log("error >> ", error.response);
+        throw error.response;
       }
     },
   },

@@ -13,13 +13,14 @@
               </p>
               <form class="" @submit.prevent="creatDenomination()">
                 <div class="form-group mt-5">
-                  <input
-                    type="text"
-                    class="form-control v__input"
-                    placeholder="Denomination name"
+                  <v-select
+                    class="v-select form-control v__input "
                     v-model="create_denomination.denomination_name"
-                    required
-                  />
+                    placeholder="Select your Denomination"
+                    name="denomination"
+                    label="denomination_label"
+                    :options="denomination_list"
+                  ></v-select>
                   <small
                     v-if="
                       !$v.create_denomination.denomination_name.required &&
@@ -146,6 +147,7 @@ export default {
     return {
       is_processing: false,
       first_submit: false,
+      denomination_list: [],
       create_denomination: {
         denomination_name: "",
         denomination_phone: "",
@@ -204,6 +206,10 @@ export default {
         }
       }
     },
+  },
+  async mounted() {
+    const get_meta_data = await this.$store.dispatch("getMetaData");
+    this.denomination_list = get_meta_data.result.denomination;
   },
 };
 </script>

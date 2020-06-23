@@ -25,9 +25,7 @@
                 placeholder="Full Name"
                 required
               />
-              <small
-                v-if="!$v.sign_up_data.full_name.required"
-                class="text-danger"
+              <small v-if="$v.sign_up_data.full_name.$error" class="text-danger"
                 >Full name is required</small
               >
             </div>
@@ -40,9 +38,7 @@
                 placeholder="Username"
                 required
               />
-              <small
-                v-if="!$v.sign_up_data.username.required"
-                class="text-danger"
+              <small v-if="$v.sign_up_data.username.$error" class="text-danger"
                 >Username is required</small
               >
             </div>
@@ -55,12 +51,16 @@
                 placeholder="Email address"
                 required
               />
-              <small v-if="!$v.sign_up_data.email.required" class="text-danger"
-                >Email is required</small
-              >
-              <small v-if="!$v.sign_up_data.email.email" class="text-danger"
-                >Failed email validation</small
-              >
+              <template v-if="$v.sign_up_data.email.$error">
+                <small
+                  v-if="!$v.sign_up_data.email.required"
+                  class="text-danger"
+                  >Email is required</small
+                >
+                <small v-if="!$v.sign_up_data.email.email" class="text-danger"
+                  >Failed email validation</small
+                >
+              </template>
             </div>
 
             <div class="form-group mt-4">
@@ -72,33 +72,35 @@
                 placeholder="Phone Number"
                 required
               />
-              <small
-                v-if="!$v.sign_up_data.phone_number.required"
-                class="text-danger"
-                >Phone Number is required</small
-              >
-              <small
-                v-if="!$v.sign_up_data.phone_number.numeric"
-                class="text-danger"
-                >Only numbers are allowed</small
-              >
-              <small
-                v-if="!$v.sign_up_data.phone_number.minLength"
-                class="text-danger"
-                >Phone Number must be more than 7 digits</small
-              >
+              <template v-if="$v.sign_up_data.phone_number.$dirty">
+                <small
+                  v-if="!$v.sign_up_data.phone_number.required"
+                  class="text-danger"
+                  >Phone Number is required,
+                </small>
+                <small
+                  v-if="!$v.sign_up_data.phone_number.numeric"
+                  class="text-danger"
+                  >Only numbers are allowed,
+                </small>
+                <small
+                  v-if="!$v.sign_up_data.phone_number.minLength"
+                  class="text-danger"
+                  >Phone Number must be more than 7 digits</small
+                >
+              </template>
             </div>
             <div class="form-group mt-4">
-              <input
-                type="text"
-                id="denomination"
-                class="form-control v__input"
+              <v-select
+                class="v-select form-control v__input "
                 v-model="sign_up_data.denomination"
-                placeholder="Denomination"
-                required
-              />
+                placeholder="Select your Denomination"
+                name="denomination"
+                label="denomination_label"
+                :options="denomination_list"
+              ></v-select>
               <small
-                v-if="!$v.sign_up_data.denomination.required"
+                v-if="$v.sign_up_data.denomination.$error"
                 class="text-danger"
                 >Denomination is required</small
               >
@@ -112,9 +114,7 @@
                 placeholder="Password"
                 required
               />
-              <small
-                v-if="!$v.sign_up_data.password.required"
-                class="text-danger"
+              <small v-if="$v.sign_up_data.password.$error" class="text-danger"
                 >Password is required</small
               >
             </div>
@@ -169,6 +169,7 @@ export default {
         phone_number: "",
         user_role_id: 2,
       },
+      denomination_list: [],
     };
   },
   validations: {
@@ -198,25 +199,36 @@ export default {
   },
   methods: {
     async registerUser() {
-      this.is_processing = true;
-      console.log("signup user >> ", this.sign_up_data, " >> ", this.$v);
-      Nprogress.start();
-      this.$v.sign_up_data.$touch();
-      if (this.$v.sign_up_data.$invalid) {
-        return;
-      }
-      const data = await this.$store.dispatch(
-        "auth/registerUser",
-        this.sign_up_data
-      );
+      try {
+        this.is_processing = true;
+        console.log("signup user >> ", this.sign_up_data, " >> ", this.$v);
 
-      this.showSuccessNotification(data.message);
-      console.log("get signup response >> ", data);
-      this.is_processing = false;
-      location.replace("/login");
+        this.$v.sign_up_data.$touch();
+        if (this.$v.sign_up_data.$invalid) {
+          return;
+        }
+        Nprogress.start();
+        const data = await this.$store.dispatch(
+          "auth/registerUser",
+          this.sign_up_data
+        );
+
+        this.showSuccessNotification(data.message);
+        console.log("get signup response >> ", data);
+        this.is_processing = false;
+        location.replace("/login");
+      } catch (error) {
+        this.showErrorNotification(error.data.message);
+        this.is_processing = false;
+        Nprogress.done();
+      }
     },
   },
-  mounted() {},
+  async mounted() {
+    const get_meta_data = await this.$store.dispatch("getMetaData");
+    this.denomination_list = get_meta_data.result.denomination;
+    console.log("get meta data >> ", get_meta_data, this.$v);
+  },
 };
 </script>
 

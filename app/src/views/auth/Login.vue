@@ -107,22 +107,29 @@ export default {
   },
   methods: {
     async loginUser() {
-      this.is_processing = true;
-      console.log("login user >> ", this.login_data, " >> ", this.$v);
-      Nprogress.start();
-      this.$v.login_data.$touch();
-      if (this.$v.login_data.$invalid) {
-        return;
-      }
-      const data = await this.$store.dispatch(
-        "auth/loginUser",
-        this.login_data
-      );
+      try {
+        this.is_processing = true;
+        console.log("login user >> ", this.login_data, " >> ", this.$v);
+        Nprogress.start();
+        this.$v.login_data.$touch();
+        if (this.$v.login_data.$invalid) {
+          return;
+        }
+        const data = await this.$store.dispatch(
+          "auth/loginUser",
+          this.login_data
+        );
 
-      this.showSuccessNotification(data.message);
-      console.log("get login response >> ", data);
-      this.is_processing = false;
-      location.replace("/account");
+        this.showSuccessNotification(data.message);
+        console.log("get login response >> ", data);
+        this.is_processing = false;
+        Nprogress.done();
+        location.replace("/account");
+      } catch (error) {
+        this.showErrorNotification(error.data.message);
+        this.is_processing = false;
+        Nprogress.done();
+      }
     },
   },
 };
