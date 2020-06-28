@@ -54,7 +54,7 @@ class PostController {
       Post.query()
       .with("user")
       .with("reply")
-      .with("like", (builder) => builder.getCount())
+      .withCount("like")
       .orderBy("created_at", "desc")
       .fetch()
     )
