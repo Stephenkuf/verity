@@ -17,10 +17,12 @@ class PostController {
     const user = auth.current.user;
 
     const newPost = await new Post()
+
+    newPost.user_id = user.id
+    newPost.post_body = post_body
+    // newPost.post_image = post_image
     const [postCreationError, postCreation] = await safeAwait(
-      newPost.user_id = user.id,
-      newPost.post_body = post_body,
-      // newPost.post_image = post_image
+      newPost.save()
     )
     if (postCreationError) {
       return response.status(400).json({
@@ -31,7 +33,7 @@ class PostController {
       })
     }
     response.status(200).json({
-      label: "Post Creatiom",
+      label: "Post Creation",
       message: 'Post Created Successfully',
       data: postCreation
     })

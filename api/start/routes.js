@@ -42,9 +42,10 @@ Route.post(
 ).middleware(["auth"]);
 
 //User Post routes
-Route.post("/createPost", "Posts/PostController.createPost").middleware([
-  "auth"
-]);
+Route.post("/createPost", "Posts/PostController.createPost").middleware(["auth"]);
+
+// User profile Routes 
+Route.get("/getProfile", "Posts/PostController.fetch");
 
 //metadata routes
 Route.get("/getMetadata", "Metadata/MetadatumController.getMetadata");
