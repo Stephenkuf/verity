@@ -22,7 +22,7 @@ class PostController {
     newPost.post_body = post_body
     // newPost.post_image = post_image
     const [postCreationError, postCreation] = await safeAwait(
-      newPost.save()
+      Post.all()
     )
     if (postCreationError) {
       return response.status(400).json({
@@ -37,8 +37,38 @@ class PostController {
       message: 'Post Created Successfully',
       data: postCreation
     })
+  }
 
+
+
+  // view all posts in the system 
+
+  async ViewTimelinePosts({
+    request,
+    response,
+    auth
+  }) {
+    const [postFetchingError, postFetching] = await safeAwait(
+      Post.query()
+      .with("user")
+      .with("reply")
+      .with("like")
+      .orderBy("created_at", "desc")
+      .fetch()
+    )
+    if (postFetchingError) {
+      return response.status(400).json({
+        error: postFetchingError,
+        label: `Post Retrieval `,
+        statusCode: 400,
+        message: `There was an error fetching all Posts `,
+      })
+    }
+    response.status(200).json({
+      label: "Post Creation",
+      message: 'Posts fetched uccessfully',
+      data: postFetching
+    })
   }
 }
-
 module.exports = PostController
