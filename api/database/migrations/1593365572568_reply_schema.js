@@ -9,7 +9,7 @@ class ReplySchema extends Schema {
       table.increments()
       table.integer('user_id').unsigned().notNullable()
       table.integer('post_id').unsigned().notNullable()
-      table.string('reply').notNullable()
+      table.text('reply').notNullable()
       table.timestamps()
     })
   }

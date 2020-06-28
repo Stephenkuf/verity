@@ -1,5 +1,7 @@
 'use strict'
 const Post = use("App/Models/Post");
+const Like = use("App/Models/Like");
+
 const safeAwait = require("safe-await");
 
 
@@ -52,7 +54,7 @@ class PostController {
       Post.query()
       .with("user")
       .with("reply")
-      .with("like")
+      .with("like", (builder) => builder.getCount())
       .orderBy("created_at", "desc")
       .fetch()
     )
@@ -65,10 +67,50 @@ class PostController {
       })
     }
     response.status(200).json({
-      label: "Post Creation",
+      label: "Post Fetch",
       message: 'Posts fetched uccessfully',
       data: postFetching
     })
   }
+
+  async likePost({
+    request,
+    response,
+    auth
+  }) {
+
+    const {
+      post_id
+    } = request.all();
+    const {
+      user
+    } = await auth.current;
+    const [likePostError, likePost] = await safeAwait(
+      Like.findOrCreate({
+        user_id: user.id,
+        post_id: post_id
+      }, {
+        user_id: user.id,
+        post_id: post_id
+      })
+    );
+
+    if (likePostError) {
+      return response.status(400).json({
+        error: likePostError,
+        label: `Post Like`,
+        statusCode: 400,
+        message: `There was a problem liking that post `,
+      })
+    }
+    response.status(200).json({
+      label: "Post Like",
+      message: 'Post liked successfully',
+      data: likePost
+    })
+  }
+
+
+
 }
 module.exports = PostController

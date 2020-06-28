@@ -8,7 +8,7 @@ class PostSchema extends Schema {
     this.create('posts', (table) => {
       table.increments()
       table.integer("user_id")
-      table.string("post_body")
+      table.text("post_body")
       table.string("post_image")
       table.timestamps()
     })
