@@ -186,6 +186,10 @@ export default {
         this.is_processing = false;
         return;
       }
+
+      this.create_denomination.denomination_name = this.create_denomination.denomination_name.denomination_label;
+
+      console.log("this.create_denomination >> ", this.create_denomination);
       Nprogress.start();
       try {
         const data = await this.$store.dispatch(

@@ -63,12 +63,12 @@ class RegisterController {
     }
 
     //send confirmation Email
-    await Mail.send("auth.emails.confirm-email", user.toJSON(), (message) => {
-      message
-        .to(user.email)
-        .from("Verity.com")
-        .subject("Please confirm your email address");
-    });
+    // await Mail.send("auth.emails.confirm-email", user.toJSON(), (message) => {
+    //   message
+    //     .to(user.email)
+    //     .from("Verity.com")
+    //     .subject("Please confirm your email address");
+    // });
     // display success message
 
     response.status(200).json({

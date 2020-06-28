@@ -208,6 +208,7 @@ export default {
           return;
         }
         Nprogress.start();
+        this.sign_up_data.denomination = this.sign_up_data.denomination.id;
         const data = await this.$store.dispatch(
           "auth/registerUser",
           this.sign_up_data

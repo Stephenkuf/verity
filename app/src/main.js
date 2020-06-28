@@ -3,6 +3,7 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
+import { apiClient } from "@/services/api-client";
 
 // 3rd party packages
 import Vuelidate from "vuelidate";
@@ -23,6 +24,10 @@ Vue.component("v-select", vSelect);
 
 router.beforeEach((to, from, next) => {
   Nprogress.start();
+  if (localStorage.getItem("V-token")) {
+    let token = localStorage.getItem("V-token");
+    apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
   next();
 });
 

@@ -16,7 +16,11 @@
         <div class="collapse navbar-collapse" id="basicExampleNav">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="index.html">
+              <a
+                class="nav-link"
+                :class="$route.name == 'BeliversNetworkDashboard' && 'active'"
+                href="index.html"
+              >
                 <i class="fas fa-home f-24 mr-1 c-blue"></i>
                 <span class="c-blue f-bold f-14">HOME</span>
               </a>

@@ -382,6 +382,10 @@ footer.footer p a:hover {
   background: transparent !important;
   border-bottom: 2px solid #08587d;
 }
+.navbar .navbar-nav .nav-link.active {
+  background: transparent !important;
+  border-bottom: 2px solid #08587d;
+}
 
 .navbar .navbar-nav .nav-link i.fahover {
   background: #08587d;
