@@ -73,6 +73,7 @@
                   v-for="(post, index) in post_list"
                   :key="index"
                   :post_data="post"
+                  @fetchPost="fetch_post"
                 />
               </section>
             </div>

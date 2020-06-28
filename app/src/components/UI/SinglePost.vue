@@ -43,7 +43,10 @@
       <div class=" mt-3 px-3">
         <div class="row justify-content-between">
           <div class="col-9 px-0 col-lg-6">
-            <span class="post-likes c-blue f-14 mr-3 f-bold">
+            <span
+              class="post-likes c-blue f-14 mr-3 f-bold"
+              @click="likePost(post_data.id)"
+            >
               <i class="far fa-heart mr-2 f-16" style="cursor:pointer"></i>
               {{ post_data.like.length }} likes
             </span>
@@ -85,11 +88,31 @@
 </template>
 
 <script>
+import { notifications } from "@/mixins/Notification";
 export default {
   name: "SinglePost",
   props: {
     post_data: {
       type: Object,
+    },
+  },
+  mixins: [notifications],
+  methods: {
+    fetchPost() {
+      this.$emit("fetchPost");
+    },
+    async likePost(post_id) {
+      console.log("post id >> ", post_id);
+      try {
+        const data = await this.$store.dispatch("dashboard/likePosts", {
+          post_id: post_id,
+        });
+        console.log("data >> ", data);
+        this.showSuccessNotification(data.message);
+        this.fetchPost();
+      } catch (error) {
+        this.showErrorNotification(error.data.message);
+      }
     },
   },
 };

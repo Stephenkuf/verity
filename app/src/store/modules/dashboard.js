@@ -26,5 +26,15 @@ export default {
         throw error.response;
       }
     },
+    async likePosts(store, likeDetails) {
+      try {
+        let result = await apiClient.post("/likePost", likeDetails);
+        console.log("like post >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
   },
 };
