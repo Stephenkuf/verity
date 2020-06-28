@@ -48,6 +48,8 @@ export default {
             post_body: this.post_text,
           });
           console.log("data >> ", data);
+          this.showSuccessNotification(data.message);
+          Nprogress.done();
         }
       } catch (error) {
         this.showErrorNotification(error.data.message);
