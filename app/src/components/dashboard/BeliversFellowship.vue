@@ -68,14 +68,22 @@
             </div>
             <div class="col-md-6" v-if="selected_tab == 'general-tab'">
               <section class="posts">
-                <appCreatePostSection />
-                <appSinglePost v-for="i in 2" :key="i" />
+                <appCreatePostSection @fetchPost="fetch_post" />
+                <appSinglePost
+                  v-for="(post, index) in post_list"
+                  :key="index"
+                  :post_data="post"
+                />
               </section>
             </div>
             <div class="col-md-6" v-if="selected_tab == 'denomination-tab'">
               <section class="posts">
                 <appCreatePostSection />
-                <appSinglePost />
+                <appSinglePost
+                  v-for="(post, index) in post_list"
+                  :key="index"
+                  :post_data="post"
+                />
               </section>
             </div>
             <div class="col-md-3">
@@ -113,19 +121,41 @@ import appSinglePost from "@/components/UI/SinglePost";
 import appGroupYouMayJoin from "@/components/UI/GroupYouMayJoin";
 import appPeopleYouMayKnow from "@/components/UI/PeopleYouMayKnow";
 
+import Nprogress from "nprogress";
+import { notifications } from "@/mixins/Notification";
+
 export default {
   name: "BeliversFellowshipDashBoard",
   data() {
     return {
       selected_tab: "general-tab",
+      post_list: [],
     };
   },
+  mixins: [notifications],
   components: {
     appProfileCard,
     appCreatePostSection,
     appSinglePost,
     appGroupYouMayJoin,
     appPeopleYouMayKnow,
+  },
+  methods: {
+    async fetch_post() {
+      try {
+        Nprogress.start();
+        const get_posts = await this.$store.dispatch("dashboard/viewPosts");
+        console.log("get posts >> ", get_posts);
+        this.post_list = get_posts.data;
+        Nprogress.done();
+      } catch (error) {
+        console.log("error >> ", error);
+        Nprogress.done();
+      }
+    },
+  },
+  async mounted() {
+    await this.fetch_post();
   },
 };
 </script>

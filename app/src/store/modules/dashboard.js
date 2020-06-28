@@ -9,9 +9,18 @@ export default {
     async createPost(store, postDetails) {
       try {
         let result = await apiClient.post("/createPost", postDetails);
-        // dispatch("setToken", result.data.results[0].token.token)
         console.log("create post payload >> ", result);
-        // return result.data;
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async viewPosts() {
+      try {
+        let result = await apiClient.get("/ViewTimelinePosts");
+        console.log("view post >> ", result);
+        return result.data;
       } catch (error) {
         console.log("error >> ", error.response);
         throw error.response;

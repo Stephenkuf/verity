@@ -11,45 +11,45 @@
                 alt="logged in user"
               />
             </div>
-            <div class="col-7 col-md-9 col-lg-6 pl-0">
+            <div class="col-8 col-md-9 col-lg-9 pl-0">
               <p class="c-brand f-14 f-bold mb-0">
-                David Akinbami
+                {{ post_data.user.full_name }}
               </p>
-              <p class="c-grey f-12 f-med">4 hrs Ago</p>
+              <p class="c-grey f-8 c-fs">
+                {{ post_data.created_at | moment("MMMM Do YYYY, h:mm a") }}
+              </p>
             </div>
           </div>
         </div>
         <div class="col-3 col-md-2 col-lg-3">
-          <button
+          <!-- <button
             class="btn btn-sm bg-transparent border-0 pull-right no-bs no-bs--show"
           >
             <i class="fa fa-ellipsis-h f-16 c-blue"></i>
-          </button>
+          </button> -->
         </div>
       </div>
       <div class="mt-4">
         <p class=" f-12 f-med">
-          Frontier for growth in the development of local expertise in the
-          subsea of oil and gas industry and that Brisktrode will play a key
-          role in driving this agenda. Frontier for growth in the development of
-          local expertise in the subsea of oil and gas industry and that
-          Brisktrode will play a key role in driving this agenda. Frontier for
-          growth in the development of local expertise in the subsea of oil and
-          gas industry and that Brisktrode will play a key role in driving this
-          agenda.
+          {{ post_data.post_body }}
         </p>
-        <img src="/assets/images/post_1.png" class="w-100" alt="user post" />
+        <img
+          v-if="post_data.post_image"
+          src="/assets/images/post_1.png"
+          class="w-100"
+          alt="user post"
+        />
       </div>
       <div class=" mt-3 px-3">
         <div class="row justify-content-between">
-          <div class="col-9 col-lg-6">
+          <div class="col-9 px-0 col-lg-6">
             <span class="post-likes c-blue f-14 mr-3 f-bold">
-              <i class="far fa-heart mr-2 f-16"></i>
-              20 likes
+              <i class="far fa-heart mr-2 f-16" style="cursor:pointer"></i>
+              {{ post_data.like.length }} likes
             </span>
             <span class="post-comment c-blue f-14 f-bold">
-              <i class="far fa-comment mr-2 f-16"></i>
-              12 comments
+              <i class="far fa-comment mr-2 f-16" style="cursor:pointer"></i>
+              {{ post_data.reply.length }} comments
             </span>
           </div>
           <div class="col-3 col-lg-3 text-right px-0">
@@ -87,7 +87,19 @@
 <script>
 export default {
   name: "SinglePost",
+  props: {
+    post_data: {
+      type: Object,
+    },
+  },
 };
 </script>
 
-<style></style>
+<style scoped>
+.f-med {
+  font-size: 1rem;
+}
+.c-fs {
+  font-size: 14px;
+}
+</style>

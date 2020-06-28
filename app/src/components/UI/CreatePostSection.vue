@@ -39,6 +39,9 @@ export default {
   },
   mixins: [notifications],
   methods: {
+    fetchPost() {
+      this.$emit("fetchPost");
+    },
     async createPost() {
       console.log("show_data >> ", this.post_text);
       try {
@@ -50,6 +53,8 @@ export default {
           console.log("data >> ", data);
           this.showSuccessNotification(data.message);
           Nprogress.done();
+          this.post_text = "";
+          this.fetchPost();
         }
       } catch (error) {
         this.showErrorNotification(error.data.message);
