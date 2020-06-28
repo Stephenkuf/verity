@@ -22,7 +22,7 @@ class PostController {
     newPost.post_body = post_body
     // newPost.post_image = post_image
     const [postCreationError, postCreation] = await safeAwait(
-      Post.all()
+      newPost.save()
     )
     if (postCreationError) {
       return response.status(400).json({
