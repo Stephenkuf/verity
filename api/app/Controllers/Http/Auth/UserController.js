@@ -89,6 +89,26 @@ class UserController {
   }
 
 
+  // get profile for authenticated user
+  async getUserProfile({
+    response,
+    auth
+  }) {
+
+    const {
+      user
+    } = auth.current;
+
+    const [getProfileError, getProfile] = await safeAwait(
+      User.find(user.id)
+      .with("")
+      .with("")
+      .with("")
+    )
+
+
+  }
+
 }
 
 module.exports = UserController

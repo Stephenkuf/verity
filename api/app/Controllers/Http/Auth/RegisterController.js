@@ -38,9 +38,9 @@ class RegisterController {
     if (userLookup) {
       const val = userLookup.toJSON();
       if (val != null) {
-        return response.status(200).json({
+        return response.status(400).json({
           label: `User Registration`,
-          statusCode: 200,
+          statusCode: 400,
           message: `That email has been used to register`
         })
       }

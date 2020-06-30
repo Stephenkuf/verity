@@ -45,7 +45,7 @@ Route.post(
 Route.post("/createPost", "Posts/PostController.createPost").middleware(["auth"]);
 Route.get("/ViewTimelinePosts", "Posts/PostController.ViewTimelinePosts").middleware(["auth"]);
 Route.post("/likePost", "Posts/PostController.likePost").middleware(["auth"]);
-
+Route.post("/commentPost", "Posts/PostController.commentPost").middleware(["auth"]);
 
 
 // User profile Routes 
