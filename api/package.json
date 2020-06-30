@@ -28,7 +28,8 @@
     "@adonisjs/validator": "^5.0.6",
     "mysql": "^2.18.1",
     "random-string": "^0.2.0",
-    "safe-await": "^1.0.0"
+    "safe-await": "^1.0.0",
+    "url-parse": "^1.4.7"
   },
   "devDependencies": {},
   "autoload": {
