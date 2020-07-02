@@ -48,7 +48,7 @@
               @click="likePost(post_data.id)"
             >
               <i class="far fa-heart mr-2 f-16" style="cursor:pointer"></i>
-              {{ post_data.like.length }} likes
+              {{ post_data.__meta__.like_count }} likes
             </span>
             <span class="post-comment c-blue f-14 f-bold">
               <i class="far fa-comment mr-2 f-16" style="cursor:pointer"></i>
