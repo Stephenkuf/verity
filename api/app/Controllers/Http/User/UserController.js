@@ -138,6 +138,9 @@ class UserController {
       .where("id", user.id)
       .with('additionalUserInfo')
       .withCount('posts')
+      // .withCount('group')
+      .withCount('followers', (builder) => builder.where("user_id", user.id))
+      .withCount('following', (builder) => builder.where("follower_id", user.id))
       .fetch()
     )
     if (getProfileError) {
