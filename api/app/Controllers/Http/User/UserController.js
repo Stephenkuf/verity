@@ -2,6 +2,7 @@
 const AdditionalUserInfo = use("App/Models/AdditionalUserInfo");
 const safeAwait = require("safe-await");
 const User = use("App/Models/User");
+const Posts = use("App/Models/Post")
 
 
 class UserController {
@@ -87,6 +88,80 @@ class UserController {
       message: `User details added  successfully`,
     })
   }
+
+
+  //GET POSTS FOR AUTHENTICATED USER 
+  async getUserPosts({
+    response,
+    auth
+  }) {
+    const {
+      user
+    } = auth.current;
+
+    const [getPostsError, getProfile] = await safeAwait(
+      Posts.query()
+      .where("id", user.id)
+      .with('user')
+      .with('comment')
+      .withCount("like")
+      .fetch()
+    )
+    if (getPostsError) {
+      return response.status(400).json({
+        error: getPostsError,
+        label: `Get User posts`,
+        statusCode: 400,
+        message: `Get User Posts error`
+      })
+    }
+
+    return response.status(200).json({
+      result: getProfile,
+      label: `profile`,
+      statusCode: 200,
+      message: `User posts fetched successfully`,
+    })
+  }
+
+  // GET PROFILE for AUTHENTICATED USER
+  async getUserProfile({
+    response,
+    auth
+  }) {
+    const {
+      user
+    } = auth.current;
+
+    const [getProfileError, getProfile] = await safeAwait(
+      User.query()
+      .where("id", user.id)
+      .with('additionalUserInfo')
+      .withCount('posts')
+      // .withCount('group')
+      .withCount('followers', (builder) => builder.where("user_id", user.id))
+      .withCount('following', (builder) => builder.where("follower_id", user.id))
+      .fetch()
+    )
+    if (getProfileError) {
+      console.log(getProfileError);
+
+      return response.status(400).json({
+        error: getProfileError,
+        label: `Get User Profile`,
+        statusCode: 400,
+        message: `Get User Profile error`
+      })
+    }
+
+    return response.status(200).json({
+      result: getProfile,
+      label: `profile`,
+      statusCode: 200,
+      message: `User profile fetched successfully`,
+    })
+  }
+
 
 
 }

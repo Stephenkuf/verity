@@ -38,18 +38,22 @@ Route.post(
 ).middleware(["auth"]);
 Route.post(
   "/additionalUserInfo",
-  "Auth/UserController.additionalUserInfo"
+  "User/UserController.additionalUserInfo"
 ).middleware(["auth"]);
 
 //User Post routes
 Route.post("/createPost", "Posts/PostController.createPost").middleware(["auth"]);
 Route.get("/ViewTimelinePosts", "Posts/PostController.ViewTimelinePosts").middleware(["auth"]);
 Route.post("/likePost", "Posts/PostController.likePost").middleware(["auth"]);
-
+Route.post("/commentPost", "Posts/PostController.commentPost").middleware(["auth"]);
 
 
 // User profile Routes 
-Route.get("/getProfile", "Posts/PostController.fetch");
+Route.get("/getUserPosts", "User/UserController.getUserPosts").middleware(["auth"]);
+Route.get("/getUserProfile", "User/UserController.getUserProfile").middleware(["auth"]);
 
 //metadata routes
 Route.get("/getMetadata", "Metadata/MetadatumController.getMetadata");
+
+//follow routes
+Route.get("/whoToFollow", "User/UserController.whoToFollow").middleware(["auth"]);

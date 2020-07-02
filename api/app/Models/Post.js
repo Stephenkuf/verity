@@ -4,11 +4,12 @@
 const Model = use('Model')
 
 class Post extends Model {
+
   user() {
     return this.belongsTo("App/Models/User");
   }
-  reply() {
-    return this.hasMany("App/Models/Reply");
+  comment() {
+    return this.hasMany("App/Models/Comment");
   }
   like() {
     return this.hasMany("App/Models/Like")
