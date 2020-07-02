@@ -23,7 +23,7 @@ class User extends Model {
     })
   }
   static get hidden() {
-    return ['password']
+    return ['password', 'confirmation_token', 'user_role_id', 'created_at', 'updated_at', 'is_complete_registration']
   }
   /**
    * A relationship on tokens is required for auth to
@@ -38,6 +38,27 @@ class User extends Model {
   tokens() {
     return this.hasMany('App/Models/Token')
   }
+
+  posts() {
+    return this.hasMany('App/Models/Post')
+  }
+  followers() {
+    return this.belongsToMany(
+      'App/Models/User',
+      'user_id',
+      'follower_id'
+    ).pivotTable('followers')
+  }
+  replies() {
+    return this.hasMany('App/Models/Comment')
+  }
+  likes() {
+    return this.hasMany('App/Models/Like')
+  }
+  additionalUserInfo() {
+    return this.hasOne('App/Models/AdditionalUserInfo')
+  }
+
 }
 
 module.exports = User

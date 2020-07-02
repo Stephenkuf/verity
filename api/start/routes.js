@@ -38,7 +38,7 @@ Route.post(
 ).middleware(["auth"]);
 Route.post(
   "/additionalUserInfo",
-  "Auth/UserController.additionalUserInfo"
+  "User/UserController.additionalUserInfo"
 ).middleware(["auth"]);
 
 //User Post routes
@@ -49,7 +49,8 @@ Route.post("/commentPost", "Posts/PostController.commentPost").middleware(["auth
 
 
 // User profile Routes 
-Route.get("/getProfile", "Posts/PostController.fetch");
+Route.get("/getUserPosts", "User/UserController.getUserPosts").middleware(["auth"]);
+Route.get("/getUserProfile", "User/UserController.getUserProfile").middleware(["auth"]);
 
 //metadata routes
 Route.get("/getMetadata", "Metadata/MetadatumController.getMetadata");
