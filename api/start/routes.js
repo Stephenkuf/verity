@@ -56,4 +56,4 @@ Route.get("/getUserProfile", "User/UserController.getUserProfile").middleware(["
 Route.get("/getMetadata", "Metadata/MetadatumController.getMetadata");
 
 //follow routes
-Route.get("/whoToFollow", "User/UserController.whoToFollow").middleware(["auth"]);
+Route.get("/whoToFollow", "Follow/FollowController.whoToFollow").middleware(["auth"]);
