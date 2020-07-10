@@ -42,10 +42,28 @@
                   <p>Groups</p>
                 </div>
                 <div class="col-md-5 c-brand f-med f-14 text-right">
-                  <p>52</p>
-                  <p>102</p>
-                  <p>12</p>
-                  <p>5</p>
+                  <p>
+                    {{
+                      profile_data.__meta__
+                        ? profile_data.__meta__.followers_count
+                        : 0
+                    }}
+                  </p>
+                  <p>
+                    {{
+                      profile_data.__meta__
+                        ? profile_data.__meta__.following_count
+                        : 0
+                    }}
+                  </p>
+                  <p>
+                    {{
+                      profile_data.__meta__
+                        ? profile_data.__meta__.posts_count
+                        : 0
+                    }}
+                  </p>
+                  <p>0</p>
                 </div>
               </div>
 
@@ -68,7 +86,7 @@
             </div>
             <div class="col-md-6" v-if="selected_tab == 'general-tab'">
               <section class="posts">
-                <appCreatePostSection @fetchPost="fetch_post" />
+                <appCreatePostSection @fetchPost="fetch_post_n_profile" />
                 <appSinglePost
                   v-for="(post, index) in post_list"
                   :key="index"
@@ -143,6 +161,14 @@ export default {
     appPeopleYouMayKnow,
   },
   methods: {
+    async fetch_post_n_profile() {
+      try {
+        await this.fetch_post();
+        await this.get_user_profile();
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async fetch_post() {
       try {
         Nprogress.start();

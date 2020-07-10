@@ -19,27 +19,27 @@
               <a
                 class="nav-link"
                 :class="$route.name == 'BeliversNetworkDashboard' && 'active'"
-                href="index.html"
+                href="#"
               >
                 <i class="fas fa-home f-24 mr-1 c-blue"></i>
                 <span class="c-blue f-bold f-14">HOME</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link mx-4 mx-md-0" href="signup.html">
+              <a class="nav-link mx-4 mx-md-0" href="#">
                 <i class="fas fa-bell f-24 c-blue mr-1"></i>
                 <span class="c-blue font-weight-bold f-14">NOTIFICATIONS</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="messages.html">
+              <a class="nav-link" href="#">
                 <i class="fas fa-envelope f-24 c-blue mr-1"></i>
                 <span class="c-blue font-weight-bold f-14">MESSAGES</span>
               </a>
             </li>
           </ul>
           <ul class="m-auto">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="#">
               <img src="/assets/images/s4.png" alt="logo" />
             </a>
           </ul>
@@ -76,11 +76,13 @@
               </a>
 
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
+                <router-link tag="a" to="/login" class="dropdown-item" href="#"
+                  >Logout</router-link
+                >
+                <!-- <a class="dropdown-item" href="#">Another action</a>
                 <a class="dropdown-item" href="#">Something else here</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
+                <a class="dropdown-item" href="#">Separated link</a> -->
               </div>
               <!-- Basic dropdown -->
             </li>
