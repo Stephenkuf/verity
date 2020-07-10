@@ -33,7 +33,7 @@
           <div class="row justify-content-center">
             <div class="col-md-3">
               <!-- user details -->
-              <appProfileCard />
+              <appProfileCard :profile_data="profile_data" />
               <div class="user__social-stats row mx-0 mt-2 bg-white px-2 py-3">
                 <div class="col-md-7 c-grey f-med f-14">
                   <p>Followers</p>
@@ -131,6 +131,7 @@ export default {
     return {
       selected_tab: "general-tab",
       post_list: [],
+      profile_data: {},
     };
   },
   mixins: [notifications],
@@ -154,9 +155,20 @@ export default {
         Nprogress.done();
       }
     },
+    async get_user_profile() {
+      try {
+        const get_profile = await this.$store.dispatch("dashboard/viewProfile");
+        console.log("get_profile >> ", get_profile);
+        this.profile_data = get_profile.result[0];
+      } catch (error) {
+        console.log("error >> ", error);
+        Nprogress.done();
+      }
+    },
   },
   async mounted() {
     await this.fetch_post();
+    await this.get_user_profile();
   },
 };
 </script>

@@ -16,10 +16,30 @@ export default {
         throw error.response;
       }
     },
+    async sendComment(store, commentDetails) {
+      try {
+        let result = await apiClient.post("/commentPost", commentDetails);
+        console.log("create comment payload >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
     async viewPosts() {
       try {
         let result = await apiClient.get("/ViewTimelinePosts");
         console.log("view post >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async viewProfile() {
+      try {
+        let result = await apiClient.get("/getUserProfile");
+        console.log("view profile >> ", result);
         return result.data;
       } catch (error) {
         console.log("error >> ", error.response);

@@ -6,15 +6,8 @@ const Comment = use("App/Models/Comment");
 const safeAwait = require("safe-await");
 
 class PostController {
-  async createPost({
-    request,
-    response,
-    auth
-  }) {
-    const {
-      post_body,
-      post_image
-    } = request.all();
+  async createPost({ request, response, auth }) {
+    const { post_body, post_image } = request.all();
 
     const user = auth.current.user;
 
@@ -29,66 +22,58 @@ class PostController {
         error: postCreationError,
         label: `Post Creation`,
         statusCode: 400,
-        message: `There was an error creating a post `
+        message: `There was an error creating a post `,
       });
     }
     response.status(200).json({
       label: "Post Creation",
       message: "Post Created Successfully",
-      data: postCreation
+      data: postCreation,
     });
   }
 
   // view all posts in the system
 
-  async ViewTimelinePosts({
-    request,
-    response,
-    auth
-  }) {
+  async ViewTimelinePosts({ request, response, auth }) {
     const [postFetchingError, postFetching] = await safeAwait(
       Post.query()
-      .with("user")
-      .with("reply")
-      .withCount("like")
-      .orderBy("created_at", "desc")
-      .fetch()
+        .with("user")
+        .with("comment")
+        .withCount("like")
+        .orderBy("created_at", "desc")
+        .fetch()
     );
+    // console.log("postFetchingError >> ", postFetchingError);
     if (postFetchingError) {
       return response.status(400).json({
         error: postFetchingError,
         label: `Post Retrieval `,
         statusCode: 400,
-        message: `There was an error fetching all Posts `
+        message: `There was an error fetching all Posts `,
       });
     }
     response.status(200).json({
       label: "Post Fetch",
       message: "Posts fetched uccessfully",
-      data: postFetching
+      data: postFetching,
     });
   }
 
   // LIKE A POST ON TIMELINE
-  async likePost({
-    request,
-    response,
-    auth
-  }) {
-    const {
-      post_id
-    } = request.all();
-    const {
-      user
-    } = await auth.current;
+  async likePost({ request, response, auth }) {
+    const { post_id } = request.all();
+    const { user } = await auth.current;
     const [likePostError, likePost] = await safeAwait(
-      Like.findOrCreate({
-        user_id: user.id,
-        post_id: post_id
-      }, {
-        user_id: user.id,
-        post_id: post_id
-      })
+      Like.findOrCreate(
+        {
+          user_id: user.id,
+          post_id: post_id,
+        },
+        {
+          user_id: user.id,
+          post_id: post_id,
+        }
+      )
     );
 
     if (likePostError) {
@@ -96,36 +81,27 @@ class PostController {
         error: likePostError,
         label: `Post Like`,
         statusCode: 400,
-        message: `There was a problem liking that post `
+        message: `There was a problem liking that post `,
       });
     }
     response.status(200).json({
       label: "Post Like",
       message: "Post liked successfully",
-      data: likePost
+      data: likePost,
     });
   }
 
   //comment on a particular post
 
-  async commentPost({
-    request,
-    response,
-    auth
-  }) {
-    const {
-      user
-    } = auth.current;
-    const {
-      post_id,
-      comment
-    } = request.all();
+  async commentPost({ request, response, auth }) {
+    const { user } = auth.current;
+    const { post_id, comment } = request.all();
 
     const [createCommentError, createComment] = await safeAwait(
       Comment.create({
         user_id: user.id,
         post_id: post_id,
-        comment: comment
+        comment: comment,
       })
     );
 
@@ -134,19 +110,17 @@ class PostController {
         error: createCommentError,
         label: `Post `,
         statusCode: 400,
-        message: `There was a problem creating that comment  `
+        message: `There was a problem creating that comment  `,
       });
     }
 
     const commentDetails = createComment.toJSON();
 
-
-
     response.status(200).json({
       label: "Post Comment",
-      message: 'Comment created successfully',
-      data: commentDetails
-    })
+      message: "Comment created successfully",
+      data: commentDetails,
+    });
   }
 }
 module.exports = PostController;

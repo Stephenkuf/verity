@@ -50,9 +50,12 @@
               <i class="far fa-heart mr-2 f-16" style="cursor:pointer"></i>
               {{ post_data.__meta__.like_count }} likes
             </span>
-            <span class="post-comment c-blue f-14 f-bold">
+            <span
+              class="post-comment c-blue f-14 f-bold"
+              @click="open_comment = !open_comment"
+            >
               <i class="far fa-comment mr-2 f-16" style="cursor:pointer"></i>
-              {{ post_data.reply.length }} comments
+              {{ post_data.comment.length }} comments
             </span>
           </div>
           <div class="col-3 col-lg-3 text-right px-0">
@@ -60,7 +63,36 @@
           </div>
         </div>
       </div>
-      <div class="comment-box mt-4">
+      <div
+        class="my-3 mx-0 row px-0"
+        v-if="open_comment && post_data.comment.length"
+      >
+        <div class="d-flex w-100 justify-content-end">
+          <div class="col-11 c-comment-box py-3">
+            <div
+              class="d-flex mx-2 mt-1 mb-2"
+              v-for="(each_comment, index) in post_data.comment"
+              :key="index"
+            >
+              <div class=" mr-3">
+                <img
+                  style="min-width: 35px;"
+                  src="/assets/images/user_3.png"
+                  width="35px"
+                  class="img-fluid"
+                  alt=""
+                />
+              </div>
+              <div class="">
+                <small>
+                  {{ each_comment.comment }}
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="comment-box mt-1">
         <div class="row">
           <div class="col-2 col-md-2 pr-0 pt-3">
             <img src="/assets/images/user_3.png" class="img-fluid" alt="" />
@@ -71,12 +103,17 @@
                 type="text"
                 class="form-control border-right-0"
                 placeholder="Comment..."
+                v-model="comment_text"
                 aria-label="Comment..."
                 aria-describedby="basic-addon2"
               />
               <div class="input-group-append">
-                <span class="input-group-text border-left-0" id="basic-addon2">
-                  <i class="fa fa-image c-blue"></i>
+                <span
+                  class="input-group-text border-left-0"
+                  @click="send_comment(post_data.id)"
+                  id="basic-addon2"
+                >
+                  <i class="fa fa-paper-plane c-blue"></i>
                 </span>
               </div>
             </div>
@@ -88,9 +125,16 @@
 </template>
 
 <script>
+import Nprogress from "nprogress";
 import { notifications } from "@/mixins/Notification";
 export default {
   name: "SinglePost",
+  data() {
+    return {
+      open_comment: false,
+      comment_text: "",
+    };
+  },
   props: {
     post_data: {
       type: Object,
@@ -98,6 +142,25 @@ export default {
   },
   mixins: [notifications],
   methods: {
+    async send_comment(post_id) {
+      console.log("comment_text >> ", this.comment_text, post_id);
+      try {
+        if (this.comment_text) {
+          Nprogress.start();
+          const data = await this.$store.dispatch("dashboard/sendComment", {
+            comment: this.comment_text,
+            post_id: post_id,
+          });
+          console.log("data >> ", data);
+          this.showSuccessNotification(data.message);
+          Nprogress.done();
+          this.comment_text = "";
+          this.fetchPost();
+        }
+      } catch (error) {
+        console.log("error > ", error);
+      }
+    },
     fetchPost() {
       this.$emit("fetchPost");
     },
@@ -124,5 +187,12 @@ export default {
 }
 .c-fs {
   font-size: 14px;
+}
+.c-comment-box {
+  border: 1px solid #ccc;
+  border-radius: 0.4rem;
+  max-height: 30rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 </style>
