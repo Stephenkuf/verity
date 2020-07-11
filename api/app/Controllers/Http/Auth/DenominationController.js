@@ -55,7 +55,7 @@ class DenominationController {
       })
 
 
-      if (denomination) {
+      if (!denomination || denomination == null) {
         return response.status(400).json({
           error: denomination,
           label: `Denomination Registration`,
@@ -73,7 +73,7 @@ class DenominationController {
           is_complete_registration: 1
         })
 
-      if (!registered) {
+      if (!registered || registered == null) {
         return response.status(400).json({
           label: `is registered Error`,
           statusCode: 400,
