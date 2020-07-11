@@ -9,45 +9,38 @@ class DenominationController {
     response,
     auth
   }) {
-    const {
-      denomination_name,
-      address,
-      description,
-      denomination_phone,
-      slug,
-      denomination_email,
-      city,
-      country,
-      designation
-    } = request.all();
+    try {
+      const {
+        denomination_name,
+        address,
+        description,
+        denomination_phone,
+        slug,
+        denomination_email,
+        city,
+        country,
+        designation
+      } = request.all();
 
-    const loggedInUser = await auth.current.user;
-    // console.log(loggedInUser.id);
+      const loggedInUser = await auth.current.user;
+      // console.log(loggedInUser.id);
 
 
-    const [lookUpError, lookUp] = await safeAwait(User.findBy("id", loggedInUser.id))
+      const lookUp = await User.findBy("id", loggedInUser.id)
 
-    if (lookUpError) {
-      return response.status(400).json({
-        error: lookUpError,
-        label: `User Lookup`,
-        statusCode: 400,
-        message: `We were unable to find that User `,
-      })
-    }
-    if (lookUp == null) {
-      return response.status(400).json({
-        error: lookUpError,
-        label: `User Lookup`,
-        statusCode: 400,
-        message: `We were unable to find that Userr`,
-      })
-    }
+      if (lookUp == null || !lookUp) {
 
-    const currentUser = lookUp.toJSON()
-    console.log(currentUser.id);
+        return response.status(400).json({
+          label: `User Lookup`,
+          statusCode: 400,
+          message: `We were unable to find that Userr`,
+        })
+      }
 
-    const [denominationError, denomination] = await safeAwait(
+      const currentUser = lookUp.toJSON()
+      console.log(currentUser.id);
+
+      const denomination = await
       DenominationInfo.create({
         user_id: currentUser.id,
         denomination_name,
@@ -60,42 +53,50 @@ class DenominationController {
         country,
         designation
       })
-    );
-
-    if (denominationError) {
-      return response.status(400).json({
-        error: denominationError,
-        label: `Denomination Registration`,
-        statusCode: 400,
-        message: `We were unable to Register Denomination`,
-      })
-    }
 
 
+      if (denomination) {
+        return response.status(400).json({
+          error: denomination,
+          label: `Denomination Registration`,
+          statusCode: 400,
+          message: `We were unable to Register Denomination`,
+        })
+      }
 
-    const [registeredError, registered] = await safeAwait(
+
+
+      const registered = await
       User.query()
-      .where('id', currentUser.id)
-      .update({
-        is_complete_registration: 1
+        .where('id', currentUser.id)
+        .update({
+          is_complete_registration: 1
+        })
+
+      if (!registered) {
+        return response.status(400).json({
+          label: `is registered Error`,
+          statusCode: 400,
+          message: `User fully registered error`
+        })
+      }
+
+
+      return response.status(200).json({
+        result: denomination,
+        label: `Denomination Registeration`,
+        statusCode: 200,
+        message: `Denomination Registered successfully`,
       })
-    )
-    if (registeredError) {
+    } catch (error) {
       return response.status(400).json({
-        error: registeredError,
+        error: error,
         label: `is registered Error`,
         statusCode: 400,
         message: `User fully registered error`
       })
     }
 
-
-    return response.status(200).json({
-      result: denomination,
-      label: `Denomination Registeration`,
-      statusCode: 200,
-      message: `Denomination Registered successfully`,
-    })
   }
 }
 
