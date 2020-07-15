@@ -51,12 +51,12 @@ export const notifications = {
                 },
               ],
             ],
-            onClosing: function(instance, toast, closedBy) {
-              console.info("Closing | closedBy: " + closedBy);
-            },
-            onClosed: function(instance, toast, closedBy) {
-              console.info("Closed | closedBy: " + closedBy);
-            },
+            // onClosing: function(instance, toast, closedBy) {
+            //   console.info("Closing | closedBy: " + closedBy);
+            // },
+            // onClosed: function(instance, toast, closedBy) {
+            //   console.info("Closed | closedBy: " + closedBy);
+            // },
           },
         },
       },
@@ -103,10 +103,10 @@ export const notifications = {
             true,
           ], // true to focus
         ],
-        onOpening: function(instance, toast) {},
-        onClosing: function(instance, toast, closedBy) {
-          console.info("closedBy: " + closedBy); // tells if it was closed by 'drag' or 'button'
-        },
+        // onOpening: function(instance, toast) {},
+        // onClosing: function(instance, toast, closedBy) {
+        //   console.info("closedBy: " + closedBy); // tells if it was closed by 'drag' or 'button'
+        // },
       });
     },
     showDefaultNotificationWithModalAction(
@@ -118,7 +118,7 @@ export const notifications = {
       position,
       timeout
     ) {
-      let that = this;
+      // let that = this;
       this.$toast.show(" ", title, {
         theme: customTheme || "dark",
         icon: icon,
@@ -153,10 +153,10 @@ export const notifications = {
             true,
           ], // true to focus
         ],
-        onOpening: function(instance, toast) {},
-        onClosing: function(instance, toast, closedBy) {
-          console.info("closedBy: " + closedBy); // tells if it was closed by 'drag' or 'button'
-        },
+        // onOpening: function(instance, toast) {},
+        // onClosing: function(instance, toast, closedBy) {
+        //   console.info("closedBy: " + closedBy); // tells if it was closed by 'drag' or 'button'
+        // },
       });
     },
     showSuccessLoginNotification() {
