@@ -11,42 +11,43 @@ class UserController {
     response,
     auth
   }) {
-    const {
-      denomination_id,
-      location,
-      bio,
-      profile_pic,
-      user_phone
-    } = request.all();
+
+    try {
+      const {
+        denomination_id,
+        location,
+        bio,
+        profile_pic,
+        user_phone
+      } = request.all();
 
 
-    const loggedInUser = await auth.current.user;
-    // console.log(loggedInUser.id);
+      const loggedInUser = await auth.current.user;
+      // console.log(loggedInUser.id);
 
 
-    const [lookUpError, lookUp] = await safeAwait(User.findBy("id", loggedInUser.id))
+      const lookUp = await User.findBy("id", loggedInUser.id)
 
-    if (lookUpError) {
-      return response.status(400).json({
-        error: lookUpError,
-        label: `User Lookup`,
-        statusCode: 400,
-        message: `We were unable to find that User`,
-      })
-    }
-    if (lookUp == null) {
-      return response.status(400).json({
-        error: lookUpError,
-        label: `User Lookup`,
-        statusCode: 400,
-        message: `We were unable to find that Userr`,
-      })
+      if (!lookUp) {
+        return response.status(400).json({
+          label: `User Lookup`,
+          statusCode: 400,
+          message: `We were unable to find that User`,
+        })
+      }
+      if (lookUp == null) {
+        return response.status(400).json({
+          error: lookUpError,
+          label: `User Lookup`,
+          statusCode: 400,
+          message: `We were unable to find that Userr`,
+        })
 
-    }
-    const currentUser = lookUp.toJSON()
-    console.log(currentUser.id);
+      }
+      const currentUser = lookUp.toJSON()
+      console.log(currentUser.id);
 
-    const [additionalInfoError, additionalInfo] = await safeAwait(
+      const additionalInfo = await
       AdditionalUserInfo.create({
         user_id: currentUser.id,
         denomination_id,
@@ -54,39 +55,47 @@ class UserController {
         bio,
         profile_pic
       })
-    );
 
-    if (additionalInfoError) {
-      return response.status(400).json({
-        error: additionalInfoError,
-        label: `User Addditional Info Registration`,
-        statusCode: 400,
-        message: `We were unable to add user details`,
-      })
-    }
 
-    const [registeredError, registered] = await safeAwait(
+      if (!additionalInfo) {
+        return response.status(400).json({
+          label: `User Addditional Info Registration`,
+          statusCode: 400,
+          message: `We were unable to add user details`,
+        })
+      }
+
+      const registered = await
       User.query()
-      .where('id', loggedInUser.id)
-      .update({
-        is_complete_registration: 1
+        .where('id', loggedInUser.id)
+        .update({
+          is_complete_registration: 1
+        })
+
+      if (!registered) {
+        return response.status(400).json({
+          label: `is registered Error`,
+          statusCode: 400,
+          message: `User fully registered error`
+        })
+      }
+
+      return response.status(200).json({
+        result: additionalInfo,
+        label: `User Registration`,
+        statusCode: 200,
+        message: `User details added  successfully`,
       })
-    )
-    if (registeredError) {
-      return response.status(400).json({
-        error: registeredError,
-        label: `is registered Error`,
-        statusCode: 400,
-        message: `User fully registered error`
+    } catch (error) {
+      console.log(error);
+      return response.status(200).json({
+        error,
+        label: `Additional User Info`,
+        statusCode: 200,
+        message: `Internal Server Error`,
       })
     }
 
-    return response.status(200).json({
-      result: additionalInfo,
-      label: `User Registration`,
-      statusCode: 200,
-      message: `User details added  successfully`,
-    })
   }
 
 
@@ -99,17 +108,16 @@ class UserController {
       user
     } = auth.current;
 
-    const [getPostsError, getProfile] = await safeAwait(
-      Posts.query()
+    const getProfile = await
+    Posts.query()
       .where("id", user.id)
       .with('user')
       .with('comment')
       .withCount("like")
       .fetch()
-    )
-    if (getPostsError) {
+
+    if (!getProfile) {
       return response.status(400).json({
-        error: getPostsError,
         label: `Get User posts`,
         statusCode: 400,
         message: `Get User Posts error`
@@ -129,37 +137,46 @@ class UserController {
     response,
     auth
   }) {
-    const {
-      user
-    } = auth.current;
+    try {
+      const {
+        user
+      } = auth.current;
 
-    const [getProfileError, getProfile] = await safeAwait(
+      const getProfile = await
       User.query()
-      .where("id", user.id)
-      .with('additionalUserInfo')
-      .withCount('posts')
-      // .withCount('group')
-      .withCount('followers', (builder) => builder.where("user_id", user.id))
-      .withCount('following', (builder) => builder.where("follower_id", user.id))
-      .fetch()
-    )
-    if (getProfileError) {
-      console.log(getProfileError);
+        .where("id", user.id)
+        .with('additionalUserInfo')
+        .withCount('posts')
+        // .withCount('group')
+        .withCount('followers', (builder) => builder.where("user_id", user.id))
+        .withCount('following', (builder) => builder.where("follower_id", user.id))
+        .fetch()
 
-      return response.status(400).json({
-        error: getProfileError,
-        label: `Get User Profile`,
-        statusCode: 400,
-        message: `Get User Profile error`
+      if (!getProfile) {
+
+        return response.status(400).json({
+          label: `Get User Profile`,
+          statusCode: 400,
+          message: `Get User Profile error`
+        })
+      }
+
+      return response.status(200).json({
+        result: getProfile,
+        label: `profile`,
+        statusCode: 200,
+        message: `User profile fetched successfully`,
+      })
+
+    } catch (error) {
+      console.log(error);
+      return response.status(200).json({
+        error,
+        label: `Fetch User Profile`,
+        statusCode: 200,
+        message: `Internal Server Error`,
       })
     }
-
-    return response.status(200).json({
-      result: getProfile,
-      label: `profile`,
-      statusCode: 200,
-      message: `User profile fetched successfully`,
-    })
   }
 
 

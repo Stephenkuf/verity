@@ -1,13 +1,18 @@
 "use strict";
 
-const { validateAll } = use("Validator");
+const {
+  validateAll
+} = use("Validator");
 const User = use("App/Models/User");
 const randomString = require("random-string");
 const Mail = use("Mail");
 const safeAwait = require("safe-await");
 
 class RegisterController {
-  async register({ response, request }) {
+  async register({
+    response,
+    request
+  }) {
     //validate form inputs
 
     try {
@@ -65,8 +70,7 @@ class RegisterController {
       // // display success message
       response.status(200).json({
         label: "User Registration",
-        message:
-          "Registration Sucessful ,  A mail has been sent to you to confirm your account",
+        message: "Registration Sucessful ,  A mail has been sent to you to confirm your account",
         data: user
       });
     } catch (error) {
@@ -79,7 +83,12 @@ class RegisterController {
       });
     }
   }
-  async confirmEmail({ params: { token }, response }) {
+  async confirmEmail({
+    params: {
+      token
+    },
+    response
+  }) {
     //get user with the confirmation token
     const user = await User.findBy("confirmation_token ", token);
 
