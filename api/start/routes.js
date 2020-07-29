@@ -60,4 +60,5 @@ Route.get("/whoToFollow", "Follow/FollowController.whoToFollow").middleware(["au
 Route.post("/followUser", "Follow/FollowController.followUser").middleware(["auth"]);
 
 // create groups
-Route.get("/createGroup", "Group/GroupController.createGroup").middleware(["auth"]);
+Route.post("/createGroup", "Group/GroupController.createGroup").middleware(["auth"]);
+Route.get("/joinGroup/:group_id", "Group/GroupController.joinGroup").middleware(["auth"]);
