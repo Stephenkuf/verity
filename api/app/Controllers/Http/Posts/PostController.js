@@ -2,6 +2,7 @@
 const Post = use("App/Models/Post");
 const Like = use("App/Models/Like");
 const Comment = use("App/Models/Comment");
+const groupPost = use("App/Models/GroupPost");
 
 
 class PostController {
@@ -187,5 +188,66 @@ class PostController {
 
 
   }
+
+    // create a group Post 
+
+    async createGroupPost({request , response , params:{groupId}, auth }){
+        try {
+          const {
+            post_body,
+            post_image
+          } = request.all();
+    
+          const user = auth.current.user;
+          const groupPostCreation = await Post.create({
+            user_id : user.id,
+            post_body :post_body,
+            is_group_post : 1
+            //post_image = post_image
+          });
+
+
+          if (!groupPostCreation ) {
+            return response.status(400).json({
+              label: `Group Post Creation`,
+              statusCode: 400,
+              message: `There was an error creating a group post`
+            });
+          }
+          const groupCreate = await groupPost.findOrCreate(
+            {
+              group_id: groupId,
+              post_id: groupPostCreation.id
+      
+            },
+            {
+              group_id: groupId,
+              post_id: groupPostCreation.id
+            }
+          );
+          if (!groupCreate) {
+            return response.status(400).json({
+              label: `create Group Error`,
+              statusCode: 400,
+              message: `There was an error createing post`
+            });
+          }
+
+
+          response.status(200).json({
+            label: "Post Creation",
+            message: "Post Created Successfully",
+            data: groupPostCreation.toJSON()
+          });
+        } catch (error) {
+          console.log(error);
+          return response.status(400).json({
+            error,
+            label: `Post Creation`,
+            statusCode: 400,
+            message: `Internal Server Error `,
+          })
+        }
+    }
 }
 module.exports = PostController;
