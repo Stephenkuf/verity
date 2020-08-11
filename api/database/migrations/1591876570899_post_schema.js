@@ -10,10 +10,10 @@ class PostSchema extends Schema {
       table.integer("user_id")
       table.text("post_body")
       table.string("post_image")
+      table.boolean("is_group_post").defaultTo(0)
       table.timestamps()
     })
   }
-
   down() {
     this.drop('posts')
   }

@@ -46,6 +46,8 @@ Route.post("/createPost", "Posts/PostController.createPost").middleware(["auth"]
 Route.get("/ViewTimelinePosts", "Posts/PostController.ViewTimelinePosts").middleware(["auth"]);
 Route.post("/likePost", "Posts/PostController.likePost").middleware(["auth"]);
 Route.post("/commentPost", "Posts/PostController.commentPost").middleware(["auth"]);
+Route.post("/createGroupPost/:groupId", "Posts/PostController.createGroupPost").middleware(["auth"]);
+
 
 
 // User profile Routes 
@@ -57,3 +59,8 @@ Route.get("/getMetadata", "Metadata/MetadatumController.getMetadata");
 
 //follow routes
 Route.get("/whoToFollow", "Follow/FollowController.whoToFollow").middleware(["auth"]);
+Route.post("/followUser", "Follow/FollowController.followUser").middleware(["auth"]);
+
+// create groups
+Route.post("/createGroup", "Group/GroupController.createGroup").middleware(["auth"]);
+Route.get("/joinGroup/:group_id", "Group/GroupController.joinGroup").middleware(["auth"]);

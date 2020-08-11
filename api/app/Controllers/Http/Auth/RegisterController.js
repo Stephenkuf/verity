@@ -9,40 +9,32 @@ const safeAwait = require("safe-await");
 class RegisterController {
   async register({ response, request }) {
     //validate form inputs
-    const {
-      full_name,
-      username,
-      email,
-      password,
-      phone_number,
-    } = request.all();
 
-    //create user
+    try {
+      const {
+        full_name,
+        username,
+        email,
+        password,
+        phone_number,
+      } = request.all();
 
-    const [userLookupError, userLookup] = await safeAwait(
-      User.findBy("email", email)
-    );
-    if (userLookupError) {
-      return response.status(400).json({
-        error: userLookupError,
-        label: `User Registration`,
-        statusCode: 400,
-        message: `There was an error looking up that user `,
-      });
-    }
-    if (userLookup) {
-      const val = userLookup.toJSON();
-      if (val != null) {
-        return response.status(400).json({
-          label: `User Registration`,
-          statusCode: 200,
-          message: `That email has been used to register`,
-        });
+      //create user
+
+      const userLookup = await User.findBy("email", email);
+
+      if (userLookup) {
+        const val = userLookup.toJSON();
+        if (val != null) {
+          return response.status(400).json({
+            label: `User Registration`,
+            statusCode: 400,
+            message: `That email has been used to register`,
+          });
+        }
       }
-    }
 
-    const [userError, user] = await safeAwait(
-      User.create({
+      const user = await User.create({
         full_name,
         username,
         email,
@@ -51,32 +43,41 @@ class RegisterController {
         confirmation_token: randomString({
           length: 40,
         }),
-      })
-    );
-    if (userError) {
+      });
+
+      if (!user) {
+        return response.status(400).json({
+          error: userError,
+          label: `User Registration`,
+          statusCode: 400,
+          message: `We were unable to register User `,
+        });
+      }
+
+      // //send confirmation Email
+      // await Mail.send("auth.emails.confirm-email", user.toJSON(), message => {
+      //   message
+      //     .to(user.email)
+      //     .from("Verity.com")
+      //     .subject("Please confirm your email address");
+      // });
+
+      // // display success message
+      response.status(200).json({
+        label: "User Registration",
+        message:
+          "Registration Sucessful ,  A mail has been sent to you to confirm your account",
+        data: user,
+      });
+    } catch (error) {
+      console.log(error);
       return response.status(400).json({
-        error: userError,
+        error: error,
         label: `User Registration`,
         statusCode: 400,
         message: `We were unable to register User `,
       });
     }
-
-    //send confirmation Email
-    // await Mail.send("auth.emails.confirm-email", user.toJSON(), (message) => {
-    //   message
-    //     .to(user.email)
-    //     .from("Verity.com")
-    //     .subject("Please confirm your email address");
-    // });
-    // display success message
-
-    response.status(200).json({
-      label: "User Registration",
-      message:
-        "Registration Sucessful ,  A mail has been sent to you to confirm your account",
-      data: user,
-    });
   }
   async confirmEmail({ params: { token }, response }) {
     //get user with the confirmation token
