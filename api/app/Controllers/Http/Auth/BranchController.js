@@ -39,6 +39,19 @@ class BranchController {
         })
       }
 
+      lookUp.is_complete_registration = 1
+
+      const saveconfirmation = await lookUp.save()
+
+      if (saveconfirmation == null || !saveconfirmation) {
+       return response.status(400).json({
+          label: `User registration completion update`,
+          statusCode: 400,
+          message: `We were unable to update user status `,
+        })
+      }
+
+
       const currentUser = lookUp.toJSON()
       console.log(currentUser.id);
 
