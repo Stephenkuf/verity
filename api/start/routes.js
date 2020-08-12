@@ -67,3 +67,4 @@ Route.get("/joinGroup/:group_id", "Group/GroupController.joinGroup").middleware(
 // messaging
 Route.post("/createGroup", "Messaging/MessageController.createMessage").middleware(["auth"]);
 Route.get("/getMessages", "Messaging/MessageController.getMessages").middleware(["auth"]);
+Route.get("/getSingleMessage", "Messaging/MessageController.getSingleMessage").middleware(["auth"]);
