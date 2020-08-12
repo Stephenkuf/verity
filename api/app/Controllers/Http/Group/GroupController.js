@@ -108,10 +108,9 @@ class GroupController {
         message: `There was an error joining a group`
       });
     }
-
     response.status(200).json({
     label: "Group Creation",
-    message: "Group Created Successfully",
+    message: "Group joined Successfully",
     data: [
         {
           joinNewGroup
@@ -128,6 +127,5 @@ class GroupController {
     });
    }
   }
-
 }
 module.exports = GroupController;
