@@ -47,7 +47,7 @@ class PostController {
     try {
       const postFetching = await Post.query()
         .with("user")
-        .with("reply")
+        .with("comment")
         .withCount("like")
         .orderBy("created_at", "desc")
         .fetch();
