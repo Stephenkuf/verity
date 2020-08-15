@@ -63,7 +63,7 @@ class PostController {
       const postFetching = await
       Post.query()
         .with("user")
-        .with("comment")
+        .with("comment" , (builder) => builder.with("user"))
         .withCount("like")
         .orderBy("created_at", "desc")
         .fetch()
@@ -185,8 +185,6 @@ class PostController {
         message: `Internal Server Error `,
       })
     }
-
-
   }
 
     // create a group Post 
