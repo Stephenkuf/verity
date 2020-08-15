@@ -21,11 +21,11 @@
         <div
           class="square"
           @click="
-            $store.state.landing_page.platformModal =
-              'belivers’ fellowship platform/network'
+            completeReg(
+              'belivers’ fellowship platform/network',
+              'belivers-network'
+            )
           "
-          data-toggle="modal"
-          data-target="#platformModal"
         >
           <span>Belivers’ Fellowship Platform/Network</span>
         </div>
@@ -34,11 +34,8 @@
         <div
           class="square"
           @click="
-            $store.state.landing_page.platformModal =
-              'church organisation platform'
+            completeReg('church organisation platform', 'church-organisation')
           "
-          data-toggle="modal"
-          data-target="#platformModal"
         >
           <span>Church Organisation Platform</span>
         </div>
@@ -66,13 +63,35 @@
         </div>
       </div>
     </div>
+    <button
+      class="btn btn-dark d-none"
+      data-toggle="modal"
+      id="OpenCOMREGMOD"
+      data-target="#platformModal"
+    >
+      ...
+    </button>
   </main>
 </template>
 
 <script>
 export default {
   name: "LandingPageDefault",
+  computed: {
+    get_profile() {
+      return this.$store.state.dashboard.profile;
+    },
+  },
   methods: {
+    completeReg(title, link) {
+      if (!this.get_profile.is_complete_registration) {
+        this.$store.state.landing_page.platformModal = title;
+        document.getElementById("OpenCOMREGMOD").click();
+      } else {
+        location.replace(`/account/dashboard/${link}`);
+      }
+    },
+
     // churchOrganisation() {
     //   $('#platformModal').modal('show');
     //   console.log("here");

@@ -17,9 +17,9 @@ class PostController {
       newPost.post_body = post_body;
       // newPost.post_image = post_image
       const postCreation = await newPost.save();
-      if (!postCreationError) {
+      if (!postCreation) {
         return response.status(400).json({
-          error: postCreationError,
+          // error: postCreationError,
           label: `Post Creation`,
           statusCode: 400,
           message: `There was an error creating a post `,

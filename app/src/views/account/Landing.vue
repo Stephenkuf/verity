@@ -80,9 +80,9 @@ export default {
       }
     },
   },
-  //   mounted() {
-  //     console.log("here >> ", this.$store.state);
-  //   },
+  async mounted() {
+    await this.$store.dispatch("dashboard/viewProfile");
+  },
 };
 </script>
 

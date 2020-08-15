@@ -87,22 +87,38 @@
             <div class="col-md-6" v-if="selected_tab == 'general-tab'">
               <section class="posts">
                 <appCreatePostSection @fetchPost="fetch_post_n_profile" />
-                <appSinglePost
-                  v-for="(post, index) in post_list"
-                  :key="index"
-                  :post_data="post"
-                  @fetchPost="fetch_post"
-                />
+                <template v-if="post_list.length">
+                  <appSinglePost
+                    v-for="(post, index) in post_list"
+                    :key="index"
+                    :post_data="post"
+                    @fetchPost="fetch_post"
+                  />
+                </template>
+
+                <PlaceHolder :message="'posts'" v-else>
+                  <p slot="placeholder-content">
+                    Please start by creating a post.
+                  </p>
+                </PlaceHolder>
               </section>
             </div>
             <div class="col-md-6" v-if="selected_tab == 'denomination-tab'">
               <section class="posts">
                 <appCreatePostSection />
-                <appSinglePost
-                  v-for="(post, index) in post_list"
-                  :key="index"
-                  :post_data="post"
-                />
+                <template v-if="post_list.length">
+                  <appSinglePost
+                    v-for="(post, index) in post_list"
+                    :key="index"
+                    :post_data="post"
+                    @fetchPost="fetch_post"
+                  />
+                </template>
+                <PlaceHolder :message="'posts'" v-else>
+                  <p slot="placeholder-content">
+                    Please start by creating a post.
+                  </p>
+                </PlaceHolder>
               </section>
             </div>
             <div class="col-md-3">

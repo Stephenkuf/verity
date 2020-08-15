@@ -5,10 +5,14 @@ export default {
   state: {
     accounts: [],
     token: "",
+    user: {},
   },
   mutations: {
     SET_TOKEN(state, token) {
       state.token = token;
+    },
+    SET_USER(state, user) {
+      state.user = user;
     },
   },
   actions: {
@@ -16,6 +20,10 @@ export default {
       // console.log(payload)
       localStorage.setItem("V-token", payload);
       apiClient.defaults.headers.common["Authorization"] = `Bearer ${payload}`;
+    },
+    setUser(store, payload) {
+      // console.log(payload)
+      localStorage.setItem("V-user", JSON.stringify(payload));
     },
     async registerUser(store, RegistrationDetails) {
       try {
@@ -43,6 +51,7 @@ export default {
         // dispatch("setToken", result.data.results[0].token.token)
         console.log("login payload >> ", result);
         if (result.data) {
+          store.dispatch("setUser", result.data.result[0]);
           store.dispatch("setToken", result.data.result[1].token);
         }
 

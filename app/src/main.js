@@ -14,6 +14,11 @@ import "vue-select/dist/vue-select.css";
 import Nprogress from "nprogress";
 import "nprogress/nprogress.css";
 
+// globalcomponents
+import PlaceHolder from "@/components/UI/PlaceHolder.vue";
+
+Vue.component("PlaceHolder", PlaceHolder);
+
 // Registering Plugins
 Vue.use(Vuelidate);
 Vue.use(VueIziToast);
@@ -27,6 +32,12 @@ router.beforeEach((to, from, next) => {
   if (localStorage.getItem("V-token")) {
     let token = localStorage.getItem("V-token");
     apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  if (localStorage.getItem("V-token")) {
+    if (!localStorage.getItem("V-user")) {
+      localStorage.removeItem("V-token");
+      localStorage.removeItem("V-user");
+    }
   }
   next();
 });

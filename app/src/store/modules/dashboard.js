@@ -4,6 +4,12 @@ export default {
   namespaced: true,
   state: {
     switch_navigation: "belivers",
+    profile: {},
+  },
+  mutations: {
+    SET_PROFILE(state, profile) {
+      state.profile = profile;
+    },
   },
   actions: {
     async createPost(store, postDetails) {
@@ -30,16 +36,20 @@ export default {
       try {
         let result = await apiClient.get("/ViewTimelinePosts");
         console.log("view post >> ", result);
+
         return result.data;
       } catch (error) {
         console.log("error >> ", error.response);
         throw error.response;
       }
     },
-    async viewProfile() {
+    async viewProfile(store) {
       try {
         let result = await apiClient.get("/getUserProfile");
         console.log("view profile >> ", result);
+        if (result.data) {
+          store.commit("SET_PROFILE", result.data.result[0]);
+        }
         return result.data;
       } catch (error) {
         console.log("error >> ", error.response);
