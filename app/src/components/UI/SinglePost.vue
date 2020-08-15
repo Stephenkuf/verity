@@ -45,6 +45,7 @@
           <div class="col-9 px-0 col-lg-6">
             <span
               class="post-likes c-blue f-14 mr-3 f-bold"
+              style="cursor:pointer"
               @click="likePost(post_data.id)"
             >
               <i class="far fa-heart mr-2 f-16" style="cursor:pointer"></i>
@@ -52,6 +53,7 @@
             </span>
             <span
               class="post-comment c-blue f-14 f-bold"
+              style="cursor:pointer"
               @click="open_comment = !open_comment"
             >
               <i class="far fa-comment mr-2 f-16" style="cursor:pointer"></i>
@@ -70,7 +72,7 @@
         <div class="d-flex w-100 justify-content-end">
           <div class="col-11 c-comment-box py-3">
             <div
-              class="d-flex mx-2 mt-1 mb-2"
+              class="d-flex mx-2 mt-1 mb-3"
               v-for="(each_comment, index) in post_data.comment"
               :key="index"
             >
@@ -84,7 +86,13 @@
                 />
               </div>
               <div class="">
-                <small>
+                <small class="mb-0  d-block">
+                  <span class="font-weight-bold d-block">Promise Ekpo</span>
+                  <small>{{
+                    each_comment.created_at | moment("MMMM Do YYYY, h:mm a")
+                  }}</small>
+                </small>
+                <small style="overflow-wrap: anywhere;">
                   {{ each_comment.comment }}
                 </small>
               </div>
@@ -191,8 +199,31 @@ export default {
 .c-comment-box {
   border: 1px solid #ccc;
   border-radius: 0.4rem;
-  max-height: 30rem;
+  max-height: 20rem;
   overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: wrap;
+}
+
+.c-comment-box::-webkit-scrollbar {
+  width: 5px !important;
+  height: 4px !important;
+}
+
+/* Track */
+.c-comment-box::-webkit-scrollbar-track {
+  background-color: #fbfbfb;
+  width: 7px !important;
+}
+
+/* Handle */
+.c-comment-box::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 10px;
+  width: 7px !important;
+}
+
+/* Handle on hover */
+.c-comment-box::-webkit-scrollbar-thumb:hover {
+  background-color: #6d7be0;
 }
 </style>

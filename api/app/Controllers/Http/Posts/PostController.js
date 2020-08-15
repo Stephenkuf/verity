@@ -120,15 +120,13 @@ class PostController {
       const { user } = auth.current;
       const { post_id, comment } = request.all();
 
-      const [createCommentError, createComment] = await safeAwait(
-        Comment.create({
-          user_id: user.id,
-          post_id: post_id,
-          comment: comment,
-        })
-      );
+      const createComment = await Comment.create({
+        user_id: user.id,
+        post_id: post_id,
+        comment: comment,
+      });
 
-      if (createCommentError) {
+      if (!createComment || createComment == null) {
         return response.status(400).json({
           error: createCommentError,
           label: `Post `,

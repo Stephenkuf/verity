@@ -12,7 +12,7 @@
         <div class="uploads mt-3">
           <input type="file" class="upload-input" />
           <button class="btn add-btn c-brand f-bold btn-md-block ">
-            <i class="fa fa-image mr-2"></i>Add File
+            <i class="fa fa-image mr-2"></i>Add Image
           </button>
           <button
             class="btn add-btn c-brand f-bold ml-3"
