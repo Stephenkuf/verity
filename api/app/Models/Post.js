@@ -14,6 +14,9 @@ class Post extends Model {
   like() {
     return this.hasMany("App/Models/Like")
   }
+  reply() {
+    return this.hasMany("App/Models/Reply")
+  }
 }
 
 module.exports = Post
