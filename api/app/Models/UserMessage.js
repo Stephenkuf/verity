@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class UserMessage extends Model {
+    messages(){
+        return this.hasOne('App/Models/Message', "message_id","id")
+    }
 }
 
 module.exports = UserMessage
