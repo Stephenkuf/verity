@@ -54,10 +54,10 @@ class GroupController {
         label: "Group Creation",
         message: "Group Created Successfully",
         data: [
-          {
-            groupCreate,
-            logGroupAdmin
-        }
+            {
+              groupCreate,
+              logGroupAdmin
+            }
         ]
       });
     } catch (error) {
