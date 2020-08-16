@@ -181,8 +181,12 @@ class UserController {
 
  async getAllUsers({request, response , auth}){
   try {
+
+    const {user} = auth.current
   
-    const allUsers = await User.all();
+    const allUsers = await User.query()
+    .whereNot("id",user.id)
+    .fetch()
 
     if (!allUsers) {
       return response.status(400).json({
