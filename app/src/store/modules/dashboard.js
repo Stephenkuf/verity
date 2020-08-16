@@ -43,6 +43,17 @@ export default {
         throw error.response;
       }
     },
+    async allUsers() {
+      try {
+        let result = await apiClient.get("/getAllUsers");
+        console.log("view all users >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
     async viewProfile(store) {
       try {
         let result = await apiClient.get("/getUserProfile");

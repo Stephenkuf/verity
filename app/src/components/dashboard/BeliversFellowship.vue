@@ -69,19 +69,22 @@
 
               <div class="resources-section p-3 mt-3 bg-white">
                 <p
-                  class="c-brand f-bold pointer"
+                  class="c-brand f-bold pointer mb-0"
                   data-toggle="modal"
                   data-target="#group"
                 >
                   Create a Group
                 </p>
-                <p
+                <!-- <p
                   class="c-brand f-bold pointer"
                   data-toggle="modal"
                   data-target="#topic"
                 >
                   Create a Topic
-                </p>
+                </p> -->
+              </div>
+              <div>
+                <appMyGroups />
               </div>
             </div>
             <div class="col-md-6" v-if="selected_tab == 'general-tab'">
@@ -155,6 +158,7 @@ import appProfileCard from "@/components/UI/ProfileCard";
 import appCreatePostSection from "@/components/UI/CreatePostSection";
 import appSinglePost from "@/components/UI/SinglePost";
 import appGroupYouMayJoin from "@/components/UI/GroupYouMayJoin";
+import appMyGroups from "@/components/UI/MyGroups";
 import appPeopleYouMayKnow from "@/components/UI/PeopleYouMayKnow";
 import appCreateGroup from "@/components/Modal/CreateGroup";
 
@@ -168,6 +172,7 @@ export default {
       selected_tab: "general-tab",
       post_list: [],
       profile_data: {},
+      all_users: [],
     };
   },
   mixins: [notifications],
@@ -178,6 +183,7 @@ export default {
     appGroupYouMayJoin,
     appPeopleYouMayKnow,
     appCreateGroup,
+    appMyGroups,
   },
   methods: {
     async fetch_post_n_profile() {
@@ -210,10 +216,21 @@ export default {
         Nprogress.done();
       }
     },
+    async get_all_users() {
+      try {
+        const get_all_users = await this.$store.dispatch("dashboard/allUsers");
+        console.log("get_all_users >> ", get_all_users);
+        this.all_users = get_all_users.result[0];
+      } catch (error) {
+        console.log("error >> ", error);
+        Nprogress.done();
+      }
+    },
   },
   async mounted() {
     await this.fetch_post();
     await this.get_user_profile();
+    await this.get_all_users();
   },
 };
 </script>
