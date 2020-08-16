@@ -193,7 +193,7 @@ class UserController {
     }
 
     return response.status(200).json({
-      result: getProfile,
+      result: allUsers,
       label: `profile`,
       statusCode: 200,
       message: `User profile fetched successfully`,
