@@ -146,6 +146,7 @@
         ></div>
       </div>
     </div>
+    <appCreateGroup />
   </div>
 </template>
 
@@ -155,6 +156,7 @@ import appCreatePostSection from "@/components/UI/CreatePostSection";
 import appSinglePost from "@/components/UI/SinglePost";
 import appGroupYouMayJoin from "@/components/UI/GroupYouMayJoin";
 import appPeopleYouMayKnow from "@/components/UI/PeopleYouMayKnow";
+import appCreateGroup from "@/components/Modal/CreateGroup";
 
 import Nprogress from "nprogress";
 import { notifications } from "@/mixins/Notification";
@@ -175,6 +177,7 @@ export default {
     appSinglePost,
     appGroupYouMayJoin,
     appPeopleYouMayKnow,
+    appCreateGroup,
   },
   methods: {
     async fetch_post_n_profile() {

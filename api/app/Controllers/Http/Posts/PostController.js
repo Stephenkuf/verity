@@ -47,7 +47,7 @@ class PostController {
     try {
       const postFetching = await Post.query()
         .with("user")
-        .with("comment" , (builder) => builder.with("user"))
+        .with("comment", (builder) => builder.with("user"))
         .withCount("like")
         .orderBy("created_at", "desc")
         .fetch();
@@ -150,7 +150,6 @@ class PostController {
       });
     }
   }
-<<<<<<< HEAD
 
   // create a group Post
 
@@ -165,8 +164,6 @@ class PostController {
         is_group_post: 1,
         //post_image = post_image
       });
-=======
->>>>>>> 0e83177cdf9445f7643204899621c33a20add510
 
       if (!groupPostCreation) {
         return response.status(400).json({

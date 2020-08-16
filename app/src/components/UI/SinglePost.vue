@@ -87,7 +87,11 @@
               </div>
               <div class="">
                 <small class="mb-0  d-block">
-                  <span class="font-weight-bold d-block">Promise Ekpo</span>
+                  <span class="font-weight-bold d-block">{{
+                    each_comment.user
+                      ? each_comment.user.full_name
+                      : "Annonymous User"
+                  }}</span>
                   <small>{{
                     each_comment.created_at | moment("MMMM Do YYYY, h:mm a")
                   }}</small>
@@ -135,6 +139,7 @@
 <script>
 import Nprogress from "nprogress";
 import { notifications } from "@/mixins/Notification";
+
 export default {
   name: "SinglePost",
   data() {

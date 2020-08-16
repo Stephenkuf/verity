@@ -42,7 +42,6 @@ const routes = [
   // },
   {
     path: "/account",
-    name: "Account",
     component: Account,
     children: [
       {
