@@ -53,6 +53,9 @@ Route.post("/createGroupPost/:groupId", "Posts/PostController.createGroupPost").
 // User profile Routes 
 Route.get("/getUserPosts", "User/UserController.getUserPosts").middleware(["auth"]);
 Route.get("/getUserProfile", "User/UserController.getUserProfile").middleware(["auth"]);
+Route.get("/getAllUsers", "User/UserController.getAllUsers").middleware(["auth"]);
+
+
 
 //metadata routes
 Route.get("/getMetadata", "Metadata/MetadatumController.getMetadata");
@@ -65,6 +68,6 @@ Route.post("/followUser", "Follow/FollowController.followUser").middleware(["aut
 Route.post("/createGroup", "Group/GroupController.createGroup").middleware(["auth"]);
 Route.get("/joinGroup/:group_id", "Group/GroupController.joinGroup").middleware(["auth"]);
 // messaging
-Route.post("/createGroup", "Messaging/MessageController.createMessage").middleware(["auth"]);
+Route.post("/createMessage", "Messaging/MessageController.createMessage").middleware(["auth"]);
 Route.get("/getMessages", "Messaging/MessageController.getMessages").middleware(["auth"]);
 Route.get("/getSingleMessage", "Messaging/MessageController.getSingleMessage").middleware(["auth"]);

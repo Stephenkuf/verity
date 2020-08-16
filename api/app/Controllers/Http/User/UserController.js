@@ -25,22 +25,12 @@ class UserController {
       const loggedInUser = await auth.current.user;
       // console.log(loggedInUser.id);
 
-
       const lookUp = await User.findBy("id", loggedInUser.id)
-
-      if (!lookUp) {
+      if (!lookUp || lookUp == null) {
         return response.status(400).json({
           label: `User Lookup`,
           statusCode: 400,
           message: `We were unable to find that User`,
-        })
-      }
-      if (lookUp == null) {
-        return response.status(400).json({
-          error: lookUpError,
-          label: `User Lookup`,
-          statusCode: 400,
-          message: `We were unable to find that Userr`,
         })
       }
 
@@ -56,7 +46,6 @@ class UserController {
         })
       }
 
-
       const currentUser = lookUp.toJSON()
       console.log(currentUser.id);
 
@@ -68,7 +57,6 @@ class UserController {
         bio,
         profile_pic
       })
-
 
       if (!additionalInfo) {
         return response.status(400).json({
@@ -191,8 +179,35 @@ class UserController {
     }
   }
 
+ async getAllUsers({request, response , auth}){
+  try {
+  
+    const allUsers = await User.all();
 
+    if (!allUsers) {
+      return response.status(400).json({
+        label: `is registered Error`,
+        statusCode: 400,
+        message: `User fully registered error`
+      })
+    }
 
+    return response.status(200).json({
+      result: getProfile,
+      label: `profile`,
+      statusCode: 200,
+      message: `User profile fetched successfully`,
+    })
+  } catch (error) {
+    console.log(error);
+    return response.status(200).json({
+      error,
+      label: `Fetch All Users`,
+      statusCode: 200,
+      message: `Internal Server Error`,
+    })
+  }
+};
 }
 
 module.exports = UserController
