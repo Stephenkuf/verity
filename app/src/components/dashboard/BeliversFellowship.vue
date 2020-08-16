@@ -220,7 +220,8 @@ export default {
       try {
         const get_all_users = await this.$store.dispatch("dashboard/allUsers");
         console.log("get_all_users >> ", get_all_users);
-        this.all_users = get_all_users.result[0];
+        this.all_users = get_all_users.result;
+        this.$store.state.dashboard.all_users = get_all_users.result;
       } catch (error) {
         console.log("error >> ", error);
         Nprogress.done();

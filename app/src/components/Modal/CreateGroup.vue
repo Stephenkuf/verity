@@ -17,6 +17,7 @@
           <button
             type="button"
             class="close"
+            id="close-create-group"
             data-dismiss="modal"
             aria-label="Close"
           >
@@ -65,8 +66,8 @@
                 placeholder="Add people by names or email address"
                 label="name"
                 :custom-label="nameWithLang"
-                track-by="code"
-                :options="options"
+                track-by="id"
+                :options="get_all_users"
                 :multiple="true"
               ></multiselect>
             </div>
@@ -155,8 +156,8 @@
 </template>
 
 <script>
-// import Nprogress from "nprogress";
-// import { notifications } from "@/mixins/Notification";
+import Nprogress from "nprogress";
+import { notifications } from "@/mixins/Notification";
 import { required } from "vuelidate/lib/validators";
 import Multiselect from "vue-multiselect";
 export default {
@@ -189,21 +190,56 @@ export default {
       },
     },
   },
+  mixins: [notifications],
   components: {
     Multiselect,
   },
-  methods: {
-    nameWithLang({ name, code }) {
-      return `${name} — [${code}]`;
+  computed: {
+    get_all_users() {
+      return this.$store.state.dashboard.all_users;
     },
-    createGroup() {
+  },
+  methods: {
+    nameWithLang({ full_name, email }) {
+      return `${full_name} [${email}]`;
+    },
+    value_mutated() {
+      let empty_arr = [];
+      this.value.forEach((each) => {
+        empty_arr.push(each.id);
+      });
+      return empty_arr;
+    },
+    async createGroup() {
       try {
         this.$v.$touch();
         if (this.$v.$invalid) {
           return;
         }
+        const payload = {
+          group_name: this.create_group.group_name,
+          group_bio: this.create_group.group_bio,
+          group_privacy: this.create_group.group_privacy,
+          users: this.value_mutated(),
+        };
+
+        console.log("payload >> ", payload);
+
+        Nprogress.start();
+        const data = await this.$store.dispatch(
+          "dashboard/createGroup",
+          payload
+        );
+        console.log("data >> ", data);
+        this.showSuccessNotification(data.message);
+        Nprogress.done();
+        this.value = [];
+        this.create_group.group_name = "";
+        this.create_group.group_bio = "";
+        document.getElementById("close-create-group").click();
       } catch (error) {
         console.log("error >> ", error);
+        Nprogress.done();
       }
     },
   },

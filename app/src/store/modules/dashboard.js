@@ -5,6 +5,7 @@ export default {
   state: {
     switch_navigation: "belivers",
     profile: {},
+    all_users: [],
   },
   mutations: {
     SET_PROFILE(state, profile) {
@@ -32,6 +33,26 @@ export default {
         throw error.response;
       }
     },
+    async createGroup(store, groupDetails) {
+      try {
+        let result = await apiClient.post("/createGroup", groupDetails);
+        console.log("create group payload >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async followUser(store, user_id) {
+      try {
+        let result = await apiClient.post("/followUser", user_id);
+        console.log("follow user >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
     async viewPosts() {
       try {
         let result = await apiClient.get("/ViewTimelinePosts");
@@ -47,6 +68,17 @@ export default {
       try {
         let result = await apiClient.get("/getAllUsers");
         console.log("view all users >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async getPeopleToFollow() {
+      try {
+        let result = await apiClient.get("/whoToFollow");
+        console.log("view people to follow >> ", result);
 
         return result.data;
       } catch (error) {
