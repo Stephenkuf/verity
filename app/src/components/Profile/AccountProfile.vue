@@ -1,32 +1,5 @@
 <template>
   <div>
-    <div class="nav__tabs">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-8">
-            <ul class="nav nav-tabs nav-fill bg-white">
-              <li class="nav-item mb-0">
-                <a
-                  class="nav-link"
-                  :class="selected_tab == 'general-tab' && 'active'"
-                  @click.prevent="selected_tab = 'general-tab'"
-                  >General</a
-                >
-              </li>
-              <li class="nav-item mb-0">
-                <a
-                  class="nav-link"
-                  :class="selected_tab == 'denomination-tab' && 'active'"
-                  @click.prevent="selected_tab = 'denomination-tab'"
-                >
-                  Denomination
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="container mt-3">
       <div class="my-5 py-5" v-if="is_fetching">
         <Loader />
@@ -109,33 +82,9 @@
                 </PlaceHolder>
               </section>
             </div>
-            <div class="col-md-6" v-if="selected_tab == 'denomination-tab'">
-              <section class="posts">
-                <appCreatePostSection />
-                <template v-if="post_list.length">
-                  <appSinglePost
-                    v-for="(post, index) in post_list"
-                    :key="index"
-                    :post_data="post"
-                    @fetchPost="fetch_post"
-                  />
-                </template>
-                <PlaceHolder :message="'posts'" v-else>
-                  <p slot="placeholder-content">
-                    Please start by creating a post.
-                  </p>
-                </PlaceHolder>
-              </section>
-            </div>
             <div class="col-md-3">
               <section class="sidebar__right ">
-                <div
-                  class=" text-center bg-white py-3 mb-2"
-                  v-if="selected_tab == 'denomination-tab'"
-                >
-                  <img src="/assets/images/church_logo.png" alt="" />
-                  <p class="font-weight-bold">Deeper Life Bible Church</p>
-                </div>
+                <appMyFriends />
                 <!-- friends  -->
                 <appPeopleYouMayKnow />
                 <!-- Groups -->
@@ -162,6 +111,7 @@ import appCreatePostSection from "@/components/UI/CreatePostSection";
 import appSinglePost from "@/components/UI/SinglePost";
 import appGroupYouMayJoin from "@/components/UI/GroupYouMayJoin";
 import appMyGroups from "@/components/UI/MyGroups";
+import appMyFriends from "@/components/UI/MyFriends";
 import appPeopleYouMayKnow from "@/components/UI/PeopleYouMayKnow";
 import appCreateGroup from "@/components/Modal/CreateGroup";
 
@@ -169,7 +119,7 @@ import Nprogress from "nprogress";
 import { notifications } from "@/mixins/Notification";
 
 export default {
-  name: "BeliversFellowshipDashBoard",
+  name: "AccountProfile",
   data() {
     return {
       is_fetching: true,
@@ -188,6 +138,7 @@ export default {
     appPeopleYouMayKnow,
     appCreateGroup,
     appMyGroups,
+    appMyFriends,
   },
   methods: {
     async fetch_post_n_profile() {
@@ -201,9 +152,9 @@ export default {
     async fetch_post() {
       try {
         Nprogress.start();
-        const get_posts = await this.$store.dispatch("dashboard/viewPosts");
-        console.log("get posts >> ", get_posts);
-        this.post_list = get_posts.data;
+        const get_posts = await this.$store.dispatch("profile/viewUserPosts");
+        console.log("get users posts >> ", get_posts);
+        this.post_list = get_posts.result;
         Nprogress.done();
       } catch (error) {
         console.log("error >> ", error);

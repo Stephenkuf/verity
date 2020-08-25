@@ -8,6 +8,7 @@ import Index from "../views/pages/Index.vue";
 // account routes
 import Account from "../components/includes/AccountWrapper.vue";
 import Landing from "../views/account/Landing.vue";
+import Profile from "../views/account/Profile.vue";
 
 //church organisation platform
 import BeliversNetworkDashboard from "@/views/account/Dashboard";
@@ -67,6 +68,15 @@ const routes = [
         name: "ChurchOrganisationDashboard",
         meta: {
           title: "Variety - Dashboard",
+          group: "Dashboard",
+        },
+      },
+      {
+        path: "profile",
+        component: Profile,
+        name: "Profile",
+        meta: {
+          title: "Variety - profile",
           group: "Dashboard",
         },
       },

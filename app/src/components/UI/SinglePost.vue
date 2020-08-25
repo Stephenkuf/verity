@@ -54,7 +54,7 @@
             <span
               class="post-comment c-blue f-14 f-bold"
               style="cursor:pointer"
-              @click="open_comment = !open_comment"
+              @click="open_comment_func(post_data.id)"
             >
               <i class="far fa-comment mr-2 f-16" style="cursor:pointer"></i>
               {{ post_data.comment.length }} comments
@@ -67,10 +67,13 @@
       </div>
       <div
         class="my-3 mx-0 row px-0"
-        v-if="open_comment && post_data.comment.length"
+        v-show="open_comment && post_data.comment.length"
       >
         <div class="d-flex w-100 justify-content-end">
-          <div class="col-11 c-comment-box py-3">
+          <div
+            class="col-11 c-comment-box py-3"
+            :id="`commentbox${post_data.id}`"
+          >
             <div
               class="d-flex mx-2 mt-1 mb-3"
               v-for="(each_comment, index) in post_data.comment"
@@ -155,6 +158,19 @@ export default {
   },
   mixins: [notifications],
   methods: {
+    open_comment_func(id) {
+      this.open_comment = !this.open_comment;
+      let comment_box = document.getElementById(`commentbox${id}`);
+      console.log("comment-box >> ", comment_box.scrollHeight);
+
+      setTimeout(() => {
+        comment_box.scrollTop = comment_box.scrollHeight;
+        // setInterval(() => {
+        //   // comment_box.scrollTop = comment_box.scrollHeight;
+        //   comment_box.scrollTop += 1;
+        // }, comment_box.scrollHeight);
+      }, 500);
+    },
     async send_comment(post_id) {
       console.log("comment_text >> ", this.comment_text, post_id);
       try {

@@ -13,6 +13,7 @@ import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import Nprogress from "nprogress";
 import "nprogress/nprogress.css";
+import Loader from "@/components/UI/Loader";
 
 // globalcomponents
 import PlaceHolder from "@/components/UI/PlaceHolder.vue";
@@ -26,6 +27,7 @@ Vue.use(require("vue-moment"));
 
 //regixtered component
 Vue.component("v-select", vSelect);
+Vue.component("Loader", Loader);
 
 router.beforeEach((to, from, next) => {
   Nprogress.start();
