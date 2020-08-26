@@ -1,14 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Register from "../views/auth/Register.vue";
-import Login from "../views/auth/Login.vue";
+import Register from "@/views/auth/Register.vue";
+import Login from "@/views/auth/Login.vue";
 
-import Index from "../views/pages/Index.vue";
+import Index from "@/views/pages/Index.vue";
 
 // account routes
-import Account from "../components/includes/AccountWrapper.vue";
-import Landing from "../views/account/Landing.vue";
-import Profile from "../views/account/Profile.vue";
+import Account from "@/components/includes/AccountWrapper.vue";
+import Landing from "@/views/account/Landing.vue";
+import Profile from "@/views/account/Profile.vue";
+import Messages from "@/views/account/Messages.vue";
 
 //church organisation platform
 import BeliversNetworkDashboard from "@/views/account/Dashboard";
@@ -77,6 +78,15 @@ const routes = [
         name: "Profile",
         meta: {
           title: "Variety - profile",
+          group: "Dashboard",
+        },
+      },
+      {
+        path: "messages",
+        component: Messages,
+        name: "Messages",
+        meta: {
+          title: "Variety - messages",
           group: "Dashboard",
         },
       },

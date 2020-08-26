@@ -32,10 +32,16 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <router-link
+                tag="a"
+                to="/account/messages"
+                class="nav-link"
+                :class="$route.name == 'Messages' && 'active'"
+                href="#"
+              >
                 <i class="fas fa-envelope f-24 c-blue mr-1"></i>
                 <span class="c-blue font-weight-bold f-14">MESSAGES</span>
-              </a>
+              </router-link>
             </li>
           </ul>
           <ul class="m-auto">
@@ -99,4 +105,23 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.navbar .nav-item .nav-link .fab,
+.navbar .nav-item .nav-link .far,
+.navbar .nav-item .nav-link .fas {
+  padding-right: 3px;
+  padding-left: 3px;
+  font-size: 80%;
+}
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1250px;
+  }
+}
+</style>

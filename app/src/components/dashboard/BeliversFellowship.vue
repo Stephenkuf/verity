@@ -3,7 +3,7 @@
     <div class="nav__tabs">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-8">
+          <div class="col-6">
             <ul class="nav nav-tabs nav-fill bg-white">
               <li class="nav-item mb-0">
                 <a
