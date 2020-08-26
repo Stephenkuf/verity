@@ -127,5 +127,93 @@ class GroupController {
     });
    }
   }
+  
+  // all groups joined by the auth user 
+  async joinedGroups({response , auth }){
+    try {
+      const { user } = auth.current;
+  
+     const groupfollowed = await
+      GroupUser.query()
+     .where("user_id" ,user.id)
+     .with('groups')
+     .fetch()
+           
+     if(!groupfollowed || groupfollowed == null )
+      return response.status(400).json({
+        label: `Group LookUp Error`,
+        statusCode: 400,
+        message: `There was an error fetching groups`
+      });
+
+      return response.status(200).json({
+        result: groupfollowed,
+        label: `groups to follow`,
+        statusCode: 400,
+        message: `Sucessfully fetched groups `,
+      });
+     } catch (groupsJoinederror) {
+      console.log(groupsJoinederror);
+      return response.status(400).json({
+        error,
+        label: `Group fetch`,
+        statusCode: 400,
+        message: `Internal Server Error `
+      });
+     }
+  }
+
+
+
+  
+
+   // all groups not joined by the auth user 
+   async nonJoinedGroups({response , auth }){
+    try {
+      const { user } = auth.current;
+  
+     const groupfollowed = await GroupUser.query()
+     .where("user_id",user.id)
+     .pluck("group_id")
+  
+     if(!groupfollowed || groupfollowed == null )
+      return response.status(400).json({
+        label: `Group LookUp Error`,
+        statusCode: 400,
+        message: `There was an error fetching group`
+      });
+     
+      
+      //  fetch users the currently authenticated user is not already following
+      const groupstoJoin = await Group.query()
+        .whereNotIn("id", groupfollowed)
+         .fetch()
+
+      if (!groupstoJoin) {
+        return response.status(400).json({
+          label: `Who to follow Error`,
+          statusCode: 400,
+          message: `There was an error Fetching Users  `,
+        });
+      }
+
+      return response.status(200).json({
+        result: groupstoJoin,
+        label: `Groups to Join`,
+        statusCode: 400,
+        message: `Sucessfully fetched groups not joined `,
+      });
+     } catch (error) {
+      console.log(error);
+      return response.status(400).json({
+        error,
+        label: `Group Join`,
+        statusCode: 400,
+        message: `Internal Server Error `
+      });
+     }
+  }
+
+
 }
 module.exports = GroupController;
