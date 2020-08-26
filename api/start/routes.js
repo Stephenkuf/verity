@@ -67,6 +67,9 @@ Route.post("/followUser", "Follow/FollowController.followUser").middleware(["aut
 // create groups
 Route.post("/createGroup", "Group/GroupController.createGroup").middleware(["auth"]);
 Route.get("/joinGroup/:group_id", "Group/GroupController.joinGroup").middleware(["auth"]);
+Route.get("/joinedGroups","Group/GroupController.joinedGroups").middleware(["auth"]);
+Route.get("/nonJoinedGroups","Group/GroupController.nonJoinedGroups").middleware(["auth"]);
+
 // messaging
 Route.post("/createMessage", "Messaging/MessageController.createMessage").middleware(["auth"]);
 Route.get("/getMessages", "Messaging/MessageController.getMessages").middleware(["auth"]);

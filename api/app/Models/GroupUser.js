@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class GroupUser extends Model {
+    groups(){
+        return this.hasOne("App/Models/Group", 'group_id', 'id')
+    }
 }
 
 module.exports = GroupUser
