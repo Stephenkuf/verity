@@ -2,7 +2,7 @@
   <section class="groups m t-3 bg-white p-3">
     <h3 class="f-16 f-bold mb-3">Groups you may like to join</h3>
 
-    <div class="row mt-3" v-for="i in 5" :key="i">
+    <div class="row mt-3" v-for="(each_group, i) in groups" :key="i">
       <div class=" col-lg-3">
         <img src="/assets/images/group-4.png" class="w-40" alt="user" />
       </div>
@@ -27,6 +27,27 @@
 <script>
 export default {
   name: "GroupYouMayJoin",
+  data() {
+    return {
+      groups: [],
+    };
+  },
+  method: {
+    async groupToJoin() {
+      try {
+        const get_people = await this.$store.dispatch(
+          "dashboard/getNonJoinedGroup"
+        );
+        console.log("get_people >> ", get_people);
+        this.groups = get_people.result;
+      } catch (error) {
+        console.log("error >> ", error);
+      }
+    },
+  },
+  async mounted() {
+    await this.groupToJoin();
+  },
 };
 </script>
 

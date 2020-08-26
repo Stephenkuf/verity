@@ -86,6 +86,17 @@ export default {
         throw error.response;
       }
     },
+    async getNonJoinedGroup() {
+      try {
+        let result = await apiClient.get("/nonJoinedGroups");
+        console.log("view group to join >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
     async viewProfile(store) {
       try {
         let result = await apiClient.get("/getUserProfile");
