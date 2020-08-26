@@ -17,7 +17,7 @@ class FollowController {
       const userFollowing = await
       Follower.query()
         .where("follower_id", user.id)
-        .pluck("id")
+        .pluck("user_id")
 
       if (!userFollowing) {
         return response.status(400).json({
@@ -27,13 +27,12 @@ class FollowController {
         });
       }
 
-      console.log(userFollowing);
 
-      // // fetch users the currently authenticated user is not already following
+      //  fetch users the currently authenticated user is not already following
       const usersToFollow = await User.query()
         .whereNot("id", user.id)
         .whereNotIn("id", userFollowing)
-        .pick(3);
+        .pick(5);
 
 
       if (!usersToFollow) {
@@ -43,6 +42,7 @@ class FollowController {
           message: `There was an error Fetching Users  `,
         });
       }
+
 
 
       return response.status(200).json({
