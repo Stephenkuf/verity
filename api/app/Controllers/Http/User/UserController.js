@@ -98,7 +98,6 @@ class UserController {
     }
   }
 
-
   //GET POSTS FOR AUTHENTICATED USER 
   async getUserPosts({
     response,
