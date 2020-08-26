@@ -149,7 +149,7 @@ class GroupController {
       return response.status(200).json({
         result: groupfollowed,
         label: `groups to follow`,
-        statusCode: 400,
+        statusCode: 200,
         message: `Sucessfully fetched groups `,
       });
      } catch (groupsJoinederror) {
@@ -162,11 +162,7 @@ class GroupController {
       });
      }
   }
-
-
-
   
-
    // all groups not joined by the auth user 
    async nonJoinedGroups({response , auth }){
     try {
@@ -200,7 +196,7 @@ class GroupController {
       return response.status(200).json({
         result: groupstoJoin,
         label: `Groups to Join`,
-        statusCode: 400,
+        statusCode: 200,
         message: `Sucessfully fetched groups not joined `,
       });
      } catch (error) {
