@@ -8,13 +8,15 @@
       </div>
       <div class="col-lg-6 px-0">
         <p class="f-12 f-bold c-brand mb-0">
-          Redeem Youth Church
+          {{ each_group.group_name }}
         </p>
         <span class="f-10 f-bold c-grey">3 Members</span>
       </div>
       <div class="col-lg-3  px-0 text-right pr-2">
         <p class="c-brand f-14 f-med text-right">
-          <span style="cursor: pointer;">Join</span>
+          <span style="cursor: pointer;" @click="joinGroup(each_group.id)"
+            >Join</span
+          >
         </p>
       </div>
     </div>
@@ -25,6 +27,8 @@
 </template>
 
 <script>
+import Nprogress from "nprogress";
+import { notifications } from "@/mixins/Notification";
 export default {
   name: "GroupYouMayJoin",
   data() {
@@ -32,7 +36,25 @@ export default {
       groups: [],
     };
   },
-  method: {
+  mixins: [notifications],
+  methods: {
+    async joinGroup(group_id) {
+      try {
+        Nprogress.start();
+        const join_group = await this.$store.dispatch(
+          "dashboard/joinGroup",
+          group_id
+        );
+        console.log("join_group >> ", join_group);
+        this.showSuccessNotification(join_group.message);
+        Nprogress.done();
+        await this.groupToJoin();
+        this.$emit("triggerMyGroup");
+      } catch (error) {
+        console.log("error >> ", error);
+        Nprogress.done();
+      }
+    },
     async groupToJoin() {
       try {
         const get_people = await this.$store.dispatch(

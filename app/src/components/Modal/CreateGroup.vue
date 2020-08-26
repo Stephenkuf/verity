@@ -236,6 +236,7 @@ export default {
         this.value = [];
         this.create_group.group_name = "";
         this.create_group.group_bio = "";
+        this.$emit("triggerMyGroup");
         document.getElementById("close-create-group").click();
       } catch (error) {
         console.log("error >> ", error);
