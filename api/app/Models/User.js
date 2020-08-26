@@ -23,7 +23,7 @@ class User extends Model {
     })
   }
   static get hidden() {
-    return ['password', 'confirmation_token', 'user_role_id','is_active','is_complete_registration', 'created_at', 'updated_at', ]
+    return ['password', 'confirmation_token', 'user_role_id','is_active', 'created_at', 'updated_at', ]
   }
   /**
    * A relationship on tokens is required for auth to
