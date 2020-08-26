@@ -110,7 +110,7 @@ class UserController {
 
     const getProfile = await
     Posts.query()
-      .where("id", user.id)
+      .where("user_id", user.id)
       .with('user')
       .with('comment')
       .withCount("like")
