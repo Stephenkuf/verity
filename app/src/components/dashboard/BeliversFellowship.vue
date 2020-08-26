@@ -232,7 +232,7 @@ export default {
         Nprogress.done();
       }
     },
-    async groupToJoin() {
+    async myGroups() {
       try {
         const get_people = await this.$store.dispatch("dashboard/myGroups");
         console.log("get_people >> ", get_people);
@@ -242,14 +242,14 @@ export default {
       }
     },
     async triggerMyGroup() {
-      await this.groupToJoin();
+      await this.myGroups();
     },
   },
   async mounted() {
     await this.fetch_post();
     await this.get_user_profile();
     await this.get_all_users();
-    await this.groupToJoin();
+    await this.myGroups();
     this.is_fetching = false;
   },
 };
