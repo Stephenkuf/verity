@@ -1,0 +1,18 @@
+footer.footer{
+  border-top: 1px solid $color-2;
+  background: #fff;
+  color:  rgba(8, 88, 125, 0.6);
+  font-weight: 600;
+  padding-top: 0.7rem;
+  p{
+    font-size: 14px;
+    margin-top: 1rem;
+    a{
+      color: $color-2;
+      text-decoration: none;
+      &:hover{
+        color: $color-1;
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+.v__nav{
+    background: #fff;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+    ol{
+        padding-left:10px
+    }
+    .v__nav-list{
+        display: inline-block;
+        flex: 1 1 auto;
+        text-align: center;
+        padding: 0.5rem 0.7rem;
+        a{
+            color: $color-1;
+            text-decoration: none;
+        }
+        .v__nav-item.active{
+          color: $color-2 !important;
+        }
+    }
+
+}

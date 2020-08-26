@@ -1,0 +1,28 @@
+// all imports go here
+
+@import './base/_variables';
+@import './mixins/_mixins';
+
+// BASE
+@import './base/_base';
+
+// COMPONENTS
+@import './components/_buttons';
+@import './components/_inputs';
+@import './components/_nav';
+@import './components/_sidebar';
+
+// LAYOUTS
+@import './layout/_header';
+@import './layout/_footer';
+@import './layout/_dashboardheader';
+
+
+// PAGES
+@import './pages/_homepage';
+@import './pages/_useronboarding';
+@import './pages/_dashboard';
+@import './pages/_branch';
+@import './pages/_denomination';
+@import './pages/_welfare';
+@import './pages/_messages';

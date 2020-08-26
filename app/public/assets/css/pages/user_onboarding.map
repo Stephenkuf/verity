@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "user_onboarding.css",
+	"sources": [
+		"../../scss/pages/user_onboarding.scss"
+	],
+	"sourcesContent": [
+		""
+	],
+	"names": [],
+	"mappings": ""
+}

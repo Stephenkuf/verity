@@ -1,0 +1,127 @@
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body{
+  width: 100%;
+  font-size: 16px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 300;
+  display: flex;
+  flex-direction: column;
+}
+main{
+  flex: 1 0 auto;
+}
+/*** COLORS ***/
+.c-brand{
+  color: $color-1 !important;
+}
+.c-red{
+  color: $color-2 !important;
+}
+.c-grey{
+  color: #828282;
+}
+.c-blue{
+  color: rgba(8, 88, 125, 0.7);
+}
+.c-black{
+  color: #333;
+}
+.c-brown{
+  color: #4F4F4F;
+}
+.c-dark{
+  color: #212121;
+}
+
+// BACKGROUND COLORS
+.bg-yellow{
+  background: $color-3;
+}
+.bg-blue{
+  background: $color-1;
+}
+.bg-red{
+  background: $color-2;
+}
+.bg-grey-light{
+  background: $color-5;
+}
+.bg-brand{
+  background: linear-gradient(180deg, #D97159 0%, #08587D 100%);
+}
+
+//Borders
+.bd-left--brand{
+  border-left: 1px solid $color-1;
+}
+.bd-red{
+  border: 1px solid $color-2;
+}
+.bd-blue{
+  border: 1px solid  rgba(8, 88, 125, 0.7);
+}
+
+.w-80{
+  width: 80%;
+}
+.w-80p{ width: 80px; }
+.h-100p{ height: 100px !important; }
+.border-none{
+  border: 0 !important;
+}
+
+
+/*** SIZING ***/
+//FONT-SIZE
+.f-10{ font-size: 10px; }
+.f-12{ font-size: 12px; }
+.f-13{ font-size: 13px; }
+.f-14{ font-size: $size-1 !important; }
+.f-16{ font-size: $size-2; }
+.f-18{ font-size: $size-3; }
+.f-20{ font-size: $size-4; }
+.f-24{ font-size: 24px; }
+.f-32{ font-size: 32px; }
+.f-40{ font-size: 40px; }
+.f-52{
+    font-size: $size-x;
+    @include screenSize(ss-phone){
+        font-size: 36px;
+    }
+}
+
+.lh-3{ line-height: $size-lg-2}
+
+.f-quick{ font-family: 'Quicksand', sans-serif; }
+
+.f-bold{ font-weight: 700; }
+.f-med{ font-weight: 500; }
+.f-light{ font-weight: 300; }
+
+//MARGIN
+.mt-6{ margin-top: $size-lg-2; }
+.mt-6e{ margin-top: $size-lg; }
+.mb-6e{ margin-bottom: $size-lg; }
+.mt-7{
+  margin-top: 8rem;
+}
+.pt-6e{ padding-top: $size-x; }
+.px-sm-3{
+  @include screenSize(ss-phone){
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.pos-rel{
+  position: relative;
+}
+
+footer{
+    flex: none;
+}
