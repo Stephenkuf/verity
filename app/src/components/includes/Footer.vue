@@ -11,9 +11,11 @@
         <div class="col-md-3">
           <p>
             connect with us on
-            <a href=""><i class="fab fa-facebook-square fa-2x ml-2"></i></a>
-            <a href=""><i class="fab fa-twitter fa-2x mx-2"></i></a>
-            <a href=""><i class="fab fa-instagram fa-2x"></i></a>
+            <a href=""
+              ><i class="fab fa-facebook-square fa-2x c-fs-150 ml-2"></i
+            ></a>
+            <a href=""><i class="fab fa-twitter fa-2x mx-2 c-fs-150"></i></a>
+            <a href=""><i class="fab fa-instagram fa-2x c-fs-150"></i></a>
           </p>
         </div>
       </div>
@@ -27,4 +29,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.c-fs-150 {
+  font-size: 150%;
+}
+</style>

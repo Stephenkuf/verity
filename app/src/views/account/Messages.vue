@@ -3,10 +3,10 @@
     <app-navbar></app-navbar>
     <div class="container mt-3">
       <div class="row">
-        <div class="col-4">
+        <div class="col-12 col-md-4 pb-5 pb-md-0">
           <appFriendList />
         </div>
-        <div class="col-8">
+        <div class="col-12 col-md-8">
           <appMessagePanel />
         </div>
       </div>

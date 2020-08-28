@@ -1,7 +1,7 @@
 <template>
   <!-- FRIENDS SUGGESTIONS -->
-  <div class="bg-white p-3">
-    <h3 class="text-center c-brown f-16 f-bold">
+  <div class="bg-white p-3" v-if="peopleToFollow.length">
+    <h3 class=" c-brown f-16 f-bold">
       People you may know
     </h3>
     <div
@@ -28,7 +28,10 @@
         </p>
       </div>
     </div>
-    <div class="text-center c-brand f-med mt-3 mb-3">
+    <div
+      class="text-center c-brand f-med mt-3 mb-3"
+      v-if="peopleToFollow.length > 5"
+    >
       View all
     </div>
   </div>

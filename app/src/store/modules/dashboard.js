@@ -53,6 +53,16 @@ export default {
         throw error.response;
       }
     },
+    async joinGroup(store, group_id) {
+      try {
+        let result = await apiClient.post(`/joinGroup/${group_id}`);
+        console.log("join group >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
     async viewPosts() {
       try {
         let result = await apiClient.get("/ViewTimelinePosts");
@@ -79,6 +89,28 @@ export default {
       try {
         let result = await apiClient.get("/whoToFollow");
         console.log("view people to follow >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async getNonJoinedGroup() {
+      try {
+        let result = await apiClient.get("/nonJoinedGroups");
+        console.log("view group to join >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async myGroups() {
+      try {
+        let result = await apiClient.get("/joinedGroups");
+        console.log("view my group >> ", result);
 
         return result.data;
       } catch (error) {

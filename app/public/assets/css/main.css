@@ -380,7 +380,7 @@ footer.footer p a:hover {
 
 .navbar .navbar-nav .nav-link:hover {
   background: transparent !important;
-  border-bottom: 2px solid #08587d;
+  /* border-bottom: 2px solid #08587d; */
 }
 .navbar .navbar-nav .nav-link.active {
   background: transparent !important;

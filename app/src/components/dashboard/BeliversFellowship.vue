@@ -87,7 +87,7 @@
                 </p> -->
               </div>
               <div>
-                <appMyGroups />
+                <appMyGroups :groups="groups" />
               </div>
             </div>
             <div class="col-md-6" v-if="selected_tab == 'general-tab'">
@@ -139,7 +139,7 @@
                 <!-- friends  -->
                 <appPeopleYouMayKnow />
                 <!-- Groups -->
-                <appGroupYouMayJoin />
+                <appGroupYouMayJoin @triggerMyGroup="triggerMyGroup" />
               </section>
             </div>
           </div>
@@ -152,7 +152,7 @@
         ></div>
       </div>
     </div>
-    <appCreateGroup />
+    <appCreateGroup @triggerMyGroup="triggerMyGroup" />
   </div>
 </template>
 
@@ -177,6 +177,7 @@ export default {
       post_list: [],
       profile_data: {},
       all_users: [],
+      groups: [],
     };
   },
   mixins: [notifications],
@@ -231,11 +232,24 @@ export default {
         Nprogress.done();
       }
     },
+    async myGroups() {
+      try {
+        const get_people = await this.$store.dispatch("dashboard/myGroups");
+        console.log("get_people >> ", get_people);
+        this.groups = get_people.result;
+      } catch (error) {
+        console.log("error >> ", error);
+      }
+    },
+    async triggerMyGroup() {
+      await this.myGroups();
+    },
   },
   async mounted() {
     await this.fetch_post();
     await this.get_user_profile();
     await this.get_all_users();
+    await this.myGroups();
     this.is_fetching = false;
   },
 };

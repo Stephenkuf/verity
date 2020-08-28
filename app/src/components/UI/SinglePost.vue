@@ -226,7 +226,7 @@ export default {
 }
 
 .c-comment-box::-webkit-scrollbar {
-  width: 5px !important;
+  width: 0px !important;
   height: 4px !important;
 }
 
