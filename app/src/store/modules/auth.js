@@ -45,6 +45,15 @@ export default {
         throw error.response;
       }
     },
+    async createBranch(store, Details) {
+      try {
+        let result = await apiClient.post("/registerBranch", Details);
+        console.log("create branch payload >> ", result);
+        return result.data;
+      } catch (error) {
+        throw error.response;
+      }
+    },
     async loginUser(store, Details) {
       try {
         let result = await apiClient.post("/login", Details);

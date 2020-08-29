@@ -90,7 +90,7 @@
                 >
               </template>
             </div>
-            <div class="form-group mt-4">
+            <!-- <div class="form-group mt-4">
               <v-select
                 class="v-select form-control v__input "
                 v-model="sign_up_data.denomination"
@@ -104,7 +104,7 @@
                 class="text-danger"
                 >Denomination is required</small
               >
-            </div>
+            </div> -->
             <div class="form-group mt-4">
               <input
                 type="password"
@@ -165,7 +165,7 @@ export default {
         username: "",
         email: "",
         password: "",
-        denomination: "",
+        // denomination: "",
         phone_number: "",
         user_role_id: 2,
       },
@@ -192,9 +192,9 @@ export default {
       password: {
         required,
       },
-      denomination: {
-        required,
-      },
+      // denomination: {
+      //   required,
+      // },
     },
   },
   methods: {
@@ -208,7 +208,7 @@ export default {
           return;
         }
         Nprogress.start();
-        this.sign_up_data.denomination = this.sign_up_data.denomination.id;
+        // this.sign_up_data.denomination = this.sign_up_data.denomination.id;
         const data = await this.$store.dispatch(
           "auth/registerUser",
           this.sign_up_data
@@ -227,7 +227,7 @@ export default {
   },
   async mounted() {
     const get_meta_data = await this.$store.dispatch("getMetaData");
-    this.denomination_list = get_meta_data.result.denomination;
+    // this.denomination_list = get_meta_data.result.denomination;
     console.log("get meta data >> ", get_meta_data, this.$v);
   },
 };

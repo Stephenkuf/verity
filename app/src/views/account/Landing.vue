@@ -51,6 +51,9 @@
     <app-landing-page-denomination
       v-if="check_route == 'denomination'"
     ></app-landing-page-denomination>
+    <app-landing-page-branch
+      v-if="check_route == 'branch'"
+    ></app-landing-page-branch>
 
     <!-- create church modal -->
     <app-create-church></app-create-church>
@@ -62,6 +65,7 @@ import CreateChurch from "@/components/Modal/CreateChurch";
 import LandingPageDefault from "@/components/landing_page/LandingPageDefault";
 import LandingPageIndividual from "@/components/landing_page/Individual";
 import LandingPageDenomination from "@/components/landing_page/Denomination";
+import LandingPageBranch from "@/components/landing_page/Branch";
 
 export default {
   name: "Landing",
@@ -70,6 +74,7 @@ export default {
     appLandingPageDefault: LandingPageDefault,
     appLandingPageIndividual: LandingPageIndividual,
     appLandingPageDenomination: LandingPageDenomination,
+    appLandingPageBranch: LandingPageBranch,
   },
   computed: {
     check_route() {
