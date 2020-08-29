@@ -69,7 +69,7 @@ class BranchController {
       })
 
 
-      if (!branchError) {
+      if (!branch) {
         return response.status(400).json({
           label: `Branch Registeration`,
           statusCode: 400,
