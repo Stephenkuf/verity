@@ -14,6 +14,7 @@ class BranchController {
     try {
 
       const {
+        denomination_id,
         branch_name,
         branch_email,
         branch_phone,
@@ -57,6 +58,7 @@ class BranchController {
 
       const branch = await BranchInfo.create({
         user_id: currentUser.id,
+        denomination_id,
         branch_name,
         branch_email,
         branch_phone,

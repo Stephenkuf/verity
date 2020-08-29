@@ -15,10 +15,7 @@ class UserController {
     try {
       const {
         denomination_id,
-        location,
-        bio,
-        profile_pic,
-        user_phone
+        branch_id
       } = request.all();
 
 
@@ -53,9 +50,7 @@ class UserController {
       AdditionalUserInfo.create({
         user_id: currentUser.id,
         denomination_id,
-        location,
-        bio,
-        profile_pic
+        branch_id
       })
 
       if (!additionalInfo) {
