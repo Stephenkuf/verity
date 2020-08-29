@@ -3,7 +3,8 @@
 const Denominations = use("App/Models/SettingsDenomination")
 const Countries = use("App/Models/SettingsCountry")
 const States = use("App/Models/SettingsState")
-
+const Branch = use("App/Models/BranchInfo")
+ 
 
 class MetadatumController {
   async getMetadata({
@@ -14,11 +15,13 @@ class MetadatumController {
       const denomination = await Denominations.all();
       const countries = await Countries.all();
       const states = await States.all();
+      const branch  = await Branch.all()
 
       const metadata = {
         denomination,
         countries,
-        states
+        states,
+        branch
       }
       return response.status(200).json({
         result: metadata,
@@ -26,8 +29,6 @@ class MetadatumController {
         statusCode: 200,
         message: `Metadata Fetched successfully`,
       })
-
-
 
     } catch (error) {
       return response.status(400).json({
@@ -37,8 +38,6 @@ class MetadatumController {
         message: `We were unable to fetch Metadata`,
       })
     }
-
   }
 }
-
 module.exports = MetadatumController

@@ -43,12 +43,10 @@ class FollowController {
         });
       }
 
-
-
       return response.status(200).json({
         result: usersToFollow,
         label: `Who to follow`,
-        statusCode: 400,
+        statusCode: 200,
         message: `Sucessfully fetched who to follow `,
       });
 
@@ -111,7 +109,7 @@ class FollowController {
       return response.status(200).json({
         result: follow,
         label: `Follow User`,
-        statusCode: 400,
+        statusCode: 200,
         message: `User Followed Sucessfully`,
       });
 

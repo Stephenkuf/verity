@@ -8,6 +8,7 @@ class BranchInfoSchema extends Schema {
     this.create('branch_infos', (table) => {
       table.increments()
       table.integer("user_id")
+      table.integer("denomination_id")
       table.string("branch_name")
       table.string("branch_email")
       table.string("branch_phone")
