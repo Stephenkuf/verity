@@ -133,13 +133,15 @@
                 <div class="row">
                   <div class="col-12 col-md-6">
                     <div class="form-group mt-4">
-                      <input
-                        type="text"
-                        class="form-control v__input"
-                        placeholder="Branch Country"
+                      <v-select
+                        class="v-select form-control v__input "
                         v-model="create_branch.branch_country"
-                        required
-                      />
+                        placeholder="Select your country"
+                        name="country"
+                        label="country_label"
+                        disabled
+                        :options="country_list"
+                      ></v-select>
                       <small
                         v-if="
                           !$v.create_branch.branch_country.required &&
@@ -152,13 +154,14 @@
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group mt-4">
-                      <input
-                        type="text"
-                        class="form-control v__input"
-                        placeholder="Branch City"
+                      <v-select
+                        class="v-select form-control v__input "
                         v-model="create_branch.branch_city"
-                        required
-                      />
+                        placeholder="Select your city"
+                        name="city"
+                        label="state_label"
+                        :options="city_list"
+                      ></v-select>
                       <small
                         v-if="
                           !$v.create_branch.branch_city.required && first_submit
@@ -199,6 +202,8 @@ export default {
       is_processing: false,
       first_submit: false,
       denomination_list: [],
+      country_list: [],
+      city_list: [],
       create_branch: {
         denomination_id: "",
         branch_name: "",
@@ -249,7 +254,9 @@ export default {
         return;
       }
 
-      this.create_branch.denomination_id = this.create_branch.denomination_id.denomination_label;
+      this.create_branch.denomination_id = this.create_branch.denomination_id.id;
+      this.create_branch.branch_city = this.create_branch.branch_city.state_label;
+      this.create_branch.branch_country = this.create_branch.branch_country.country_label;
 
       console.log("this.create_branch >> ", this.create_branch);
       Nprogress.start();
@@ -276,6 +283,9 @@ export default {
   async mounted() {
     const get_meta_data = await this.$store.dispatch("getMetaData");
     this.denomination_list = get_meta_data.result.denomination;
+    this.country_list = get_meta_data.result.countries;
+    this.city_list = get_meta_data.result.states;
+    this.create_branch.branch_country = get_meta_data.result.countries[0];
   },
 };
 </script>

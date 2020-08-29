@@ -76,7 +76,10 @@
                   value="branch"
                   required
                 />
-                <label class="form-check-label f-16 f-med" htmlFor="branch"
+                <label
+                  class="form-check-label f-16 f-med"
+                  for="branch"
+                  htmlFor="branch"
                   >Branch</label
                 >
               </div>

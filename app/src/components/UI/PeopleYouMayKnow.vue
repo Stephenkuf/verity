@@ -64,6 +64,7 @@ export default {
         this.showSuccessNotification(follow_user.message);
         Nprogress.done();
         await this.whoToFollow();
+        this.$emit("get_user_profile");
       } catch (error) {
         console.log("error >> ", error);
         Nprogress.done();

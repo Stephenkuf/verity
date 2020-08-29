@@ -137,7 +137,7 @@
                   <p class="font-weight-bold">Deeper Life Bible Church</p>
                 </div>
                 <!-- friends  -->
-                <appPeopleYouMayKnow />
+                <appPeopleYouMayKnow @get_user_profile="get_user_profile" />
                 <!-- Groups -->
                 <appGroupYouMayJoin @triggerMyGroup="triggerMyGroup" />
               </section>
