@@ -147,7 +147,6 @@ class UserController {
         .fetch()
 
       if (!getProfile) {
-
         return response.status(400).json({
           label: `Get User Profile`,
           statusCode: 400,
