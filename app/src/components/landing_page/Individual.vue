@@ -11,11 +11,11 @@
               <p class="text-center c-brown f-20 mt-3">
                 Please fill the short form below
               </p>
-              <form class="" @click.prevent="createIndividual()">
+              <form class="" @submit.prevent="createIndividual()">
                 <div class="form-group mt-5">
                   <v-select
                     class="v-select form-control v__input "
-                    v-model="create_individual.denomination_name"
+                    v-model="create_individual.denomination_id"
                     placeholder="Select your Denomination"
                     name="denomination"
                     label="denomination_label"
@@ -23,7 +23,7 @@
                   ></v-select>
                   <small
                     v-if="
-                      !$v.create_individual.denomination_name.required &&
+                      !$v.create_individual.denomination_id.required &&
                         first_submit
                     "
                     class="text-danger"
@@ -33,10 +33,10 @@
                 <div class="form-group mt-5">
                   <v-select
                     class="v-select form-control v__input "
-                    v-model="create_individual.branch_name"
+                    v-model="create_individual.branch_id"
                     placeholder="Select your Branch"
                     name="branch"
-                    label="branch_label"
+                    label="branch_name"
                     :options="branch_list"
                   ></v-select>
                 </div>
@@ -71,14 +71,14 @@ export default {
       denomination_list: [],
       branch_list: [],
       create_individual: {
-        denomination_name: "",
-        branch_name: "",
+        denomination_id: "",
+        branch_id: "",
       },
     };
   },
   validations: {
     create_individual: {
-      denomination_name: {
+      denomination_id: {
         required,
       },
     },
@@ -94,17 +94,17 @@ export default {
         return;
       }
 
-      this.create_individual.denomination_name = this.create_individual.denomination_name.denomination_label;
+      this.create_individual.denomination_id = this.create_individual.denomination_id.id;
 
-      if (this.create_individual.branch_name) {
-        this.create_individual.branch_name = this.create_individual.branch_name.branch_label;
+      if (this.create_individual.branch_id) {
+        this.create_individual.branch_id = this.create_individual.branch_id.id;
       }
 
       console.log("this.create_individual >> ", this.create_individual);
       Nprogress.start();
       try {
         const data = await this.$store.dispatch(
-          // "auth/createDenomination",
+          "auth/createIndividual",
           this.create_individual
         );
 
@@ -125,6 +125,7 @@ export default {
   async mounted() {
     const get_meta_data = await this.$store.dispatch("getMetaData");
     this.denomination_list = get_meta_data.result.denomination;
+    this.branch_list = get_meta_data.result.branch;
   },
 };
 </script>
