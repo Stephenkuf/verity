@@ -204,6 +204,7 @@ export default {
     },
     async triggerMyGroup() {
       await this.myGroups();
+      await this.get_user_profile();
     },
   },
   async mounted() {
