@@ -226,7 +226,7 @@ class GroupController {
       //  fetch users the currently authenticated user is not already following
       const groupstoJoin = await Group.query()
         .whereNotIn("id", groupfollowed)
-        // .with("members")
+        .withCount("members")
          .fetch()
 
       if (!groupstoJoin) {

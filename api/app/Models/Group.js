@@ -4,9 +4,10 @@
 const Model = use('Model')
 
 class Group extends Model {
-    // members(){
-    //     return this.hasMany("App/Models/GroupUser",'id', 'group_id')
-    // }
+    members(){
+        return this.belongsToMany('App/Models/User')
+        .pivotTable('group_users')
+    }
 }
 
 module.exports = Group
