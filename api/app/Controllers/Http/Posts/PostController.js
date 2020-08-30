@@ -4,14 +4,18 @@ const Like = use("App/Models/Like");
 const Comment = use("App/Models/Comment");
 const groupPost = use("App/Models/GroupPost");
 const uploadImage = use("App/Helpers/Upload")
+const Env = use("Env");
+
 
 class PostController {
   async createPost({ request, response, auth }) {
     try {
-      const { post_body , post_image} = request.all();
+      const { post_body } = request.all();
       const user = auth.current;
       let img_src;
-      if(post_image){
+      let postimage = request.file('post_image')
+
+      if(postimage != null){
           // uploadImage to application 
           const postImage = request.file('post_image', {
             types: ['image'],
@@ -24,12 +28,14 @@ class PostController {
             })
           }
 
-          const postImageName = `${new Date().getTime()}_${postImage.user.firstName}.${postImage.user.firstName}`
+          const postImageName = `${new Date().getTime()}_${postImage.fieldName}.${postImage.extname}`
           const upload_file = await uploadImage.createFile(response, postImage, 'uploads/post_image', postImageName)
 
           console.log('new product upload file >> ', upload_file)
 
            img_src = Env.get('APP_URL','127.0.0.1')+'/uploads/post_image/'+ postImageName
+
+
           //end upload image
       }
 
@@ -51,8 +57,10 @@ class PostController {
       response.status(200).json({
         label: "Post Creation",
         message: "Post Created Successfully",
-        data: postCreation,
+        data: newPost,
       });
+
+      
     } catch (error) {
       console.log(error);
       return response.status(400).json({

@@ -11,7 +11,9 @@ class GroupController {
     try {
       const { user } = auth.current;
 
-      const { group_name, group_bio} = request.all();
+      const { group_name, group_bio , users} = request.all();
+      let splitUserArray = users.split(",")
+
 
  // uploadImage to appliction 
   const groupImage = request.file('group_image', {
@@ -71,6 +73,41 @@ class GroupController {
             message: `There was an error creating a group`
           });
         }
+
+
+        // add users to a group 
+        splitUserArray.forEach((element, index, array) => {
+          await GroupUser.findOrCreate(
+            {
+              user_id: element.id,
+              group_id: groupCreate.id,
+              is_admin: 0
+            },
+            {
+              user_id: element.id,
+              group_id: groupCreate.id,
+              is_admin: 0
+            }
+          );
+
+          console.log("current user being processed", element);
+        })
+
+        
+    
+
+        // if (!logGroupAdmin) {
+        //   return response.status(400).json({
+        //     label: `create Group Error`,
+        //     statusCode: 400,
+        //     message: `There was an error creating a group`
+        //   });
+        // }
+
+
+
+
+
       response.status(200).json({
         label: "Group Creation",
         message: "Group Created Successfully",
