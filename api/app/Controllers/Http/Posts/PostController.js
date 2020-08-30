@@ -40,7 +40,6 @@ class PostController {
       });
     }
   }
-
   // view all posts in the system
 
   async ViewTimelinePosts({ request, response, auth }) {
@@ -49,6 +48,7 @@ class PostController {
         .with("user")
         .with("comment", (builder) => builder.with("user"))
         .withCount("like")
+        .with("like")
         .orderBy("created_at", "desc")
         .fetch();
 
