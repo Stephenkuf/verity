@@ -108,6 +108,7 @@ class UserController {
       .with('user')
       .with('comment')
       .withCount("like")
+      .orderBy("created_at", "desc")
       .fetch()
 
     if (!getProfile) {
@@ -117,7 +118,7 @@ class UserController {
         message: `Get User Posts error`
       })
     }
-
+    
     return response.status(200).json({
       result: getProfile,
       label: `profile`,

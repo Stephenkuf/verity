@@ -2,24 +2,47 @@
 const user = use("App/Models/User");
 const Group = use("App/Models/Group");
 const GroupUser = use("App/Models/GroupUser");
+const uploadImage = use("App/Helpers/Upload")
+const Env = use("Env");
+
 
 class GroupController {
   async createGroup({ request, response, auth }) {
     try {
       const { user } = auth.current;
 
-      const { group_name, group_bio, profile_photo } = request.all();
+      const { group_name, group_bio} = request.all();
+
+
+  const groupImage = request.file('group_image', {
+    types: ['image'],
+    size: '3mb'
+  })
+  if (!groupImage) {
+    return response.status(404).json({
+      status: 'Failed',
+      message: 'group image is required'
+    })
+  }
+  // console.log(productImage.fieldName,productImage.extname)
+  const groupImageName = `${new Date().getTime()}_${groupImage.fieldName}.${groupImage.extname}`
+  const upload_file = await uploadImage.createFile(response, groupImage, 'uploads/group-image', groupImageName)
+
+  console.log('new product upload file >> ', upload_file)
+
+const img_src = Env.get('APP_URL','127.0.0.1')+'/uploads/group-image/'+ groupImageName
+  
 
       const groupCreate = await Group.findOrCreate(
         {
           group_name: group_name,
           group_bio: group_bio,
-          // profile_photo: profile_photo
+          profile_photo: img_src
         },
         {
           group_name: group_name,
           group_bio: group_bio,
-          // profile_photo: profile_photo
+          profile_photo: img_src
         }
       );
       if (!groupCreate) {
@@ -208,6 +231,37 @@ class GroupController {
       });
      }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
