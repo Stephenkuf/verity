@@ -11,7 +11,7 @@ class PostController {
   async createPost({ request, response, auth }) {
     try {
       const { post_body } = request.all();
-      const user = auth.current;
+      const {user} = auth.current;
       let img_src;
       let postimage = request.file('post_image')
 
@@ -46,6 +46,7 @@ class PostController {
       newPost.post_image = img_src
 
       const postCreation = await newPost.save();
+
       if (!postCreation) {
         return response.status(400).json({
           // error: postCreationError,
