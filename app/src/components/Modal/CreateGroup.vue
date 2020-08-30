@@ -222,20 +222,27 @@ export default {
           : "";
         console.log("get_file >> ", get_file);
 
-        const payload = {
-          group_name: this.create_group.group_name,
-          group_bio: this.create_group.group_bio,
-          group_privacy: this.create_group.group_privacy,
-          users: this.value_mutated(),
-          group_image: get_file,
-        };
+        const new_form_data = new FormData();
+        new_form_data.append("group_name", this.create_group.group_name);
+        new_form_data.append("group_bio", this.create_group.group_bio);
+        new_form_data.append("group_privacy", this.create_group.group_privacy);
+        new_form_data.append("group_image", get_file);
+        new_form_data.append("users", this.value_mutated());
 
-        console.log("payload >> ", payload);
+        // const payload = {
+        //   group_name: this.create_group.group_name,
+        //   group_bio: this.create_group.group_bio,
+        //   group_privacy: this.create_group.group_privacy,
+        //   users: this.value_mutated(),
+        //   group_image: get_file,
+        // };
+
+        console.log("payload >> ", new_form_data);
 
         Nprogress.start();
         const data = await this.$store.dispatch(
           "dashboard/createGroup",
-          payload
+          new_form_data
         );
         console.log("data >> ", data);
         this.showSuccessNotification(data.message);
