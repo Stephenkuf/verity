@@ -11,7 +11,8 @@ class GroupController {
     try {
       const { user } = auth.current;
 
-      const { group_name, group_bio} = request.all();
+      const { group_name, group_bio , users} = request.all();
+
 
  // uploadImage to appliction 
   const groupImage = request.file('group_image', {
@@ -71,20 +72,41 @@ class GroupController {
             message: `There was an error creating a group`
           });
         }
+        // // array of users added to the group  
+        // let splitUserArray = users.split(",")
+
+        // // add users to a group 
+        // // splitUserArray.forEach((element, index, array) => {
+       
+        // //   console.log("current user being processed", element);
+        // // })
+
+
+      
+        //     fruits.forEach(myFunction);
+
+        //     function saveitems(item, index) {
+        //       await GroupUser.create(
+        //         {
+        //           user_id: element.id,
+        //           group_id: groupCreate.id,
+        //           is_admin: 0
+        //         });
+        //     }
+
       response.status(200).json({
         label: "Group Creation",
         message: "Group Created Successfully",
         data: [
             {
               groupCreate,
-              logGroupAdmin
+              // logGroupAdmin
             }
         ]
       });
     } catch (error) {
       console.log(error);
       return response.status(400).json({
-        error,
         label: `Group Creation`,
         statusCode: 400,
         message: `Internal Server Error `
