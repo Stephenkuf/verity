@@ -75,23 +75,23 @@ class GroupController {
         }
 
 
-        // add users to a group 
-        splitUserArray.forEach((element, index, array) => {
-          await GroupUser.findOrCreate(
-            {
-              user_id: element.id,
-              group_id: groupCreate.id,
-              is_admin: 0
-            },
-            {
-              user_id: element.id,
-              group_id: groupCreate.id,
-              is_admin: 0
-            }
-          );
+        // // add users to a group 
+        // splitUserArray.forEach((element, index, array) => {
+        //   await GroupUser.findOrCreate(
+        //     {
+        //       user_id: element.id,
+        //       group_id: groupCreate.id,
+        //       is_admin: 0
+        //     },
+        //     {
+        //       user_id: element.id,
+        //       group_id: groupCreate.id,
+        //       is_admin: 0
+        //     }
+        //   );
 
-          console.log("current user being processed", element);
-        })
+        //   console.log("current user being processed", element);
+        // })
 
         
     
