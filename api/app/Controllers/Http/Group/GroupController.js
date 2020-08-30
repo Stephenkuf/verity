@@ -41,7 +41,6 @@ class GroupController {
             is_admin: 1
           }
         );
-
         if (!logGroupAdmin) {
           return response.status(400).json({
             label: `create Group Error`,
@@ -49,7 +48,6 @@ class GroupController {
             message: `There was an error creating a group`
           });
         }
-      
       response.status(200).json({
         label: "Group Creation",
         message: "Group Created Successfully",

@@ -38,22 +38,23 @@ class User extends Model {
   tokens() {
     return this.hasMany('App/Models/Token');
   }
-
   posts() {
     return this.hasMany('App/Models/Post')
   }
   followers() {
     return this.belongsToMany(
       'App/Models/User')
-      .pivotTable('followers' )
+      .pivotTable('followers')
   }
   following() {
     return this.hasMany(
       'App/Models/Follower',
       'id', 'follower_id')
-
   }
- 
+  groups(){
+    return this.belongsToMany('App/Models/Group')
+    .pivotTable('group_users')
+  }
   replies() {
     return this.hasMany('App/Models/Comment')
   }
@@ -63,7 +64,6 @@ class User extends Model {
   additionalUserInfo() {
     return this.hasOne('App/Models/AdditionalUserInfo')
   }
-
 }
 
 module.exports = User
