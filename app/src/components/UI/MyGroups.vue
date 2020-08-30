@@ -4,7 +4,16 @@
 
     <div class="row mt-3" v-for="(each_group, i) in groups" :key="i">
       <div class=" col-lg-3">
-        <img src="/assets/images/group-4.png" class="w-40" alt="user" />
+        <img
+          :src="
+            each_group.groups.profile_photo
+              ? each_group.groups.profile_photo
+              : '/assets/images/group-4.png'
+          "
+          class="w-40"
+          style="width: 40px !important;"
+          alt="user"
+        />
       </div>
       <div class="col-lg-6 px-0">
         <p
