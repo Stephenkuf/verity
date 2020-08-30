@@ -8,5 +8,4 @@ class Like extends Model {
         return ['created_at','updated_at']
       }
 }
-
 module.exports = Like
