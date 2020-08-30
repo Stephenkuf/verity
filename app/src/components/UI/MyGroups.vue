@@ -12,7 +12,7 @@
           "
           class="w-40"
           style="width: 40px !important;"
-          alt="user"
+          alt="group img"
         />
       </div>
       <div class="col-lg-6 px-0">
