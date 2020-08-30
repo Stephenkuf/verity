@@ -13,7 +13,7 @@ class GroupController {
 
       const { group_name, group_bio} = request.all();
 
-
+ // uploadImage to appliction 
   const groupImage = request.file('group_image', {
     types: ['image'],
     size: '3mb'
@@ -30,7 +30,7 @@ class GroupController {
 
   console.log('new product upload file >> ', upload_file)
 
-const img_src = Env.get('APP_URL','127.0.0.1')+'/uploads/group-image/'+ groupImageName
+  const img_src = Env.get('APP_URL','127.0.0.1')+'/uploads/group-image/'+ groupImageName
   
 
       const groupCreate = await Group.findOrCreate(

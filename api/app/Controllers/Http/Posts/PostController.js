@@ -3,20 +3,42 @@ const Post = use("App/Models/Post");
 const Like = use("App/Models/Like");
 const Comment = use("App/Models/Comment");
 const groupPost = use("App/Models/GroupPost");
-const uploadImage = use("App/HelperFunctions/Upload")
+const uploadImage = use("App/Helpers/Upload")
 
 class PostController {
   async createPost({ request, response, auth }) {
     try {
-      const { post_body, post_image } = request.all();
+      const { post_body , post_image} = request.all();
+      const user = auth.current;
+      let img_src;
+      if(post_image){
+          // uploadImage to application 
+          const postImage = request.file('post_image', {
+            types: ['image'],
+            size: '3mb'
+          })
+          if (!postImage) {
+            return response.status(404).json({
+              status: 'Failed',
+              message: 'Post image is required'
+            })
+          }
 
-      const user = auth.current.user;
+          const postImageName = `${new Date().getTime()}_${postImage.user.firstName}.${postImage.user.firstName}`
+          const upload_file = await uploadImage.createFile(response, postImage, 'uploads/post_image', postImageName)
+
+          console.log('new product upload file >> ', upload_file)
+
+           img_src = Env.get('APP_URL','127.0.0.1')+'/uploads/post_image/'+ postImageName
+          //end upload image
+      }
 
       const newPost = await new Post();
 
       newPost.user_id = user.id;
       newPost.post_body = post_body;
-      // newPost.post_image = post_image
+      newPost.post_image = img_src
+
       const postCreation = await newPost.save();
       if (!postCreation) {
         return response.status(400).json({
