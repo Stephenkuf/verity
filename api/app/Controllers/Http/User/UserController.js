@@ -144,6 +144,7 @@ class UserController {
         // .withCount('group')
         .withCount('followers', (builder) => builder.where("user_id", user.id))
         .withCount('following', (builder) => builder.where("follower_id", user.id))
+        .withCount('groups',(builder) => builder.where("user_id", user.id))
         .fetch()
 
       if (!getProfile) {
