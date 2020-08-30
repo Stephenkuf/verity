@@ -66,7 +66,13 @@
                         : 0
                     }}
                   </p>
-                  <p>0</p>
+                  <p>
+                    {{
+                      profile_data.__meta__
+                        ? profile_data.__meta__.groups_count
+                        : 0
+                    }}
+                  </p>
                 </div>
               </div>
 
@@ -137,7 +143,7 @@
                   <p class="font-weight-bold">Deeper Life Bible Church</p>
                 </div>
                 <!-- friends  -->
-                <appPeopleYouMayKnow />
+                <appPeopleYouMayKnow @get_user_profile="get_user_profile" />
                 <!-- Groups -->
                 <appGroupYouMayJoin @triggerMyGroup="triggerMyGroup" />
               </section>
@@ -243,6 +249,7 @@ export default {
     },
     async triggerMyGroup() {
       await this.myGroups();
+      await this.get_user_profile();
     },
   },
   async mounted() {

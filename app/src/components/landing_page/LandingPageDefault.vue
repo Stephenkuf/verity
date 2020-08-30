@@ -22,7 +22,7 @@
           class="square"
           @click="
             completeReg(
-              'belivers’ fellowship platform/network',
+              'beliver’s fellowship platform/network',
               'belivers-network'
             )
           "
@@ -31,14 +31,17 @@
         </div>
       </div>
       <div class="square-container">
-        <div
+        <div class="square">
+          <span>Church Organisation Platform</span>
+        </div>
+        <!-- <div
           class="square"
           @click="
             completeReg('church organisation platform', 'church-organisation')
           "
         >
           <span>Church Organisation Platform</span>
-        </div>
+        </div> -->
       </div>
       <div class="square-container">
         <div class="square">

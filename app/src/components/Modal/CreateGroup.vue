@@ -133,6 +133,7 @@
                   </label>
                   <input
                     type="file"
+                    ref="GETGROUPIMG"
                     id="group-image"
                     name="group-image"
                     class="group__hidden"
@@ -216,6 +217,9 @@ export default {
         if (this.$v.$invalid) {
           return;
         }
+        // const get_file = this.$ref.GETGROUPIMG;
+        // console.log("get_file >> ", get_file);
+
         const payload = {
           group_name: this.create_group.group_name,
           group_bio: this.create_group.group_bio,

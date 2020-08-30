@@ -27,7 +27,7 @@
             <h3 class="text-center f-bold f-24 c-brand">
               Welcome to the {{ $store.state.landing_page.platformModal }}
             </h3>
-            <p class="text-center c-brown f-20 mt-3">
+            <p class="text-center c-brown mt-3" style="font-size: 1rem;">
               Please select a platform for you to enter
             </p>
           </div>
@@ -43,7 +43,10 @@
                   value="individual"
                   required
                 />
-                <label class="form-check-label f-16 f-med" htmlFor="individual"
+                <label
+                  class="form-check-label f-16 f-med"
+                  for="individual"
+                  htmlFor="individual"
                   >Individual</label
                 >
               </div>
@@ -57,12 +60,30 @@
                   value="denomination"
                 />
                 <label
-                  class="form-check-label f-16 c-red f-med"
+                  class="form-check-label f-16 f-med"
+                  for="denomination"
                   htmlFor="denomination"
                   >Denomination</label
                 >
               </div>
-              <div class="form-check form-check-inline">
+              <div class="form-check form-check-inline ">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  v-model="create_church_chosen"
+                  id="branch"
+                  value="branch"
+                  required
+                />
+                <label
+                  class="form-check-label f-16 f-med"
+                  for="branch"
+                  htmlFor="branch"
+                  >Branch</label
+                >
+              </div>
+              <div class="form-check form-check-inline ">
                 <input
                   class="form-check-input"
                   type="radio"
