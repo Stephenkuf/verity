@@ -108,6 +108,7 @@ class UserController {
       .with('user')
       .with('comment')
       .withCount("like")
+      .orderBy("created_at", "desc")
       .fetch()
 
     if (!getProfile) {
