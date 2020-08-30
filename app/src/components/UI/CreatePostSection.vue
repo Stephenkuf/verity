@@ -10,7 +10,7 @@
           placeholder="Create a post..."
         />
         <div class="uploads mt-3">
-          <input type="file" class="upload-input" />
+          <input type="file" class="upload-input" ref="GETPOST" />
           <button class="btn add-btn c-brand f-bold btn-md-block ">
             <i class="fa fa-image mr-2"></i>Add Image
           </button>
@@ -46,10 +46,21 @@ export default {
       console.log("show_data >> ", this.post_text);
       try {
         if (this.post_text) {
+          const get_file =
+            this.$refs.GETPOST && this.$refs.GETPOST.files
+              ? this.$refs.GETPOST.files[0]
+              : "";
+
+          console.log("get_file >> ", get_file);
+
+          const new_form_data = new FormData();
+          new_form_data.append("post_body", this.post_text);
+          new_form_data.append("post_image", get_file);
           Nprogress.start();
-          const data = await this.$store.dispatch("dashboard/createPost", {
-            post_body: this.post_text,
-          });
+          const data = await this.$store.dispatch(
+            "dashboard/createPost",
+            new_form_data
+          );
           console.log("data >> ", data);
           this.showSuccessNotification(data.message);
           Nprogress.done();
@@ -57,7 +68,12 @@ export default {
           this.fetchPost();
         }
       } catch (error) {
-        this.showErrorNotification(error.data.message);
+        console.log("err >>", error);
+        if (error.data) {
+          this.showErrorNotification(error.data.message);
+        } else {
+          this.showErrorNotification("Internal Server Error");
+        }
         Nprogress.done();
       }
     },

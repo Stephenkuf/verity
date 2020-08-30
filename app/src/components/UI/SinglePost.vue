@@ -48,7 +48,7 @@
               style="cursor:pointer"
               @click="likePost(post_data.id)"
             >
-              <i class="far fa-heart mr-2 f-16" style="cursor:pointer"></i>
+              <i class="mr-2 f-16 far fa-heart" style="cursor:pointer"></i>
               {{ post_data.__meta__.like_count }} likes
             </span>
             <span
@@ -155,9 +155,24 @@ export default {
     post_data: {
       type: Object,
     },
+    profile: {
+      type: Object,
+    },
   },
   mixins: [notifications],
   methods: {
+    getMyLike(data) {
+      console.log("like >> ", data, this.profile.id);
+      return data.filter((obj) => {
+        if (obj.user_id === this.profile.id) {
+          console.log("true");
+          return "fa fa-heart";
+        } else {
+          console.log("false");
+          return "far fa-heart";
+        }
+      });
+    },
     open_comment_func(id) {
       this.open_comment = !this.open_comment;
       let comment_box = document.getElementById(`commentbox${id}`);

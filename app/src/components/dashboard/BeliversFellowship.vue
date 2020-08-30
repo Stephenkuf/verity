@@ -104,6 +104,7 @@
                     v-for="(post, index) in post_list"
                     :key="index"
                     :post_data="post"
+                    :profile="profile_data"
                     @fetchPost="fetch_post"
                   />
                 </template>
@@ -123,6 +124,7 @@
                     v-for="(post, index) in post_list"
                     :key="index"
                     :post_data="post"
+                    :profile="profile_data"
                     @fetchPost="fetch_post"
                   />
                 </template>
