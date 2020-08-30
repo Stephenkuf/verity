@@ -98,7 +98,10 @@
             </div>
             <div class="col-md-6" v-if="selected_tab == 'general-tab'">
               <section class="posts">
-                <appCreatePostSection @fetchPost="fetch_post_n_profile" />
+                <appCreatePostSection
+                  @fetchPost="fetch_post_n_profile"
+                  :profile="profile_data"
+                />
                 <template v-if="post_list.length">
                   <appSinglePost
                     v-for="(post, index) in post_list"

@@ -1,8 +1,19 @@
 <template>
   <section class="create-post p-3">
     <div class="media">
-      <img src="/assets/images/user_2.png" class="mr-3" alt="logged in user" />
-      <div class="media-body">
+      <!-- <img src="/assets/images/user_2.png" 
+      
+      class="mr-3" alt="logged in user" /> -->
+      <div class="wrap-pic-s size-109 bor0 of-hidden mr-1 c-bg-success">
+        <p class="c-review-img-name text-uppercase font-weight-bold">
+          {{ profile.full_name.split(" ")[0][0]
+          }}{{
+            profile.full_name.split(" ")[1] &&
+              profile.full_name.split(" ")[1][0]
+          }}
+        </p>
+      </div>
+      <div class="media-body ml-3">
         <input
           type="text"
           v-model="post_text"
@@ -32,6 +43,11 @@ import Nprogress from "nprogress";
 import { notifications } from "@/mixins/Notification";
 export default {
   name: "CreatePostSection",
+  props: {
+    profile: {
+      type: Object,
+    },
+  },
   data() {
     return {
       post_text: "",

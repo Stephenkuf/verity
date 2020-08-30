@@ -5,11 +5,20 @@
         <div class="col-9 col-md-7 col-lg-7">
           <div class="row">
             <div class="col-4 col-md-3 col-lg-3 pr-0 ">
-              <img
+              <!-- <img
                 src="/assets/images/user_2.png"
                 class="img-fluid "
                 alt="logged in user"
-              />
+              /> -->
+              <div class="wrap-pic-s size-109 bor0 of-hidden mr-1 c-bg-success">
+                <p class="c-review-img-name text-uppercase font-weight-bold">
+                  {{ post_data.user.full_name.split(" ")[0][0]
+                  }}{{
+                    post_data.user.full_name.split(" ")[1] &&
+                      post_data.user.full_name.split(" ")[1][0]
+                  }}
+                </p>
+              </div>
             </div>
             <div class="col-8 col-md-9 col-lg-9 pl-0">
               <p class="c-brand f-14 f-bold mb-0">
@@ -35,7 +44,7 @@
         </p>
         <img
           v-if="post_data.post_image"
-          src="/assets/images/post_1.png"
+          :src="post_data.post_image"
           class="w-100"
           alt="user post"
         />
@@ -80,13 +89,24 @@
               :key="index"
             >
               <div class=" mr-3">
-                <img
+                <!-- <img
                   style="min-width: 35px;"
                   src="/assets/images/user_3.png"
                   width="35px"
                   class="img-fluid"
                   alt=""
-                />
+                /> -->
+                <div
+                  class="wrap-pic-s size-109 bor0 of-hidden mr-1 c-bg-success"
+                >
+                  <p class="c-review-img-name text-uppercase font-weight-bold">
+                    {{ post_data.user.full_name.split(" ")[0][0]
+                    }}{{
+                      post_data.user.full_name.split(" ")[1] &&
+                        post_data.user.full_name.split(" ")[1][0]
+                    }}
+                  </p>
+                </div>
               </div>
               <div class="">
                 <small class="mb-0  d-block">
@@ -109,8 +129,17 @@
       </div>
       <div class="comment-box mt-1">
         <div class="row">
-          <div class="col-2 col-md-2 pr-0 pt-3">
-            <img src="/assets/images/user_3.png" class="img-fluid" alt="" />
+          <div class="col-2 col-md-2 pr-0 pl-4 pt-2">
+            <!-- <img src="/assets/images/user_3.png" class="img-fluid" alt="" /> -->
+            <div class="wrap-pic-s size-109 bor0 of-hidden mr-1 c-bg-success">
+              <p class="c-review-img-name text-uppercase font-weight-bold">
+                {{ post_data.user.full_name.split(" ")[0][0]
+                }}{{
+                  post_data.user.full_name.split(" ")[1] &&
+                    post_data.user.full_name.split(" ")[1][0]
+                }}
+              </p>
+            </div>
           </div>
           <div class="col-10 col-md-10 pl-0">
             <div class="input-group mb-3">
@@ -261,5 +290,40 @@ export default {
 /* Handle on hover */
 .c-comment-box::-webkit-scrollbar-thumb:hover {
   background-color: #6d7be0;
+}
+</style>
+
+<style>
+.bor0 {
+  border-radius: 50%;
+}
+.size-109 {
+  width: 45px;
+  height: 45px;
+}
+.of-hidden {
+  overflow: hidden;
+}
+.wrap-pic-s {
+  display: block;
+}
+.c-review-img-name {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  font-size: 24px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  vertical-align: middle;
+  transform: translateY(0.4rem);
+  color: white;
+}
+.c-bg-success {
+  background-color: #4f87a7;
 }
 </style>

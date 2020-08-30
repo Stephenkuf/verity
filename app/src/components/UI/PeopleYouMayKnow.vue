@@ -10,7 +10,16 @@
       :key="index"
     >
       <div class="col-12 col-lg-3">
-        <img src="/assets/images/user_2.png" class="w-40" alt="user" />
+        <!-- <img src="/assets/images/user_2.png" class="w-40" alt="user" /> -->
+        <div class="wrap-pic-s size-109 bor0 of-hidden mr-1 c-bg-success">
+          <p class="c-review-img-name text-uppercase font-weight-bold">
+            {{ single_user.full_name.split(" ")[0][0]
+            }}{{
+              single_user.full_name.split(" ")[1] &&
+                single_user.full_name.split(" ")[1][0]
+            }}
+          </p>
+        </div>
       </div>
       <div class="col-12 col-lg-6 px-0">
         <p class="f-12 f-med c-brand mb-0 ml-2">{{ single_user.full_name }}</p>
