@@ -118,7 +118,7 @@ class UserController {
         message: `Get User Posts error`
       })
     }
-
+    
     return response.status(200).json({
       result: getProfile,
       label: `profile`,

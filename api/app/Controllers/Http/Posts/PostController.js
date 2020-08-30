@@ -3,6 +3,7 @@ const Post = use("App/Models/Post");
 const Like = use("App/Models/Like");
 const Comment = use("App/Models/Comment");
 const groupPost = use("App/Models/GroupPost");
+const uploadImage = use("App/HelperFunctions/Upload")
 
 class PostController {
   async createPost({ request, response, auth }) {
