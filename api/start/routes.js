@@ -55,8 +55,8 @@ Route.get("/getUserPosts", "User/UserController.getUserPosts").middleware(["auth
 Route.get("/getUserProfile", "User/UserController.getUserProfile").middleware(["auth"]);
 Route.get("/getAllUsers", "User/UserController.getAllUsers").middleware(["auth"]);
 Route.get("/getFriends","User/FriendController.getAllFriends").middleware(["auth"]); 
-
-
+Route.get('/getFollowers' ,"User/FriendController.getAllFollowers").middleware(["auth"]); 
+Route.get('/getFollowing' ,"User/FriendController.getAllFollowing").middleware(["auth"]); 
 
 //metadata routes
 Route.get("/getMetadata", "Metadata/MetadatumController.getMetadata");

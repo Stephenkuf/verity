@@ -227,7 +227,7 @@ class GroupController {
       const groupstoJoin = await Group.query()
         .whereNotIn("id", groupfollowed)
         .withCount("members")
-         .fetch()
+        .fetch()
 
       if (!groupstoJoin) {
         return response.status(400).json({

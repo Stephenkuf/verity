@@ -80,7 +80,6 @@ class PostController {
         .with("user")
         .with("comment", (builder) => builder.with("user"))
         .withCount("like")
-        .with("like")
         .orderBy("created_at", "desc")
         .fetch();
 
@@ -96,6 +95,11 @@ class PostController {
         message: "Posts fetched uccessfully",
         data: postFetching,
       });
+
+      
+
+
+
     } catch (error) {
       console.log(error);
       return response.status(200).json({

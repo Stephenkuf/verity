@@ -55,6 +55,79 @@ class FriendController {
            }
   
     }
+
+
+       // all followers of the auth user 
+       async getAllFollowers({response , auth}){
+        try {
+            const { user } = auth.current;
+        
+            //  fetch users following the currently authenticated user
+            const friends = await Follower.query()
+              .where("user_id", user.id)
+              .with('users')
+               .fetch()
+      
+            if (!friends) {
+              return response.status(400).json({
+                label: `friends fetch Error`,
+                statusCode: 400,
+                message: `There was an error Fetching friends`,
+              });
+            }
+      
+            return response.status(200).json({
+              result: friends,
+              label: `Fetch all followers`,
+              statusCode: 200,
+              message: `Sucessfully fetched followers `,
+            });
+           } catch (error) {
+            console.log(error);
+            return response.status(400).json({
+              error,
+              label: `Followers fetch`,
+              statusCode: 400,
+              message: `Internal Server Error `
+            });
+           }
+    }
+
+    // all following of the auth user 
+    async getAllFollowing({response , auth}){
+      try {
+          const { user } = auth.current;
+      
+          //  fetch users following the currently authenticated user
+          const friends = await Follower.query()
+            .where("follower_id", user.id)
+            .with('users')
+             .fetch()
+    
+          if (!friends) {
+            return response.status(400).json({
+              label: `following fetch Error`,
+              statusCode: 400,
+              message: `There was an error Fetching following`,
+            });
+          }
+    
+          return response.status(200).json({
+            result: friends,
+            label: `Fetch all followers`,
+            statusCode: 200,
+            message: `Sucessfully fetched following `,
+          });
+         } catch (error) {
+          console.log(error);
+          return response.status(400).json({
+            error,
+            label: `following fetch`,
+            statusCode: 400,
+            message: `Internal Server Error `
+          });
+         }
+  }
 }
 
 module.exports = FriendController
