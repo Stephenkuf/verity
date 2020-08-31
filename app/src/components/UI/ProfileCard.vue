@@ -2,6 +2,15 @@
   <div class="user-section bg-white">
     <div class="general-block"></div>
     <img src="/assets/images/user_1.png" class="img-fluid" alt="user big" />
+    <!-- <div class="wrap-pic-s size-109 bor0 of-hidden mr-1 c-bg-success">
+      <p class="c-review-img-name text-uppercase font-weight-bold">
+        {{ profile_data.full_name.split(" ")[0][0]
+        }}{{
+          profile_data.full_name.split(" ")[1] &&
+            profile_data.full_name.split(" ")[1][0]
+        }}
+      </p>
+    </div> -->
     <div class="user-details text-center pb-3">
       <router-link to="/account/profile" tag="div">
         <p class="f-14 f-bold c-blk mb-0 c-hov" style="cursor: pointer">

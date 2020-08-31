@@ -1,5 +1,5 @@
 <template>
-  <section class="groups m t-3 bg-white p-3">
+  <section class="groups m t-3 bg-white mb-3 p-3" v-if="groups.length">
     <h3 class="f-16 f-bold mb-3">Groups you may like to join</h3>
 
     <div class="row mt-3" v-for="(each_group, i) in groups" :key="i">
@@ -19,7 +19,9 @@
         <p class="f-12 f-bold c-brand mb-0">
           {{ each_group.group_name }}
         </p>
-        <span class="f-10 f-bold c-grey">3 Members</span>
+        <span class="f-10 f-bold c-grey"
+          >{{ each_group.__meta__.members_count }} Members</span
+        >
       </div>
       <div class="col-lg-3  px-0 text-right pr-2">
         <p class="c-brand f-14 f-med text-right">

@@ -1,8 +1,8 @@
 <template>
   <!-- FRIENDS SUGGESTIONS -->
-  <div class="bg-white mb-3 p-3" v-if="peopleToFollow.length">
+  <div class="bg-white p-3 mb-3" v-if="peopleToFollow.length">
     <h3 class=" c-brown f-16 f-bold">
-      People you may know
+      Following(2)
     </h3>
     <div
       class="row mt-3"
@@ -84,7 +84,7 @@ export default {
         const get_people = await this.$store.dispatch(
           "dashboard/getPeopleToFollow"
         );
-        console.log("get_people >> ", get_people);
+        console.log("following >> ", get_people);
         this.peopleToFollow = get_people.result;
       } catch (error) {
         console.log("error >> ", error);

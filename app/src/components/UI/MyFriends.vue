@@ -1,5 +1,5 @@
 <template>
-  <section class="groups m t-3 bg-white p-3 my-3">
+  <section class="groups m t-3 bg-white p-3 mb-3">
     <h3 class="f-16 f-bold">Friends</h3>
     <div class="row my-3" v-if="!friends.length">
       <div class="d-flex justify-content-center w-100">

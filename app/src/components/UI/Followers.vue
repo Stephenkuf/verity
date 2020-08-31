@@ -1,8 +1,8 @@
 <template>
   <!-- FRIENDS SUGGESTIONS -->
-  <div class="bg-white mb-3 p-3" v-if="peopleToFollow.length">
+  <div class="bg-white p-3 mb-3" v-if="peopleToFollow.length">
     <h3 class=" c-brown f-16 f-bold">
-      People you may know
+      Followers(4)
     </h3>
     <div
       class="row mt-3"

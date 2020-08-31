@@ -1,5 +1,8 @@
 <template>
-  <section class="old-post bg-white border p-4">
+  <section
+    class="old-post bg-white border p-4"
+    :class="$route.name == 'Profile' && 'mt-0'"
+  >
     <div class="post-header">
       <div class="row justify-content-between">
         <div class="col-9 col-md-7 col-lg-7">
@@ -45,6 +48,7 @@
         <img
           v-if="post_data.post_image"
           :src="post_data.post_image"
+          style="border-radius: 1rem;"
           class="w-100"
           alt="user post"
         />

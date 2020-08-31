@@ -152,6 +152,14 @@
                 <!-- Groups -->
                 <appGroupYouMayJoin @triggerMyGroup="triggerMyGroup" />
               </section>
+              <section class="sidebar__right ">
+                <!-- followers  -->
+                <appFollowers @get_user_profile="get_user_profile" />
+              </section>
+              <section class="sidebar__right ">
+                <!-- following -->
+                <appFollowing @get_user_profile="get_user_profile" />
+              </section>
             </div>
           </div>
         </div>
@@ -174,6 +182,8 @@ import appSinglePost from "@/components/UI/SinglePost";
 import appGroupYouMayJoin from "@/components/UI/GroupYouMayJoin";
 import appMyGroups from "@/components/UI/MyGroups";
 import appPeopleYouMayKnow from "@/components/UI/PeopleYouMayKnow";
+import appFollowing from "@/components/UI/Following";
+import appFollowers from "@/components/UI/Followers";
 import appCreateGroup from "@/components/Modal/CreateGroup";
 
 import Nprogress from "nprogress";
@@ -200,6 +210,8 @@ export default {
     appPeopleYouMayKnow,
     appCreateGroup,
     appMyGroups,
+    appFollowing,
+    appFollowers,
   },
   methods: {
     async fetch_post_n_profile() {
