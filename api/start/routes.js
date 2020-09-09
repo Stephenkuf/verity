@@ -75,3 +75,9 @@ Route.get("/nonJoinedGroups","Group/GroupController.nonJoinedGroups").middleware
 Route.post("/createMessage", "Messaging/MessageController.createMessage").middleware(["auth"]);
 Route.get("/getMessages", "Messaging/MessageController.getMessages").middleware(["auth"]);
 Route.get("/getSingleMessage", "Messaging/MessageController.getSingleMessage").middleware(["auth"]);
+
+// Denomination Routes 
+Route.get("/whoToFollowDenomination", "Follow/FollowController.whoToFollowDenomination").middleware(["auth"]);
+Route.get("/ViewDenominationTimeline", "Posts/PostController.ViewDenominationTimeline").middleware(["auth"]);
+Route.get("/ViewDenominationGroups","Group/GroupController.ViewDenominationGroups").middleware(["auth"]);
+

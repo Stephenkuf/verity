@@ -2,7 +2,8 @@
 const user = use("App/Models/User");
 const Group = use("App/Models/Group");
 const GroupUser = use("App/Models/GroupUser");
-const uploadImage = use("App/Helpers/Upload")
+const uploadImage = use("App/Helpers/Upload");
+const additionalUserInfo = use("App/Models/AdditionalUserInfo")
 const Env = use("Env");
 
 
@@ -12,7 +13,6 @@ class GroupController {
       const { user } = auth.current;
 
       const { group_name, group_bio , users} = request.all();
-
 
  // uploadImage to appliction 
   const groupImage = request.file('group_image', {
@@ -255,36 +255,80 @@ class GroupController {
   }
 
 
+   // all groups not joined by the auth user 
+   async ViewDenominationGroups({response , auth }){
+    try {
+      const { user } = auth.current;
+  
+     const groupfollowed = await GroupUser.query()
+     .where("user_id",user.id)
+     .pluck("group_id")
+  
+     if(!groupfollowed || groupfollowed == null )
+      return response.status(400).json({
+        label: `Group LookUp Error`,
+        statusCode: 400,
+        message: `There was an error fetching group`
+      });
+     
+       // get current user denomination 
+       const userDenom = await
+       additionalUserInfo.query()
+         .where("user_id", user.id)
+         .pluck("denomination_id")
+ 
+       if (!userDenom) {
+         return response.status(400).json({
+           label: `User Denomination`,
+           statusCode: 400,
+           message: `There was a problem fetching the user denomination`,
+         });
+       }
+        // get current user denomination 
+        const denominationGroups = await
+        GroupUser.query()
+          .where("user_id", userDenom[0])
+          .pluck("group_id")
+  
+        if (!denominationGroups) {
+          return response.status(400).json({
+            label: `Denomination groups`,
+            statusCode: 400,
+            message: `No denomination groups found`,
+          });
+        }
+
+      //  fetch users the currently authenticated user is not already following
+      const groupstoJoin = await Group.query()
+        .whereIn("id", denominationGroups)
+        .whereNotIn("id", groupfollowed)
+        .withCount("members")
+        .fetch()
+
+      if (!groupstoJoin) {
+        return response.status(400).json({
+          label: `Who to follow Error`,
+          statusCode: 400,
+          message: `There was an error Fetching Users  `,
+        });
+      } 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      return response.status(200).json({
+        result: groupstoJoin,
+        label: `Groups to Join`,
+        statusCode: 200,
+        message: `Sucessfully fetched Denomination groups`,
+      });
+     } catch (error) {
+      console.log(error);
+      return response.status(400).json({
+        error,
+        label: `Group Join`,
+        statusCode: 400,
+        message: `Internal Server Error `
+      });
+     }
+  }
 }
 module.exports = GroupController;
