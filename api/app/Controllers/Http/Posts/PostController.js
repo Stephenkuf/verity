@@ -116,6 +116,7 @@ class PostController {
 
    async ViewDenominationTimeline({ request, response, auth }) {
     try {
+      const {user} = auth.current;
 
       // get current user denomination 
       const userDenom = await
@@ -141,9 +142,9 @@ class PostController {
 
       if (!postFetching) {
         return response.status(400).json({
-          label: `Post Retrieval `,
+          label: `Denomination timeline `,
           statusCode: 400,
-          message: `There was an error fetching all Posts `,
+          message: `There was an error fetching denomination Posts `,
         });
       }
       response.status(200).json({
@@ -158,10 +159,10 @@ class PostController {
 
     } catch (error) {
       console.log(error);
-      return response.status(200).json({
+      return response.status(400).json({
         error,
-        label: `Post Like`,
-        statusCode: 200,
+        label: `Denomination timeline `,
+        statusCode: 400,
         message: `Internal Server Error`,
       });
     }
