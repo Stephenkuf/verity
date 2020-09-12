@@ -65,10 +65,11 @@
             </div>
             <div class="col-md-6" v-if="selected_tab == 'general-tab'">
               <section class="posts">
-                <appCreatePostSection @fetchPost="fetch_post_n_profile" />
+                <!-- <appCreatePostSection @fetchPost="fetch_post_n_profile" /> -->
                 <template v-if="post_list.length">
                   <appSinglePost
                     v-for="(post, index) in post_list"
+                    :profile="profile_data"
                     :key="index"
                     :post_data="post"
                     @fetchPost="fetch_post"
@@ -107,7 +108,7 @@
 
 <script>
 import appProfileCard from "@/components/UI/ProfileCard";
-import appCreatePostSection from "@/components/UI/CreatePostSection";
+// import appCreatePostSection from "@/components/UI/CreatePostSection";
 import appSinglePost from "@/components/UI/SinglePost";
 import appGroupYouMayJoin from "@/components/UI/GroupYouMayJoin";
 import appMyGroups from "@/components/UI/MyGroups";
@@ -134,7 +135,7 @@ export default {
   mixins: [notifications],
   components: {
     appProfileCard,
-    appCreatePostSection,
+    // appCreatePostSection,
     appSinglePost,
     appGroupYouMayJoin,
     appPeopleYouMayKnow,

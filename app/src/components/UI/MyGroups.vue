@@ -29,9 +29,9 @@
         <p class="c-brand f-14 f-med">Join</p>
       </div> -->
     </div>
-    <div class="text-center c-brand f-med mt-3 mb-3">
+    <!-- <div class="text-center c-brand f-med mt-3 mb-3">
       View all
-    </div>
+    </div> -->
   </section>
 </template>
 

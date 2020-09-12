@@ -17,20 +17,22 @@
         <!-- <img src="/assets/images/user_2.png" class="w-40" alt="user" /> -->
         <div class="wrap-pic-s size-109 bor0 of-hidden mr-1 c-bg-success">
           <p class="c-review-img-name text-uppercase font-weight-bold">
-            {{ single_user.users.full_name.split(" ")[0][0]
+            {{ single_user.followers[0].full_name.split(" ")[0][0]
             }}{{
-              single_user.users.full_name.split(" ")[1] &&
-                single_user.users.full_name.split(" ")[1][0]
+              single_user.followers[0].full_name.split(" ")[1] &&
+                single_user.followers[0].full_name.split(" ")[1][0]
             }}
           </p>
         </div>
       </div>
       <div class="col-12 col-lg-6 px-0">
         <p class="f-12 f-med c-brand mb-0 ml-2">
-          {{ single_user.users.full_name }}
+          {{ single_user.followers[0].full_name }}
         </p>
         <p class="f-10 f-med c-grey ml-2">
-          {{ single_user.users.email }} ({{ single_user.users.phone_number }})
+          {{ single_user.followers[0].email }} ({{
+            single_user.followers[0].phone_number
+          }})
         </p>
       </div>
       <!-- <div class="col-12 col-lg-3  px-0">
@@ -43,12 +45,12 @@
         </p>
       </div> -->
     </div>
-    <div
+    <!-- <div
       class="text-center c-brand f-med mt-3 mb-3"
       v-if="peopleToFollow.length > 5"
     >
       View all
-    </div>
+    </div> -->
   </div>
 </template>
 

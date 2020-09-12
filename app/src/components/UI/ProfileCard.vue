@@ -1,7 +1,11 @@
 <template>
   <div class="user-section bg-white">
     <div class="general-block"></div>
-    <img src="/assets/images/user_1.png" class="img-fluid" alt="user big" />
+    <img
+      src="/assets/svg/man-svgrepo-com.svg"
+      class="img-fluid c-profile-img"
+      alt="user big"
+    />
     <!-- <div class="wrap-pic-s size-109 bor0 of-hidden mr-1 c-bg-success">
       <p class="c-review-img-name text-uppercase font-weight-bold">
         {{ profile_data.full_name.split(" ")[0][0]
@@ -38,5 +42,11 @@ export default {
 <style>
 .c-hov:hover {
   color: rgb(33, 33, 247) !important;
+}
+.c-profile-img {
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 1px 0.5rem #fff, 0 2px 1rem #fff, 0 3px 2rem #fff,
+    0 3px 3rem #fff;
 }
 </style>

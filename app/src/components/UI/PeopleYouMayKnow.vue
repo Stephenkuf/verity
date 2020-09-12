@@ -37,12 +37,12 @@
         </p>
       </div>
     </div>
-    <div
+    <!-- <div
       class="text-center c-brand f-med mt-3 mb-3"
       v-if="peopleToFollow.length > 5"
     >
       View all
-    </div>
+    </div> -->
   </div>
 </template>
 
