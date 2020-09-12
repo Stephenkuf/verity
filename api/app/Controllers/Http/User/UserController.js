@@ -140,7 +140,7 @@ class UserController {
       const getProfile = await
       User.query()
         .where("id", user.id)
-        .with('additionalUserInfo')
+        .with('additionalUserInfo', (builder) => builder.with("denominationInfo"), (builder) => builder.with('branchInfo'))
         .withCount('posts')
         // .withCount('group')
         .withCount('followers', (builder) => builder.where("user_id", user.id))
