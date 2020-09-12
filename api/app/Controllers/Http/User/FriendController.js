@@ -65,7 +65,7 @@ class FriendController {
             //  fetch users following the currently authenticated user
             const friends = await Follower.query()
               .where("user_id", user.id)
-              .with('users')
+              .with('followers')
                .fetch()
       
             if (!friends) {
@@ -101,7 +101,7 @@ class FriendController {
           //  fetch users following the currently authenticated user
           const friends = await Follower.query()
             .where("follower_id", user.id)
-            .with('users')
+            .with('following')
              .fetch()
     
           if (!friends) {
