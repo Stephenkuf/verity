@@ -5,6 +5,7 @@ export default {
   state: {
     switch_navigation: "belivers",
     profile: {},
+    third_panel: "initial",
     all_users: [],
   },
   mutations: {
@@ -78,6 +79,28 @@ export default {
       try {
         let result = await apiClient.get("/getAllUsers");
         console.log("view all users >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async getFollowing() {
+      try {
+        let result = await apiClient.get("/getFollowing");
+        console.log("view following >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async getFollowers() {
+      try {
+        let result = await apiClient.get("/getFollowers");
+        console.log("view followers >> ", result);
 
         return result.data;
       } catch (error) {

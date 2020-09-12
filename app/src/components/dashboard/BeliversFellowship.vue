@@ -39,10 +39,20 @@
               <appProfileCard :profile_data="profile_data" />
               <div class="user__social-stats row mx-0 mt-2 bg-white px-2 py-3">
                 <div class="col-md-7 c-grey f-med f-14">
-                  <p>Followers</p>
-                  <p>Following</p>
-                  <p>Post</p>
-                  <p>Groups</p>
+                  <p
+                    class="c-pointer c-hov"
+                    @click="$store.state.dashboard.third_panel = 'followers'"
+                  >
+                    Followers
+                  </p>
+                  <p
+                    class="c-pointer c-hov"
+                    @click="$store.state.dashboard.third_panel = 'following'"
+                  >
+                    Following
+                  </p>
+                  <p class="">Post</p>
+                  <p class="">Groups</p>
                 </div>
                 <div class="col-md-5 c-brand f-med f-14 text-right">
                   <p>
@@ -96,50 +106,57 @@
                 <appMyGroups :groups="groups" />
               </div>
             </div>
-            <div class="col-md-6" v-if="selected_tab == 'general-tab'">
+            <div class="col-md-6">
               <section class="posts">
                 <appCreatePostSection
                   @fetchPost="fetch_post_n_profile"
                   :profile="profile_data"
                 />
-                <template v-if="post_list.length">
-                  <appSinglePost
-                    v-for="(post, index) in post_list"
-                    :key="index"
-                    :post_data="post"
-                    :profile="profile_data"
-                    @fetchPost="fetch_post"
-                  />
-                </template>
+                <div v-if="selected_tab == 'general-tab'">
+                  <template v-if="post_list.length">
+                    <appSinglePost
+                      v-for="(post, index) in post_list"
+                      :key="index"
+                      :post_data="post"
+                      :profile="profile_data"
+                      @fetchPost="fetch_post"
+                    />
+                  </template>
 
-                <PlaceHolder :message="'posts'" v-else>
-                  <p slot="placeholder-content">
-                    Please start by creating a post.
-                  </p>
-                </PlaceHolder>
+                  <PlaceHolder :message="'posts'" v-else>
+                    <p slot="placeholder-content">
+                      Please start by creating a post.
+                    </p>
+                  </PlaceHolder>
+                </div>
+                <div v-if="selected_tab == 'denomination-tab'">
+                  <template v-if="post_list.length">
+                    <appSinglePost
+                      v-for="(post, index) in post_list"
+                      :key="index"
+                      :post_data="post"
+                      :profile="profile_data"
+                      @fetchPost="fetch_denomination_post"
+                    />
+                  </template>
+                  <PlaceHolder :message="'posts'" v-else>
+                    <p slot="placeholder-content">
+                      Please start by creating a post.
+                    </p>
+                  </PlaceHolder>
+                </div>
               </section>
             </div>
-            <div class="col-md-6" v-if="selected_tab == 'denomination-tab'">
+            <!-- <div class="col-md-6">
               <section class="posts">
                 <appCreatePostSection />
-                <template v-if="post_list.length">
-                  <appSinglePost
-                    v-for="(post, index) in post_list"
-                    :key="index"
-                    :post_data="post"
-                    :profile="profile_data"
-                    @fetchPost="fetch_post"
-                  />
-                </template>
-                <PlaceHolder :message="'posts'" v-else>
-                  <p slot="placeholder-content">
-                    Please start by creating a post.
-                  </p>
-                </PlaceHolder>
               </section>
-            </div>
+            </div> -->
             <div class="col-md-3">
-              <section class="sidebar__right ">
+              <section
+                class="sidebar__right "
+                v-if="$store.state.dashboard.third_panel == 'initial'"
+              >
                 <div
                   class=" text-center bg-white py-3 mb-2"
                   v-if="selected_tab == 'denomination-tab'"
@@ -152,11 +169,14 @@
                 <!-- Groups -->
                 <appGroupYouMayJoin @triggerMyGroup="triggerMyGroup" />
               </section>
-              <section class="sidebar__right ">
+              <section
+                class="sidebar__right "
+                v-else-if="$store.state.dashboard.third_panel == 'followers'"
+              >
                 <!-- followers  -->
                 <appFollowers @get_user_profile="get_user_profile" />
               </section>
-              <section class="sidebar__right ">
+              <section class="sidebar__right " v-else>
                 <!-- following -->
                 <appFollowing @get_user_profile="get_user_profile" />
               </section>
@@ -234,6 +254,18 @@ export default {
         Nprogress.done();
       }
     },
+    async fetch_denomination_post() {
+      try {
+        Nprogress.start();
+        const get_posts = await this.$store.dispatch("dashboard/viewPosts");
+        console.log("get posts >> ", get_posts);
+        this.post_list = get_posts.data;
+        Nprogress.done();
+      } catch (error) {
+        console.log("error >> ", error);
+        Nprogress.done();
+      }
+    },
     async get_user_profile() {
       try {
         const get_profile = await this.$store.dispatch("dashboard/viewProfile");
@@ -279,4 +311,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.c-pointer {
+  cursor: pointer !important;
+}
+</style>

@@ -137,10 +137,10 @@
             <!-- <img src="/assets/images/user_3.png" class="img-fluid" alt="" /> -->
             <div class="wrap-pic-s size-109 bor0 of-hidden mr-1 c-bg-success">
               <p class="c-review-img-name text-uppercase font-weight-bold">
-                {{ post_data.user.full_name.split(" ")[0][0]
+                {{ profile.full_name.split(" ")[0][0]
                 }}{{
-                  post_data.user.full_name.split(" ")[1] &&
-                    post_data.user.full_name.split(" ")[1][0]
+                  profile.full_name.split(" ")[1] &&
+                    profile.full_name.split(" ")[1][0]
                 }}
               </p>
             </div>
