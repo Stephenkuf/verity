@@ -64,6 +64,17 @@ export default {
         throw error.response;
       }
     },
+    async viewDenominationPosts() {
+      try {
+        let result = await apiClient.get("/ViewDenominationTimeline");
+        console.log("view denomination post >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
     async viewPosts() {
       try {
         let result = await apiClient.get("/ViewTimelinePosts");

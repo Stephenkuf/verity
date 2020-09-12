@@ -132,7 +132,7 @@
                 <div v-if="selected_tab == 'denomination-tab'">
                   <template v-if="post_list.length">
                     <appSinglePost
-                      v-for="(post, index) in post_list"
+                      v-for="(post, index) in denomination_post_list"
                       :key="index"
                       :post_data="post"
                       :profile="profile_data"
@@ -219,6 +219,7 @@ export default {
       profile_data: {},
       all_users: [],
       groups: [],
+      denomination_post_list: [],
     };
   },
   mixins: [notifications],
@@ -237,6 +238,7 @@ export default {
     async fetch_post_n_profile() {
       try {
         await this.fetch_post();
+        await this.fetch_denomination_post();
         await this.get_user_profile();
       } catch (error) {
         console.log(error);
@@ -257,9 +259,11 @@ export default {
     async fetch_denomination_post() {
       try {
         Nprogress.start();
-        const get_posts = await this.$store.dispatch("dashboard/viewPosts");
-        console.log("get posts >> ", get_posts);
-        this.post_list = get_posts.data;
+        const get_posts = await this.$store.dispatch(
+          "dashboard/viewDenominationPosts"
+        );
+        console.log("get denomination posts >> ", get_posts);
+        this.denomination_post_list = get_posts.data;
         Nprogress.done();
       } catch (error) {
         console.log("error >> ", error);
@@ -303,6 +307,7 @@ export default {
   },
   async mounted() {
     await this.fetch_post();
+    await this.fetch_denomination_post();
     await this.get_user_profile();
     await this.get_all_users();
     await this.myGroups();
