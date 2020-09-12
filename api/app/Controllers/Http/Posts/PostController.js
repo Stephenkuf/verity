@@ -4,6 +4,7 @@ const Like = use("App/Models/Like");
 const Comment = use("App/Models/Comment");
 const groupPost = use("App/Models/GroupPost");
 const uploadImage = use("App/Helpers/Upload")
+const additionalUserInfo = use("App/Models/AdditionalUserInfo")
 const Env = use("Env");
 
 
@@ -77,6 +78,61 @@ class PostController {
   async ViewTimelinePosts({ request, response, auth }) {
     try {
       const postFetching = await Post.query()
+        .with("user")
+        .with("comment", (builder) => builder.with("user"))
+        .withCount("like")
+        .orderBy("created_at", "desc")
+        .fetch();
+
+      if (!postFetching) {
+        return response.status(400).json({
+          label: `Post Retrieval `,
+          statusCode: 400,
+          message: `There was an error fetching all Posts `,
+        });
+      }
+      response.status(200).json({
+        label: "Post Fetch",
+        message: "Posts fetched uccessfully",
+        data: postFetching,
+      });
+
+      
+
+
+
+    } catch (error) {
+      console.log(error);
+      return response.status(200).json({
+        error,
+        label: `Post Like`,
+        statusCode: 200,
+        message: `Internal Server Error`,
+      });
+    }
+  }
+
+   // view all posts in the system
+
+   async ViewDenominationTimeline({ request, response, auth }) {
+    try {
+
+      // get current user denomination 
+      const userDenom = await
+      additionalUserInfo.query()
+        .where("user_id", user.id)
+        .pluck("denomination_id")
+
+      if (!userDenom) {
+        return response.status(400).json({
+          label: `User Denomination`,
+          statusCode: 400,
+          message: `There was a problem fetching the user denomination`,
+        });
+      }
+
+      const postFetching = await Post.query()
+        .where("user_id", userDenom[0])
         .with("user")
         .with("comment", (builder) => builder.with("user"))
         .withCount("like")
