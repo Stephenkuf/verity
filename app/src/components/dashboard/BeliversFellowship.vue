@@ -161,13 +161,45 @@
                   class=" text-center bg-white py-3 mb-2"
                   v-if="selected_tab == 'denomination-tab'"
                 >
-                  <img src="/assets/images/church_logo.png" alt="" />
-                  <p class="font-weight-bold">Deeper Life Bible Church</p>
+                  <!-- <img src="/assets/images/church_logo.png" alt="" /> -->
+                  <p class="font-weight-bold my-1">
+                    --
+                    {{
+                      profile_data.additionalUserInfo &&
+                        profile_data.additionalUserInfo.denominationInfo
+                          .denomination_label
+                    }}
+                    --
+                  </p>
                 </div>
                 <!-- friends  -->
-                <appPeopleYouMayKnow @get_user_profile="get_user_profile" />
+                <appPeopleYouMayKnow
+                  v-if="selected_tab == 'general-tab'"
+                  :selected_tab="selected_tab"
+                  @get_user_profile="get_user_profile"
+                  :key="`${selected_tab}-1`"
+                />
                 <!-- Groups -->
-                <appGroupYouMayJoin @triggerMyGroup="triggerMyGroup" />
+                <appGroupYouMayJoin
+                  v-if="selected_tab == 'general-tab'"
+                  :selected_tab="selected_tab"
+                  :key="`${selected_tab}-2`"
+                  @triggerMyGroup="triggerMyGroup"
+                />
+                <!-- friends  -->
+                <appPeopleYouMayKnow
+                  v-if="selected_tab == 'denomination-tab'"
+                  :selected_tab="selected_tab"
+                  :key="`${selected_tab}-1`"
+                  @get_user_profile="get_user_profile"
+                />
+                <!-- Groups -->
+                <appGroupYouMayJoin
+                  v-if="selected_tab == 'denomination-tab'"
+                  :selected_tab="selected_tab"
+                  :key="`${selected_tab}-2`"
+                  @triggerMyGroup="triggerMyGroup"
+                />
               </section>
               <section
                 class="sidebar__right "

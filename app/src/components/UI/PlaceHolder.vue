@@ -1,5 +1,5 @@
 <template>
-  <div class="card my-3 py-5">
+  <div class="card py-5" :class="margin_style || 'my-3'">
     <div class="text-center">
       <img :src="`/assets/svg/${imageTitle}`" alt style="width: 150px;" />
       <h3 class="defaultTitle" v-if="message == 'Settlement Account'">
@@ -20,6 +20,9 @@ export default {
       default: "note.svg",
     },
     message: {
+      type: String,
+    },
+    margin_style: {
       type: String,
     },
   },

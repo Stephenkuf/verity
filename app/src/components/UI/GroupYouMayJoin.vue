@@ -47,6 +47,14 @@ export default {
       groups: [],
     };
   },
+  props: {
+    selected_tab: {
+      type: String,
+    },
+  },
+  // watch: {
+  //   "selected_tab"
+  // },
   mixins: [notifications],
   methods: {
     async joinGroup(group_id) {
@@ -59,7 +67,11 @@ export default {
         console.log("join_group >> ", join_group);
         this.showSuccessNotification(join_group.message);
         Nprogress.done();
-        await this.groupToJoin();
+        if (this.selected_tab == "general-tab") {
+          await this.groupToJoin();
+        } else {
+          await this.getDenominationGroups();
+        }
         this.$emit("triggerMyGroup");
       } catch (error) {
         console.log("error >> ", error);
@@ -77,9 +89,25 @@ export default {
         console.log("error >> ", error);
       }
     },
+    async getDenominationGroups() {
+      try {
+        const get_people = await this.$store.dispatch(
+          "dashboard/getDenominationGroups"
+        );
+        console.log("get deno group >> ", get_people);
+        this.groups = get_people.result;
+      } catch (error) {
+        console.log("error >> ", error);
+      }
+    },
   },
   async mounted() {
-    await this.groupToJoin();
+    // console.log("this.selected >> ", this.selected_tab);
+    if (this.selected_tab == "general-tab") {
+      await this.groupToJoin();
+    } else {
+      await this.getDenominationGroups();
+    }
   },
 };
 </script>

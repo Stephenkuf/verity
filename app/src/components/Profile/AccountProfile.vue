@@ -76,7 +76,7 @@
                   />
                 </template>
 
-                <PlaceHolder :message="'posts'" v-else>
+                <PlaceHolder :message="'posts'" :margin_style="'mb-3'" v-else>
                   <p slot="placeholder-content">
                     Please start by creating a post.
                   </p>
@@ -87,9 +87,16 @@
               <section class="sidebar__right ">
                 <appMyFriends :friends="friends" />
                 <!-- friends  -->
-                <appPeopleYouMayKnow />
+                <appPeopleYouMayKnow
+                  :selected_tab="'general-tab'"
+                  :key="`${'general-tab'}-2`"
+                />
                 <!-- Groups -->
-                <appGroupYouMayJoin @triggerMyGroup="triggerMyGroup" />
+                <appGroupYouMayJoin
+                  :selected_tab="'general-tab'"
+                  :key="`${'general-tab'}-1`"
+                  @triggerMyGroup="triggerMyGroup"
+                />
               </section>
             </div>
           </div>

@@ -56,6 +56,11 @@ export default {
       peopleToFollow: [],
     };
   },
+  props: {
+    selected_tab: {
+      type: String,
+    },
+  },
   mixins: [notifications],
   computed: {
     get_all_users() {
@@ -72,7 +77,11 @@ export default {
         console.log("follow_user >> ", follow_user);
         this.showSuccessNotification(follow_user.message);
         Nprogress.done();
-        await this.whoToFollow();
+        if (this.selected_tab == "general-tab") {
+          await this.whoToFollow();
+        } else {
+          await this.getDenominationWhoToFollow();
+        }
         this.$emit("get_user_profile");
       } catch (error) {
         console.log("error >> ", error);
@@ -90,9 +99,25 @@ export default {
         console.log("error >> ", error);
       }
     },
+    async getDenominationWhoToFollow() {
+      try {
+        const get_people = await this.$store.dispatch(
+          "dashboard/getDenominationWhoToFollow"
+        );
+        console.log("deno get_people >> ", get_people);
+        this.peopleToFollow = get_people.result;
+      } catch (error) {
+        console.log("error >> ", error);
+      }
+    },
   },
   async mounted() {
-    await this.whoToFollow();
+    console.log("selected_tab >> ", this.selected_tab);
+    if (this.selected_tab == "general-tab") {
+      await this.whoToFollow();
+    } else {
+      await this.getDenominationWhoToFollow();
+    }
   },
 };
 </script>

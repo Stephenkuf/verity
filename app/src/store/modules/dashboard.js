@@ -119,6 +119,17 @@ export default {
         throw error.response;
       }
     },
+    async getDenominationWhoToFollow() {
+      try {
+        let result = await apiClient.get("/whoToFollowDenomination");
+        console.log("view deno people to follow >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
     async getPeopleToFollow() {
       try {
         let result = await apiClient.get("/whoToFollow");
@@ -134,6 +145,17 @@ export default {
       try {
         let result = await apiClient.get("/nonJoinedGroups");
         console.log("view group to join >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async getDenominationGroups() {
+      try {
+        let result = await apiClient.get("/ViewDenominationGroups");
+        console.log("view deno group to join >> ", result);
 
         return result.data;
       } catch (error) {
