@@ -70,6 +70,7 @@ Route.post("/createGroup", "Group/GroupController.createGroup").middleware(["aut
 Route.post("/joinGroup/:group_id", "Group/GroupController.joinGroup").middleware(["auth"]);
 Route.get("/joinedGroups","Group/GroupController.joinedGroups").middleware(["auth"]);
 Route.get("/nonJoinedGroups","Group/GroupController.nonJoinedGroups").middleware(["auth"]);
+Route.get("/ViewGroupTimeline/:group_id", "Posts/PostController.ViewGroupTimeline").middleware(["auth"]);
 
 // messaging
 Route.post("/createMessage", "Messaging/MessageController.createMessage").middleware(["auth"]);

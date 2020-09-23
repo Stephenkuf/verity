@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class GroupPost extends Model {
+    posts(){
+        return this.hasMany("App/Models/Post", 'post_id','id')
+    }
 }
 
 module.exports = GroupPost

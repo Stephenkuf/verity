@@ -3,6 +3,7 @@ const Post = use("App/Models/Post");
 const Like = use("App/Models/Like");
 const Comment = use("App/Models/Comment");
 const groupPost = use("App/Models/GroupPost");
+const Group = use("App/Models/Group");
 const uploadImage = use("App/Helpers/Upload")
 const additionalUserInfo = use("App/Models/AdditionalUserInfo")
 const Env = use("Env");
@@ -168,6 +169,57 @@ class PostController {
     }
   }
 
+
+  
+     // view all posts in the system
+
+     async ViewGroupTimeline({ request, response, auth, params:{group_id} }) {
+      try {
+        const {user} = auth.current;
+        // const postFetching = await groupPost.query()
+        //   .where("group_id", group_id)
+        //   .with("posts")
+        //   .with("comment", (builder) => builder.with("user"))
+        //   .withCount("like")
+        //   .orderBy("created_at", "desc")
+        //   .fetch();
+
+
+          const postFetching = await Group.query()
+          .where("id", group_id)
+          .with("posts" , (builder)=>builder.with("posts",
+           (builder) => builder.with("comment",
+            (builder) => builder.with("user"))
+            .withCount("like"))
+            .orderBy("created_at", "desc"))
+          .fetch();
+  
+        if (!postFetching) {
+          return response.status(400).json({
+            label: `Group timeline`,
+            statusCode: 400,
+            message: `There was an error fetching Group timeline Posts `,
+          });
+        }
+
+        response.status(200).json({
+          label: "Group timeline ",
+          message: "Posts fetched Successfully",
+          data: postFetching,
+        });
+  
+      } catch (error) {
+        console.log(error);
+        return response.status(400).json({
+          error,
+          label: `Group timeline Posts`,
+          statusCode: 400,
+          message: `Internal Server Error`,
+        });
+      }
+    }
+
+
   // LIKE A POST ON TIMELINE
   async likePost({ request, response, auth }) {
     try {
@@ -268,11 +320,7 @@ class PostController {
       const groupCreate = await groupPost.findOrCreate(
         {
           group_id: groupId,
-          post_id: groupPostCreation.id,
-        },
-        {
-          group_id: groupId,
-          post_id: groupPostCreation.id,
+          post_id: groupPostCreation.id
         }
       );
       if (!groupCreate) {
