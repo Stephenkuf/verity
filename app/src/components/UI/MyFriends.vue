@@ -20,8 +20,12 @@
       </div>
       <div class="col-lg-6 px-0">
         <p class="f-12 f-bold mt-0 c-brand mb-0" style="cursor: pointer">
-          <span class="d-block"> {{ each_friend.users.full_name }} </span>
-          <span class="f-10 f-bold c-grey">{{ each_friend.users.email }}</span>
+          <span class="d-block">
+            {{ each_friend.followers[0].full_name }}
+          </span>
+          <span class="f-10 f-bold c-grey">{{
+            each_friend.followers[0].email
+          }}</span>
         </p>
       </div>
       <!-- <div class="col-lg-3  px-0 text-right pr-2">

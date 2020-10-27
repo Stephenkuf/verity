@@ -103,7 +103,10 @@
                 </p> -->
               </div>
               <div>
-                <appMyGroups :groups="groups" />
+                <appMyGroups
+                  :groups="groups"
+                  @getSingleGroup="getSingleGroup"
+                />
               </div>
             </div>
             <div class="col-md-6">
@@ -267,6 +270,23 @@ export default {
     appFollowers,
   },
   methods: {
+    async getSingleGroup(group_id) {
+      console.log(group_id);
+      // try {
+      //   Nprogress.start();
+      //   const get_posts = await this.$store.dispatch(
+      //     "dashboard/viewGroupPosts",
+      //     group_id
+      //   );
+      //   this.selected_tab = "general-tab";
+      //   console.log("get posts >> ", get_posts);
+      //   this.post_list = get_posts.data;
+      //   Nprogress.done();
+      // } catch (error) {
+      //   console.log("error >> ", error);
+      //   Nprogress.done();
+      // }
+    },
     async fetch_post_n_profile() {
       try {
         await this.fetch_post();

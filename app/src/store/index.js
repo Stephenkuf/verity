@@ -7,6 +7,7 @@ import landing_page from "./modules/landing_page";
 import auth from "./modules/auth";
 import dashboard from "./modules/dashboard";
 import profile from "./modules/profile";
+import message from "./modules/message";
 
 Vue.use(Vuex);
 
@@ -29,5 +30,6 @@ export default new Vuex.Store({
     auth,
     dashboard,
     profile,
+    message,
   },
 });

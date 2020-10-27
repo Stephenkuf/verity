@@ -1,7 +1,11 @@
 <template>
   <div class="card py-5" :class="margin_style || 'my-3'">
     <div class="text-center">
-      <img :src="`/assets/svg/${imageTitle}`" alt style="width: 150px;" />
+      <img
+        :src="`/assets/svg/${imageTitle}`"
+        alt
+        :style="{ width: img_width ? img_width : '150px;' }"
+      />
       <h3 class="defaultTitle" v-if="message == 'Settlement Account'">
         You have not created any {{ message }}
       </h3>
@@ -23,6 +27,9 @@ export default {
       type: String,
     },
     margin_style: {
+      type: String,
+    },
+    img_width: {
       type: String,
     },
   },

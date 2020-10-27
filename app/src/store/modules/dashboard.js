@@ -86,6 +86,17 @@ export default {
         throw error.response;
       }
     },
+    async viewGroupPosts(group_id) {
+      try {
+        let result = await apiClient.get(`/createGroupPost/${group_id}`);
+        console.log("view denomination post >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
     async allUsers() {
       try {
         let result = await apiClient.get("/getAllUsers");

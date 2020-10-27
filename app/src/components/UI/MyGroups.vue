@@ -2,7 +2,12 @@
   <section class="groups m t-3 bg-white p-3 my-3">
     <h3 class="f-16 f-bold">My Groups</h3>
 
-    <div class="row mt-3" v-for="(each_group, i) in groups" :key="i">
+    <div
+      class="row mt-3"
+      v-for="(each_group, i) in groups"
+      :key="i"
+      @click="getSingleGroup(each_group.id)"
+    >
       <div class=" col-lg-3">
         <img
           :src="
@@ -43,7 +48,11 @@ export default {
       type: Array,
     },
   },
-  methods: {},
+  methods: {
+    async getSingleGroup(group_id) {
+      this.$emit("getSingleGroup", group_id);
+    },
+  },
   async mounted() {},
 };
 </script>
