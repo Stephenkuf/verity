@@ -69,10 +69,12 @@
           </div>
         </div> -->
       </div>
+
       <div class="col-md-9">
-        <section class="posts">
-          <appChurchOrganizationHeader />
-          <!-- <section class="old-post bg-white border p-4">
+        <transition name="fade" mode="out-in" appear>
+          <router-view></router-view>
+        </transition>
+        <!-- <section class="old-post bg-white border p-4">
 
             <div class="post-header">
               <div class="row justify-content-between">
@@ -268,46 +270,6 @@
               </div>
             </div>
           </section> -->
-
-          <section class="row mx-0 py-1 px-3 c-co-card">
-            <div class="col-12 my-5">
-              <form>
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label for="email" class="c-label">Email</label>
-                    <input
-                      type="email"
-                      class="form-control c-input"
-                      id="email"
-                      placeholder="Email"
-                    />
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="subject" class="c-label">Subject</label>
-                    <input
-                      type="text"
-                      class="form-control c-input"
-                      id="subject"
-                      placeholder="Your Subject"
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="message" class="c-label">Message</label>
-                  <textarea
-                    class="form-control"
-                    id="message"
-                    rows="5"
-                    placeholder="Type a message"
-                  ></textarea>
-                </div>
-                <div style="margin-top: 2.5rem">
-                  <button class="btn-lg btn-primary">Send Mail</button>
-                </div>
-              </form>
-            </div>
-          </section>
-        </section>
       </div>
     </div>
   </div>
@@ -316,14 +278,12 @@
 <script>
 import appChurchOrganisationSidebar from "@/components/includes/ChurchOrganisationSidebar";
 import appChurchBranch from "@/components/UI/ChurchBranch";
-import appChurchOrganizationHeader from "@/components/UI/ChurchOrganizationHeader";
 
 export default {
   name: "ChurchOrganisationDashboard",
   components: {
     appChurchOrganisationSidebar,
     appChurchBranch,
-    appChurchOrganizationHeader,
   },
 };
 </script>
@@ -341,5 +301,21 @@ export default {
 .c-input {
   padding-top: 1.4rem;
   padding-bottom: 1.4rem;
+}
+.fade-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.fade-enter-active {
+  transition: all 1s ease-in-out;
+}
+.fade-leave {
+  position: fixed;
+  top: 700px;
+}
+.fade-leave-active {
+  transition: all 1s ease-in-out;
+  opacity: 0;
+  transform: translateX(20px);
 }
 </style>

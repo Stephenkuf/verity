@@ -3,7 +3,7 @@
 export default {
   namespaced: true,
   state: {
-    sidebar_active: "mails",
+    sidebar_active: { main: "mails", sub: "" },
   },
   actions: {
     // async viewUserPosts() {

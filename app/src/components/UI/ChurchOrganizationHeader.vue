@@ -1,15 +1,17 @@
 <template>
   <section class="px-0 pb-3">
-    <p class="c-co-thead">Send Emails</p>
-    <p class="c-co-tsub">
-      Send electronic mails to users in and out of the system
-    </p>
+    <p class="c-co-thead">{{ title }}</p>
+    <p class="c-co-tsub">{{ sub_title }}.</p>
   </section>
 </template>
 
 <script>
 export default {
   name: "ChurchOrganizationHeader",
+  props: {
+    title: String,
+    sub_title: String,
+  },
 };
 </script>
 

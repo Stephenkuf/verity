@@ -39,7 +39,9 @@
             class="d-flex px-4 py-3 justify-content-between w-100 c-co-pointer c-co-link"
             :class="{ active: get_active_sidebar == 'mails' }"
             style="color: #555;"
-            @click="clickLink('mails')"
+            @click="
+              clickLink('mails', '/account/dashboard/church-organisation')
+            "
           >
             <div>
               <span
@@ -74,6 +76,13 @@
           >
             <div
               class="d-flex justify-content-between c-pl-5 py-2 pr-4 w-100 c-co-pointer c-co-sub-link"
+              :class="get_active_sub_sidebar == 'new-request' && 'active'"
+              @click="
+                clickLink2(
+                  'new-request',
+                  '/account/dashboard/church-organisation/incoming-request'
+                )
+              "
             >
               <div>
                 <small style="font-size: 70%;"
@@ -87,6 +96,13 @@
             </div>
             <div
               class="d-flex justify-content-between c-pl-5 py-2 pr-4 w-100 c-co-pointer c-co-sub-link"
+              :class="get_active_sub_sidebar == 'accepted-request' && 'active'"
+              @click="
+                clickLink2(
+                  'accepted-request',
+                  '/account/dashboard/church-organisation/accepted-request'
+                )
+              "
             >
               <div>
                 <small style="font-size: 70%;"
@@ -100,6 +116,13 @@
             </div>
             <div
               class="d-flex justify-content-between c-pl-5 py-2 pr-4 w-100 c-co-pointer c-co-sub-link"
+              :class="get_active_sub_sidebar == 'rejected-request' && 'active'"
+              @click="
+                clickLink2(
+                  'rejected-request',
+                  '/account/dashboard/church-organisation/rejected-request'
+                )
+              "
             >
               <div>
                 <small style="font-size: 70%;"
@@ -227,15 +250,28 @@ export default {
   name: "ChurchOrganisationSidebar",
   computed: {
     get_active_sidebar() {
-      return this.$store.state.church_organisation.sidebar_active;
+      return this.$store.state.church_organisation.sidebar_active.main;
+    },
+    get_active_sub_sidebar() {
+      return this.$store.state.church_organisation.sidebar_active.sub;
     },
   },
   methods: {
-    clickLink(params) {
-      if (this.$store.state.church_organisation.sidebar_active == params) {
-        this.$store.state.church_organisation.sidebar_active = "";
+    clickLink(params, params2 = null) {
+      this.$store.state.church_organisation.sidebar_active.sub = "";
+      if (this.$store.state.church_organisation.sidebar_active.main == params) {
+        this.$store.state.church_organisation.sidebar_active.main = "";
       } else {
-        this.$store.state.church_organisation.sidebar_active = params;
+        this.$store.state.church_organisation.sidebar_active.main = params;
+      }
+      if (params2) {
+        this.$router.push(params2).catch(() => {});
+      }
+    },
+    clickLink2(params, params2 = null) {
+      this.$store.state.church_organisation.sidebar_active.sub = params;
+      if (params2) {
+        this.$router.push(params2).catch(() => {});
       }
     },
   },
@@ -267,5 +303,8 @@ export default {
 }
 .c-pl-5 {
   padding-left: 2rem !important;
+}
+.VueTables__heading {
+  font-weight: bold;
 }
 </style>

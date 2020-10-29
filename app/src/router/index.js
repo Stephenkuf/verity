@@ -15,6 +15,12 @@ import Messages from "@/views/account/Messages.vue";
 import BeliversNetworkDashboard from "@/views/account/Dashboard";
 import ChurchOrganisationDashboard from "@/views/account/ChurchOrganisationDashboard";
 
+// church organisation pages
+import ChurchEmails from "@/views/churchOrganisation/Emails";
+import NewRequest from "@/views/churchOrganisation/NewRequest";
+import AcceptedRequest from "@/views/churchOrganisation/AcceptedRequest";
+import RejectedRequest from "@/views/churchOrganisation/RejectedRequest";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -71,6 +77,44 @@ const routes = [
           title: "Variety - Dashboard",
           group: "Dashboard",
         },
+        children: [
+          {
+            path: "",
+            component: ChurchEmails,
+            name: "ChurchEmail",
+            meta: {
+              title: "Variety - Emails",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "incoming-request",
+            component: NewRequest,
+            name: "NewRequest",
+            meta: {
+              title: "Variety - New Request",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "accepted-request",
+            component: AcceptedRequest,
+            name: "AcceptedRequest",
+            meta: {
+              title: "Variety - Accepted Request",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "rejected-request",
+            component: RejectedRequest,
+            name: "RejectedRequest",
+            meta: {
+              title: "Variety - Rejected Request",
+              group: "Dashboard",
+            },
+          },
+        ],
       },
       {
         path: "profile",
