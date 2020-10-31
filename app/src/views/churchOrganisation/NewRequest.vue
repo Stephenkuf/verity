@@ -9,17 +9,20 @@
         <appRequestTables :data="data_array" :btn_color="'btn-primary'" />
       </div>
     </section>
+    <appViewChurchRequest />
   </section>
 </template>
 
 <script>
 import appChurchOrganizationHeader from "@/components/UI/ChurchOrganizationHeader";
 import appRequestTables from "@/components/Tables/RequestTables";
+import appViewChurchRequest from "@/components/Modal/ViewChurchRequest";
 export default {
   name: "NewRequest",
   components: {
     appChurchOrganizationHeader,
     appRequestTables,
+    appViewChurchRequest,
   },
   data() {
     return {

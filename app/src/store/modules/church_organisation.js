@@ -4,6 +4,7 @@ export default {
   namespaced: true,
   state: {
     sidebar_active: { main: "mails", sub: "" },
+    show_reason: false,
   },
   actions: {
     // async viewUserPosts() {

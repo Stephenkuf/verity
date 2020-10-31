@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
       <div class="col-md-3">
         <appChurchOrganisationSidebar />
-        <appChurchBranch />
+        <appChurchBranch v-if="false" />
 
         <!-- <div class="resources-section p-3 mt-3 bg-white">
           <h3 class="f-18 c-dark">Resources</h3>

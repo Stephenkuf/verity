@@ -22,7 +22,13 @@
     </div>
     <div slot="user_id" slot-scope="props">
       <div :id="props.row.user_id">
-        <button class="btn btn-sm m-0" :class="btn_color">
+        <button
+          class="btn btn-sm m-0"
+          :class="btn_color"
+          @click="open_modal()"
+          data-toggle="modal"
+          data-target="#ViewChurchRequestModal"
+        >
           View More
         </button>
       </div>
@@ -71,6 +77,11 @@ export default {
         },
       },
     };
+  },
+  methods: {
+    open_modal() {
+      this.$store.state.church_organisation.show_reason = false;
+    },
   },
 };
 </script>

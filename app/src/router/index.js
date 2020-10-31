@@ -18,8 +18,14 @@ import ChurchOrganisationDashboard from "@/views/account/ChurchOrganisationDashb
 // church organisation pages
 import ChurchEmails from "@/views/churchOrganisation/Emails";
 import NewRequest from "@/views/churchOrganisation/NewRequest";
+import CreateRequest from "@/views/churchOrganisation/CreateRequest";
 import AcceptedRequest from "@/views/churchOrganisation/AcceptedRequest";
 import RejectedRequest from "@/views/churchOrganisation/RejectedRequest";
+import CreateResource from "@/views/churchOrganisation/CreateResource";
+import CreateBulletin from "@/views/churchOrganisation/CreateBulletin";
+import ViewResource from "@/views/churchOrganisation/ViewResource";
+import AllBulletin from "@/views/churchOrganisation/AllBulletin";
+import RegisterManager from "@/views/churchOrganisation/RegisterManager";
 
 Vue.use(VueRouter);
 
@@ -72,7 +78,6 @@ const routes = [
       {
         path: "dashboard/church-organisation",
         component: ChurchOrganisationDashboard,
-        name: "ChurchOrganisationDashboard",
         meta: {
           title: "Variety - Dashboard",
           group: "Dashboard",
@@ -111,6 +116,60 @@ const routes = [
             name: "RejectedRequest",
             meta: {
               title: "Variety - Rejected Request",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "create-request",
+            component: CreateRequest,
+            name: "CreateRequest",
+            meta: {
+              title: "Variety - Create Request",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "create-resource",
+            component: CreateResource,
+            name: "CreateResource",
+            meta: {
+              title: "Variety - Create Resource",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "create-bulletin",
+            component: CreateBulletin,
+            name: "CreateBulletin",
+            meta: {
+              title: "Variety - Create Bulletin",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "view-resource",
+            component: ViewResource,
+            name: "ViewResource",
+            meta: {
+              title: "Variety - View Resource",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "all-bulletin",
+            component: AllBulletin,
+            name: "AllBulletin",
+            meta: {
+              title: "Variety - All Bulletin",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "register-manager",
+            component: RegisterManager,
+            name: "RegisterManager",
+            meta: {
+              title: "Variety - Register Manager",
               group: "Dashboard",
             },
           },

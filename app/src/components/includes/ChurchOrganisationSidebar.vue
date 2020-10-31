@@ -17,16 +17,19 @@
                   class="f-14 f-bold c-blk mb-0 c-hov"
                   style="cursor: pointer;"
                 >
-                  Anthony Irogbu (anthony10)
+                  Deeper Life Bibe Church (Branch)
                 </p>
-                <p class="f-12 f-med c-grey mb-0" style="cursor: pointer;">
-                  anthony@gmail.com | 09076767775
+                <p
+                  class="f-12 f-med c-grey mb-0 text-center"
+                  style="cursor: pointer;"
+                >
+                  Anthony Irogbu (anthony10)
                 </p>
                 <p
                   class="f-12 f-med c-grey text-center"
                   style="cursor: pointer;"
                 >
-                  Deeper Life Bibe Church
+                  anthony@gmail.com | 09076767775
                 </p>
               </div>
             </div>
@@ -74,6 +77,23 @@
             style="background: #f7f7f7;color: #555555;"
             v-if="get_active_sidebar == 'request'"
           >
+            <div
+              class="d-flex justify-content-between c-pl-5 py-2 pr-4 w-100 c-co-pointer c-co-sub-link"
+              :class="get_active_sub_sidebar == 'create-request' && 'active'"
+              @click="
+                clickLink2(
+                  'create-request',
+                  '/account/dashboard/church-organisation/create-request'
+                )
+              "
+            >
+              <div>
+                <small style="font-size: 70%;"
+                  ><i class="fa fa-circle pr-3" aria-hidden="true"></i
+                ></small>
+                <span style="font-size: 88%;" class="">Create Request</span>
+              </div>
+            </div>
             <div
               class="d-flex justify-content-between c-pl-5 py-2 pr-4 w-100 c-co-pointer c-co-sub-link"
               :class="get_active_sub_sidebar == 'new-request' && 'active'"
@@ -159,22 +179,36 @@
           >
             <div
               class="d-flex justify-content-between c-pl-5 py-2 pr-4 w-100 c-co-pointer c-co-sub-link"
+              :class="get_active_sub_sidebar == 'create-resource' && 'active'"
+              @click="
+                clickLink2(
+                  'create-resource',
+                  '/account/dashboard/church-organisation/create-resource'
+                )
+              "
             >
               <div>
                 <small style="font-size: 70%;"
                   ><i class="fa fa-circle pr-3" aria-hidden="true"></i
                 ></small>
-                <span style="font-size: 88%;" class="">Add New</span>
+                <span style="font-size: 88%;" class="">Create Resource</span>
               </div>
             </div>
             <div
               class="d-flex justify-content-between c-pl-5 py-2 pr-4 w-100 c-co-pointer c-co-sub-link"
+              :class="get_active_sub_sidebar == 'view-resource' && 'active'"
+              @click="
+                clickLink2(
+                  'view-resource',
+                  '/account/dashboard/church-organisation/view-resource'
+                )
+              "
             >
               <div>
                 <small style="font-size: 70%;"
                   ><i class="fa fa-circle pr-3" aria-hidden="true"></i
                 ></small>
-                <span style="font-size: 88%;" class="">View All</span>
+                <span style="font-size: 88%;" class="">All Resource</span>
               </div>
             </div>
           </div>
@@ -183,17 +217,22 @@
             class="d-flex px-4 py-3 justify-content-between w-100 c-co-pointer c-co-link"
             :class="{ active: get_active_sidebar == 'register-manager' }"
             style="color: #555;"
-            @click="clickLink('register-manager')"
+            @click="
+              clickLink(
+                'register-manager',
+                '/account/dashboard/church-organisation/register-manager'
+              )
+            "
           >
             <div>
               <span><i class="fa fa-users pr-3" aria-hidden="true"></i></span>
               <span class="font-weight-bold">Register Manager</span>
             </div>
-            <div>
+            <!-- <div>
               <span
                 ><i class="fa fa-angle-right text-right" aria-hidden="true"></i
               ></span>
-            </div>
+            </div> -->
           </div>
           <div
             class="d-flex px-4 py-3 justify-content-between w-100 c-co-pointer c-co-link"
@@ -220,22 +259,36 @@
           >
             <div
               class="d-flex justify-content-between c-pl-5 py-2 pr-4 w-100 c-co-pointer c-co-sub-link"
+              :class="get_active_sub_sidebar == 'create-bulletin' && 'active'"
+              @click="
+                clickLink2(
+                  'create-bulletin',
+                  '/account/dashboard/church-organisation/create-bulletin'
+                )
+              "
             >
               <div>
                 <small style="font-size: 70%;"
                   ><i class="fa fa-circle pr-3" aria-hidden="true"></i
                 ></small>
-                <span style="font-size: 88%;" class="">Create New</span>
+                <span style="font-size: 88%;" class="">Create Bulletin</span>
               </div>
             </div>
             <div
               class="d-flex justify-content-between c-pl-5 py-2 pr-4 w-100 c-co-pointer c-co-sub-link"
+              :class="get_active_sub_sidebar == 'all-bulletin' && 'active'"
+              @click="
+                clickLink2(
+                  'all-bulletin',
+                  '/account/dashboard/church-organisation/all-bulletin'
+                )
+              "
             >
               <div>
                 <small style="font-size: 70%;"
                   ><i class="fa fa-circle pr-3" aria-hidden="true"></i
                 ></small>
-                <span style="font-size: 88%;" class="">View Sent</span>
+                <span style="font-size: 88%;" class="">All Bulletin</span>
               </div>
             </div>
           </div>
@@ -300,6 +353,7 @@ export default {
 .c-co-sub-link:hover,
 .c-co-sub-link.active {
   color: #0b6391 !important;
+  font-weight: bold;
 }
 .c-pl-5 {
   padding-left: 2rem !important;
