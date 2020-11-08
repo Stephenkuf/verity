@@ -82,3 +82,9 @@ Route.get("/whoToFollowDenomination", "Follow/FollowController.whoToFollowDenomi
 Route.get("/ViewDenominationTimeline", "Posts/PostController.ViewDenominationTimeline").middleware(["auth"]);
 Route.get("/ViewDenominationGroups","Group/GroupController.ViewDenominationGroups").middleware(["auth"]);
 
+
+// CHURCH ADMINISTRATION
+//Emails
+Route.post("/sendEmail","Emails/ChurchEmailController.sendDenominationMail" ).middleware(["auth"]);
+Route.get("/viewEmails","Emails/ChurchEmailController.viewDenominationMail" ).middleware(["auth"]);
+

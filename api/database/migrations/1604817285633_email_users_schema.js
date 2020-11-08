@@ -9,6 +9,7 @@ class EmailUsersSchema extends Schema {
       table.increments()
       table.integer("sender_id")
       table.integer("reciever_id")
+      table.integer("email_id")
       table.timestamps()
     })
   }

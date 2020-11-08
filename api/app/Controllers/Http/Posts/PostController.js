@@ -89,7 +89,7 @@ class PostController {
         return response.status(400).json({
           label: `Post Retrieval `,
           statusCode: 400,
-          message: `There was an error fetching all Posts `,
+          message: `There was an error fetching Posts `,
         });
       }
       response.status(200).json({
@@ -97,10 +97,6 @@ class PostController {
         message: "Posts fetched uccessfully",
         data: postFetching,
       });
-
-      
-
-
 
     } catch (error) {
       console.log(error);
