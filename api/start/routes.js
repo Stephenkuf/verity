@@ -87,4 +87,6 @@ Route.get("/ViewDenominationGroups","Group/GroupController.ViewDenominationGroup
 //Emails
 Route.post("/sendEmail","Emails/ChurchEmailController.sendDenominationMail" ).middleware(["auth"]);
 Route.get("/viewEmails","Emails/ChurchEmailController.viewDenominationMail" ).middleware(["auth"]);
-
+// Requests
+Route.post("/createChurchRequest","Requests/ChurchRequestController.createChurchRequest" ).middleware(["auth"]);
+Route.get("/viewChurchRequests","Requests/ChurchRequestController.viewChurchRequests" ).middleware(["auth"]);

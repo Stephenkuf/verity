@@ -52,7 +52,6 @@ class ChurchEmailController {
           email_id:sendMail.id
       })
 
-     
 
       response.status(200).json({
         label: "Send Mail",
@@ -91,7 +90,7 @@ class ChurchEmailController {
       }
       response.status(200).json({
         label: " View Mails",
-        message: "Mails fetched uccessfully",
+        message: "Mails fetched successfully",
         data: ViewMail,
       });
 

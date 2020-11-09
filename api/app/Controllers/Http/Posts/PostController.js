@@ -69,7 +69,7 @@ class PostController {
       return response.status(400).json({
         error,
         label: `Post Creation`,
-        statusCode: 400,
+        statusCode: 500,
         message: `Internal Server Error `,
       });
     }
@@ -103,7 +103,7 @@ class PostController {
       return response.status(200).json({
         error,
         label: `Post Like`,
-        statusCode: 200,
+        statusCode: 500,
         message: `Internal Server Error`,
       });
     }
@@ -159,7 +159,7 @@ class PostController {
       return response.status(400).json({
         error,
         label: `Denomination timeline `,
-        statusCode: 400,
+        statusCode: 500,
         message: `Internal Server Error`,
       });
     }
@@ -209,7 +209,7 @@ class PostController {
         return response.status(400).json({
           error,
           label: `Group timeline Posts`,
-          statusCode: 400,
+          statusCode: 500,
           message: `Internal Server Error`,
         });
       }
@@ -248,7 +248,7 @@ class PostController {
       console.log(error);
       return response.status(200).json({
         label: `Post Like Error`,
-        statusCode: 200,
+        statusCode: 500,
         message: `Internal Server Error `,
       });
     }
@@ -286,7 +286,7 @@ class PostController {
       console.log(error);
       return response.status(200).json({
         label: `Create Comment Error`,
-        statusCode: 200,
+        statusCode: 500,
         message: `Internal Server Error `,
       });
     }
@@ -337,7 +337,7 @@ class PostController {
       return response.status(400).json({
         error,
         label: `Post Creation`,
-        statusCode: 400,
+        statusCode: 500,
         message: `Internal Server Error `,
       });
     }

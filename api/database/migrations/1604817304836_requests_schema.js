@@ -9,8 +9,8 @@ class RequestsSchema extends Schema {
       table.increments()
       table.string("request_title")
       table.string("request_body")
-      table.integer("is_accepted")
-      table.integer("is_deleted")
+      table.integer("is_accepted").defaultTo(0)
+      table.integer("is_deleted").defaultTo(0)
       table.timestamps()
     })
   }
