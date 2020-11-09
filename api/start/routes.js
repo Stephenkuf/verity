@@ -90,3 +90,6 @@ Route.get("/viewEmails","Emails/ChurchEmailController.viewDenominationMail" ).mi
 // Requests
 Route.post("/createChurchRequest","Requests/ChurchRequestController.createChurchRequest" ).middleware(["auth"]);
 Route.get("/viewChurchRequests","Requests/ChurchRequestController.viewChurchRequests" ).middleware(["auth"]);
+Route.post("/acceptChurchRequest","Requests/ChurchRequestController.acceptChurchRequest" ).middleware(["auth"]);
+Route.post("/rejectChurchRequest","Requests/ChurchRequestController.rejectChurchRequest" ).middleware(["auth"]);
+
