@@ -9,6 +9,8 @@ class ChurchRequestController {
         try {
             const {request_title, request_body , recipient_id} = request.all();
             const {user} = auth.current;
+
+            // console.log("request title and body", request_title,request_body , recipient_id );
           const churchRequestCreation = await churchRequests.create({
             request_title, 
             request_body
@@ -59,12 +61,12 @@ class ChurchRequestController {
          const {user} = auth.current;
          
           const churchRequests = await churchRequestUser.query()
-          .where("reciever_id", user_id)
-          .orWhere("sender_id", user_id)
+          .where("reciever_id", user.id)
+          .orWhere("sender_id", user.id)
           .with("requests")
-          .query()
+          .fetch()
 
-           if (!churchRequestCreation) {
+           if (!churchRequests) {
             return response.status(400).json({
               label: `View Church Requests`,
               statusCode: 400,
@@ -86,7 +88,144 @@ class ChurchRequestController {
             message: `Internal Server Error`,
           });
         }
-    }
+    } 
+
+
+
+
+
+              //   view Requests sent 
+              async viewAcceptedRequests({request , response , auth}){
+                try {
+                const {user} = auth.current;
+                
+                  const churchRequests = await churchRequestUser.query()
+                  .where(function () {
+                    this.where("reciever_id", user.id).andWhere("is_accepted", 1);
+                  })
+                  .orWhere(function () {
+                    this.whereIn("sender_id", user.id).andWhere("is_accepted", 1)
+                  })
+                  .with("requests")
+                  .fetch()
+
+                  if (!churchRequests) {
+                    return response.status(400).json({
+                      label: `View Church Requests`,
+                      statusCode: 400,
+                      message: `There was an error fetching accepted requests.`,
+                    });
+                  }
+                  response.status(200).json({
+                    label: "View Church Requests",
+                    message: "Accepted Requests fetched successfully.",
+                    data: churchRequests,
+                  });
+            
+                } catch (ViewRequestsError) {
+                  console.log(ViewRequestsError);
+                  return response.status(200).json({
+                    ViewRequestsError,
+                    label: `View Accepted Church Requests`,
+                    statusCode: 500,
+                    message: `Internal Server Error`,
+                  });
+                }
+            }
+
+
+            //   view Requests sent 
+            async viewAcceptedRequests({request , response , auth}){
+              try {
+              const {user} = auth.current;
+              
+                const churchRequests = await churchRequestUser.query()
+                .where(function () {
+                  this.where("reciever_id", user.id).andWhere("is_rejected", 1);
+                })
+                .orWhere(function () {
+                  this.whereIn("sender_id", user.id).andWhere("is_rejected", 1)
+                })
+                .with("requests")
+                .fetch()
+
+                if (!churchRequests) {
+                  return response.status(400).json({
+                    label: `View Church Requests`,
+                    statusCode: 400,
+                    message: `There was an error fetching Rejected requests.`,
+                  });
+                }
+                response.status(200).json({
+                  label: "View Church Requests",
+                  message: "Rejected Requests fetched successfully.",
+                  data: churchRequests,
+                });
+          
+              } catch (ViewRequestsError) {
+                console.log(ViewRequestsError);
+                return response.status(200).json({
+                  ViewRequestsError,
+                  label: `View Rejected Church Requests`,
+                  statusCode: 500,
+                  message: `Internal Server Error`,
+                });
+              }
+          }
+
+
+                //   view Requests sent 
+            async viewSingleChurchRequest({params:{request_id} , response , auth}){
+              try {
+              const {user} = auth.current;
+
+              const verifyUser = await churchRequestUser.query()
+              .where(function () {
+                this.where("id", request_id).andWhere("sender_id", user.id);
+              })
+              .orWhere(function () {
+                this.whereIn("id", request_id).andWhere("reciever_id",user.id)
+              })
+              .fetch();
+
+              if (!verifyUser) {
+                return response.status(400).json({
+                  label: `View Single Church Request`,
+                  statusCode: 400,
+                  message: `Youre not authorized to view this request.`,
+                });
+              }
+
+              
+                const churchRequests = await churchRequestUser.query()
+                .where("id", request_id)
+                // .orWhere("sender_id", user_id)
+                .with("requests")
+                .fetch();
+
+                if (!churchRequests) {
+                  return response.status(400).json({
+                    label: `View Single Church Request`,
+                    statusCode: 400,
+                    message: `There was an error fetching request.`,
+                  });
+                }
+                response.status(200).json({
+                  label: "View Church Requests",
+                  message: "Requests fetched successfully.",
+                  data: churchRequests,
+                });
+
+              } catch (ViewRequestsError) {
+                console.log(ViewRequestsError);
+                return response.status(200).json({
+                  ViewRequestsError,
+                  label: `View Church Requests`,
+                  statusCode: 500,
+                  message: `Internal Server Error`,
+                });
+              }
+          }
         //   view Requests sent 
         async acceptChurchRequest({ request , response , auth}){
             try {

@@ -92,4 +92,18 @@ Route.post("/createChurchRequest","Requests/ChurchRequestController.createChurch
 Route.get("/viewChurchRequests","Requests/ChurchRequestController.viewChurchRequests" ).middleware(["auth"]);
 Route.post("/acceptChurchRequest","Requests/ChurchRequestController.acceptChurchRequest" ).middleware(["auth"]);
 Route.post("/rejectChurchRequest","Requests/ChurchRequestController.rejectChurchRequest" ).middleware(["auth"]);
+Route.get("/viewSingleChurchRequest/:request_id","Requests/ChurchRequestController.viewSingleChurchRequest");
+Route.get("/viewAcceptedRequests","Requests/ChurchRequestController.viewAcceptedRequests" ).middleware(["auth"]);
+Route.get("/viewRejectedRequests","Requests/ChurchRequestController.viewRejectedRequests" ).middleware(["auth"]);
+
+//resources
+Route.post("/createChurchResource","Resources/ChurchResourceController.createChurchResource" ).middleware(["auth"]);
+Route.get("/viewDenominationResources","Resources/ChurchResourceController.viewDenominationResources" ).middleware(["auth"]);
+Route.get("/viewSingleResource/:id","Resources/ChurchResourceController.viewSingleResource" ).middleware(["auth"]);
+
+
+
+
+
+
 

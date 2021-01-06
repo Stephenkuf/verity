@@ -7,6 +7,7 @@ class ResourceUsersSchema extends Schema {
   up () {
     this.create('resource_users', (table) => {
       table.increments()
+      table.integer("resource_id")
       table.integer("sender_id")
       table.integer("denomination_id")
       table.timestamps()
