@@ -10,32 +10,34 @@ class ChurchEmailController {
 
   async sendDenominationMail({ request, response, auth }) {
     try {
-    const { email_title, email_body , reciever_id} = request.all()
+    const { email_title, email_body , recipient_email} = request.all()
       const {user}  = auth.current; 
 
     //   getreciever
-     const email_reciever = await User.findBy("id" ,reciever_id)
+    //  const email_reciever = await User.findBy("id" ,)
 
-     if (!email_reciever) {
-        return response.status(400).json({
-          label: `Mail Sending`,
-          statusCode: 400,
-          message: `Mail recipient not found`,
-        });
-      }
+    //  if (!email_reciever) {
+    //     return response.status(400).json({
+    //       label: `Mail Sending`,
+    //       statusCode: 400,
+    //       message: `Mail recipient not found`,
+    //     });
+    //   }
 
         // //send confirmation Email
      const mailSend =  await Mail.send("auth.emails.confirm-email", {email_title , email_body}, message => {
         message
-          .to(email_reciever.email)
+          .to(recipient_email)
           .from("Verity Administrator")
           .subject("(Verity) New Denomination Email.");
       });
 
       // // display success message
       const sendMail = await Email.findOrCreate({
+        sender_id:user.id,
         email_title,
-        email_body
+        email_body,
+        recipient_email 
      })
 
       if (!sendMail) {
@@ -46,20 +48,17 @@ class ChurchEmailController {
         });
       }
 
-      const logMailDetails = await EmailUser.create({
-          sender_id :user.id,
-          reciever_id,
-          email_id:sendMail.id
-      })
-
+      // const logMailDetails = await EmailUser.create({
+      //     sender_id :user.id,
+      //     reciever_id,
+      //     email_id:sendMail.id
+      // })
 
       response.status(200).json({
         label: "Send Mail",
         message: "Mail sent  successfully",
         data: sendMail,
       });
-
-
 
     } catch (mailSendingError) {
       console.log(mailSendingError);
