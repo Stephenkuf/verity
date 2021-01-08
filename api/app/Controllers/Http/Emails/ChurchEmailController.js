@@ -13,18 +13,7 @@ class ChurchEmailController {
     const { email_title, email_body , recipient_email} = request.all()
       const {user}  = auth.current; 
 
-    //   getreciever
-    //  const email_reciever = await User.findBy("id" ,)
-
-    //  if (!email_reciever) {
-    //     return response.status(400).json({
-    //       label: `Mail Sending`,
-    //       statusCode: 400,
-    //       message: `Mail recipient not found`,
-    //     });
-    //   }
-
-        // //send confirmation Email
+    
      const mailSend =  await Mail.send("auth.emails.confirm-email", {email_title , email_body}, message => {
         message
           .to(recipient_email)
