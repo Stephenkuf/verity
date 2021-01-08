@@ -63,10 +63,10 @@ class ChurchEmailController {
   async viewDenominationMail({ request, response, auth }){
     try {
       const {user}  = auth.current; 
-      const mailFetch = await EmailUser.query()
+      const mailFetch = await Email.query()
         .where("sender_id", user.id)
-        .orWhere("reciever_id", user.id)
-        .with("emails")
+        // .orWhere("reciever_id", user.id)
+        // .with("emails")
         .fetch();
 
       if (!mailFetch) {
