@@ -104,7 +104,6 @@ class ChurchRequestController {
           });
         }
       }
-
     //   view Requests sent 
     async viewChurchRequests({request , response , auth}){
         try {
@@ -139,24 +138,15 @@ class ChurchRequestController {
           });
         }
     } 
-
-
-
-
-
               //   view Requests sent 
               async viewAcceptedRequests({request , response , auth}){
                 try {
                 const {user} = auth.current;
                 
                   const churchRequests = await churchRequestUser.query()
-                  .where(function () {
-                    this.where("reciever_id", user.id).andWhere("is_accepted", 1);
-                  })
-                  .orWhere(function () {
-                    this.whereIn("sender_id", user.id).andWhere("is_accepted", 1)
-                  })
-                  .with("requests")
+                  .where("reciever_id", user.id)       
+                  .orWhere("sender_id", user.id)
+                  .with("requests", (builder) => builder.where("is_accepted", 1))
                   .fetch()
 
                   if (!churchRequests) {
@@ -185,18 +175,14 @@ class ChurchRequestController {
 
 
             //   view Requests sent 
-            async viewAcceptedRequests({request , response , auth}){
+            async viewRejectedRequests({request , response , auth}){
               try {
               const {user} = auth.current;
               
                 const churchRequests = await churchRequestUser.query()
-                .where(function () {
-                  this.where("reciever_id", user.id).andWhere("is_rejected", 1);
-                })
-                .orWhere(function () {
-                  this.whereIn("sender_id", user.id).andWhere("is_rejected", 1)
-                })
-                .with("requests")
+                .where("reciever_id", user.id) 
+                .orWhere("sender_id", user.id)
+                .with("requests", (builder) => builder.where("is_accepted", 1))
                 .fetch()
 
                 if (!churchRequests) {
