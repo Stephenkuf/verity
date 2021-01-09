@@ -1,4 +1,4 @@
-// import { apiClient } from "@/services/api-client";
+import { apiClient } from "@/services/api-client";
 
 export default {
   namespaced: true,
@@ -7,6 +7,26 @@ export default {
     show_reason: false,
   },
   actions: {
+    async createEmail(store, emailDetails) {
+      try {
+        let result = await apiClient.post("/sendEmail", emailDetails);
+        console.log("email payload >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error);
+        throw error.response;
+      }
+    },
+    async createRequest(store, request_data) {
+      try {
+        let result = await apiClient.post("/createChurchRequest", request_data);
+        console.log("request payload >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error);
+        throw error.response;
+      }
+    },
     // async viewUserPosts() {
     //   try {
     //     let result = await apiClient.get("/GetUserPosts");
