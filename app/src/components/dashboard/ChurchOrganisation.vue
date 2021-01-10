@@ -2,24 +2,10 @@
   <div class="container mt-3">
     <div class="row justify-content-center">
       <div class="col-md-3">
-        <!-- user details -->
-        <div class="user-section">
-          <div class="user-block"></div>
-          <img
-            src="/assets/images/user_1.png"
-            class="img-fluid"
-            alt="user big"
-          />
-          <div class="user-details text-center">
-            <p class="f-14 f-bold c-blk">Akintunde Williams</p>
-            <p class="f-12 f-med c-grey">
-              Administrative officer for Deeper Life <br />
-              Bible Church
-            </p>
-          </div>
-        </div>
+        <appChurchOrganisationSidebar />
+        <appChurchBranch v-if="false" />
 
-        <div class="resources-section p-3 mt-3 bg-white">
+        <!-- <div class="resources-section p-3 mt-3 bg-white">
           <h3 class="f-18 c-dark">Resources</h3>
 
           <input class="form-control" placeholder="search" />
@@ -81,37 +67,15 @@
               >View all Resources</a
             >
           </div>
-        </div>
+        </div> -->
       </div>
-      <div class="col-md-6">
-        <section class="posts">
-          <section class="create-post p-3">
-            <div class="media">
-              <img
-                src="/assets/images/user_2.png"
-                class="mr-3"
-                alt="logged in user"
-              />
-              <div class="media-body">
-                <input
-                  type="text"
-                  class="create-post-input f-14 f-bold"
-                  placeholder="Create a post..."
-                />
-                <div class="uploads mt-3">
-                  <input type="file" class="upload-input" />
-                  <button class="btn add-btn c-brand f-bold btn-md-block ">
-                    <i class="fa fa-image mr-2"></i>Add branch
-                  </button>
-                  <button class="btn add-btn c-brand f-bold ml-3">
-                    <i class="fa fa-tag c-brand mr-1"></i>
-                    Tag Members
-                  </button>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section class="old-post bg-white border p-4">
+
+      <div class="col-md-9">
+        <transition name="fade" mode="out-in" appear>
+          <router-view></router-view>
+        </transition>
+        <!-- <section class="old-post bg-white border p-4">
+
             <div class="post-header">
               <div class="row justify-content-between">
                 <div class="col-9 col-md-7 col-lg-7">
@@ -305,75 +269,53 @@
                 </div>
               </div>
             </div>
-          </section>
-        </section>
-      </div>
-      <div class="col-md-3">
-        <section class="sidebar__right">
-          <!-- CHURCH DETAILS -->
-          <div class="text-center bg-white p-3">
-            <img
-              src="/assets/images/church_logo.png"
-              class="img-fluid"
-              alt="church logo"
-            />
-            <p class="f-16 f-bold c-brand">Deeper Life Bible Church</p>
-          </div>
-          <!-- CHURCH BRANCHES -->
-          <div class="mt-3 p-3 bg-white">
-            <div>
-              <h3 class="f-18 f-bold c-dark">Branches</h3>
-              <input class="form-control" placeholder="search" />
-              <p class="f-12 c-grey f-med">Search by state, area, name...</p>
-            </div>
-            <div class="resources mt-3">
-              <li class="list-unstyled mt-2">
-                <a class="f-12 f-bold" href=""
-                  >Deeper Life Bible Church, Gbagaba</a
-                >
-              </li>
-              <li class="list-unstyled mt-2">
-                <a class="f-14 f-med" href=""
-                  >Deeper Life Bible Church, Gbagaba</a
-                >
-              </li>
-              <li class="list-unstyled mt-2">
-                <a class="f-14 f-med" href=""
-                  >Deeper Life Bible Church, Gbagaba</a
-                >
-              </li>
-              <li class="list-unstyled mt-2">
-                <a class="f-14 f-med" href=""
-                  >Deeper Life Bible Church, Gbagaba</a
-                >
-              </li>
-              <li class="list-unstyled mt-2">
-                <a class="f-14 f-med" href=""
-                  >Deeper Life Bible Church, Gbagaba</a
-                >
-              </li>
-              <li class="list-unstyled mt-2">
-                <a class="f-14 f-med" href=""
-                  >Deeper Life Bible Church, Gbagaba</a
-                >
-              </li>
-              <li class="list-unstyled mt-2">
-                <button class="btn add-btn c-brand f-bold ">
-                  <i class="fa fa-plus mr-2"></i>Add branch
-                </button>
-              </li>
-            </div>
-          </div>
-        </section>
+          </section> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import appChurchOrganisationSidebar from "@/components/includes/ChurchOrganisationSidebar";
+import appChurchBranch from "@/components/UI/ChurchBranch";
+
 export default {
   name: "ChurchOrganisationDashboard",
+  components: {
+    appChurchOrganisationSidebar,
+    appChurchBranch,
+  },
 };
 </script>
 
-<style></style>
+<style>
+.c-co-card {
+  font-weight: 400;
+  border: 1px solid #dedede;
+  background: white;
+}
+.c-label {
+  font-weight: bold;
+  color: #3e3e3e;
+}
+.c-input {
+  padding-top: 1.4rem;
+  padding-bottom: 1.4rem;
+}
+.fade-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.fade-enter-active {
+  transition: all 1s ease-in-out;
+}
+.fade-leave {
+  position: fixed;
+  top: 700px;
+}
+.fade-leave-active {
+  transition: all 1s ease-in-out;
+  opacity: 0;
+  transform: translateX(20px);
+}
+</style>

@@ -1,8 +1,19 @@
 <template>
   <section class="create-post p-3">
     <div class="media">
-      <img src="/assets/images/user_2.png" class="mr-3" alt="logged in user" />
-      <div class="media-body">
+      <!-- <img src="/assets/images/user_2.png" 
+      
+      class="mr-3" alt="logged in user" /> -->
+      <div class="wrap-pic-s size-109 bor0 of-hidden mr-1 c-bg-success">
+        <p class="c-review-img-name text-uppercase font-weight-bold">
+          {{ profile.full_name.split(" ")[0][0]
+          }}{{
+            profile.full_name.split(" ")[1] &&
+              profile.full_name.split(" ")[1][0]
+          }}
+        </p>
+      </div>
+      <div class="media-body ml-3">
         <input
           type="text"
           v-model="post_text"
@@ -10,7 +21,7 @@
           placeholder="Create a post..."
         />
         <div class="uploads mt-3">
-          <input type="file" class="upload-input" />
+          <input type="file" class="upload-input" ref="GETPOST" />
           <button class="btn add-btn c-brand f-bold btn-md-block ">
             <i class="fa fa-image mr-2"></i>Add Image
           </button>
@@ -32,6 +43,11 @@ import Nprogress from "nprogress";
 import { notifications } from "@/mixins/Notification";
 export default {
   name: "CreatePostSection",
+  props: {
+    profile: {
+      type: Object,
+    },
+  },
   data() {
     return {
       post_text: "",
@@ -46,10 +62,21 @@ export default {
       console.log("show_data >> ", this.post_text);
       try {
         if (this.post_text) {
+          const get_file =
+            this.$refs.GETPOST && this.$refs.GETPOST.files
+              ? this.$refs.GETPOST.files[0]
+              : "";
+
+          console.log("get_file >> ", get_file);
+
+          const new_form_data = new FormData();
+          new_form_data.append("post_body", this.post_text);
+          new_form_data.append("post_image", get_file);
           Nprogress.start();
-          const data = await this.$store.dispatch("dashboard/createPost", {
-            post_body: this.post_text,
-          });
+          const data = await this.$store.dispatch(
+            "dashboard/createPost",
+            new_form_data
+          );
           console.log("data >> ", data);
           this.showSuccessNotification(data.message);
           Nprogress.done();
@@ -57,7 +84,12 @@ export default {
           this.fetchPost();
         }
       } catch (error) {
-        this.showErrorNotification(error.data.message);
+        console.log("err >>", error);
+        if (error.data) {
+          this.showErrorNotification(error.data.message);
+        } else {
+          this.showErrorNotification("Internal Server Error");
+        }
         Nprogress.done();
       }
     },

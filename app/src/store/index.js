@@ -7,6 +7,8 @@ import landing_page from "./modules/landing_page";
 import auth from "./modules/auth";
 import dashboard from "./modules/dashboard";
 import profile from "./modules/profile";
+import message from "./modules/message";
+import church_organisation from "./modules/church_organisation";
 
 Vue.use(Vuex);
 
@@ -29,5 +31,7 @@ export default new Vuex.Store({
     auth,
     dashboard,
     profile,
+    message,
+    church_organisation,
   },
 });

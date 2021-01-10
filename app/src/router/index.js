@@ -15,6 +15,18 @@ import Messages from "@/views/account/Messages.vue";
 import BeliversNetworkDashboard from "@/views/account/Dashboard";
 import ChurchOrganisationDashboard from "@/views/account/ChurchOrganisationDashboard";
 
+// church organisation pages
+import ChurchEmails from "@/views/churchOrganisation/Emails";
+import NewRequest from "@/views/churchOrganisation/NewRequest";
+import CreateRequest from "@/views/churchOrganisation/CreateRequest";
+import AcceptedRequest from "@/views/churchOrganisation/AcceptedRequest";
+import RejectedRequest from "@/views/churchOrganisation/RejectedRequest";
+import CreateResource from "@/views/churchOrganisation/CreateResource";
+import CreateBulletin from "@/views/churchOrganisation/CreateBulletin";
+import ViewResource from "@/views/churchOrganisation/ViewResource";
+import AllBulletin from "@/views/churchOrganisation/AllBulletin";
+import RegisterManager from "@/views/churchOrganisation/RegisterManager";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -66,11 +78,102 @@ const routes = [
       {
         path: "dashboard/church-organisation",
         component: ChurchOrganisationDashboard,
-        name: "ChurchOrganisationDashboard",
         meta: {
           title: "Variety - Dashboard",
           group: "Dashboard",
         },
+        children: [
+          {
+            path: "",
+            component: ChurchEmails,
+            name: "ChurchEmail",
+            meta: {
+              title: "Variety - Emails",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "incoming-request",
+            component: NewRequest,
+            name: "NewRequest",
+            meta: {
+              title: "Variety - New Request",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "accepted-request",
+            component: AcceptedRequest,
+            name: "AcceptedRequest",
+            meta: {
+              title: "Variety - Accepted Request",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "rejected-request",
+            component: RejectedRequest,
+            name: "RejectedRequest",
+            meta: {
+              title: "Variety - Rejected Request",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "create-request",
+            component: CreateRequest,
+            name: "CreateRequest",
+            meta: {
+              title: "Variety - Create Request",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "create-resource",
+            component: CreateResource,
+            name: "CreateResource",
+            meta: {
+              title: "Variety - Create Resource",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "create-bulletin",
+            component: CreateBulletin,
+            name: "CreateBulletin",
+            meta: {
+              title: "Variety - Create Bulletin",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "view-resource",
+            component: ViewResource,
+            name: "ViewResource",
+            meta: {
+              title: "Variety - View Resource",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "all-bulletin",
+            component: AllBulletin,
+            name: "AllBulletin",
+            meta: {
+              title: "Variety - All Bulletin",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "register-manager",
+            component: RegisterManager,
+            name: "RegisterManager",
+            meta: {
+              title: "Variety - Register Manager",
+              group: "Dashboard",
+            },
+          },
+        ],
       },
       {
         path: "profile",
