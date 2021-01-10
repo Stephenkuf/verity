@@ -265,15 +265,16 @@ class ChurchRequestController {
         //   view Requests sent 
         async acceptChurchRequest({ request , response , auth}){
             try {
-                const {request_id} = request.all()
+                const {request_id, reason} = request.all()
                 const {user} = auth.current;
 
             const userCheck = await  churchRequestUser.query()
             .where('request_id', request_id)
+            .where('reciever_id', user.id)
             .fetch()
             const userCheckJson = userCheck.toJSON()
             
-            if (!userCheck || userCheckJson[0].reciever_id != user.id) {
+            if (!userCheckJson || userCheckJson.length == 0) {
                 return response.status(400).json({
                   label: `Accept Church Requests`,
                   statusCode: 400,
@@ -284,7 +285,9 @@ class ChurchRequestController {
              
               const churchRequestAccept  = await churchRequests.query()
               .where('id', request_id)
-              .update({ is_accepted: 1 })
+              .update({ is_accepted: 1, 
+                is_rejected: 0, 
+                reason:reason })
 
                if (!churchRequestAccept) {
                 return response.status(400).json({
@@ -315,26 +318,28 @@ class ChurchRequestController {
         //          reject reason
         async rejectChurchRequest({ request , response , auth}){
          try {
-            const {request_id, reject_reason} = request.all()
+            const {request_id, reason} = request.all()
             const {user} = auth.current; 
 
             const userCheck = await  churchRequestUser.query()
             .where('request_id', request_id)
+            .where('reciever_id', user.id)
             .fetch()
             const userCheckJson = userCheck.toJSON()
             
-            if (!userCheck || userCheckJson[0].reciever_id != user.id) {
+            if (!userCheckJson || userCheckJson.length == 0) {
                 return response.status(400).json({
-                  label: `Reject Church Request`,
+                  label: `Reject Church Requests`,
                   statusCode: 400,
                   message: `Wrong Request details`,
                 });
               }
-              const churchRequestReject  = await churchRequests.query()
+           const churchRequestReject  = await churchRequests.query()
               .where('id', request_id)
               .update({ 
-                  is_accepted: 1, 
-                  reject_reason
+                  is_accepted:0,
+                  is_rejected: 1, 
+                  reason:reason
              })
               
                if (!churchRequestReject) {
@@ -347,7 +352,7 @@ class ChurchRequestController {
               response.status(200).json({
                 label: "Reject Church Requests",
                 message: "Request Rejected",
-                data: churchRequestAccept,
+                data: churchRequestReject,
               });
             } catch (RejectRequestsError) {
               console.log(RejectRequestsError);
