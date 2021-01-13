@@ -5,6 +5,7 @@ const User  = use("App/Models/User")
 const branches = use("App/Models/BranchInfo");
 const denomination = use("App/Models/DenominationInfo");
 const additionalUserInformation = use("App/Models/AdditionalUserInfo");
+const Database = use('Database');
 
 
 
@@ -23,7 +24,6 @@ class ChurchRequestController {
                    message: `Please enter a recipient destination`,
               });
             }
-
         if(recipient == "branch"){
           const userBranch = await additionalUserInformation.findBy("user_id",  user.id)
           if (!userBranch) {
@@ -141,14 +141,23 @@ class ChurchRequestController {
               //   view Requests sent 
               async viewAcceptedRequests({request , response , auth}){
                 try {
-                const {user} = auth.current;
-                
-                  const churchRequests = await churchRequestUser.query()
-                  .where("reciever_id", user.id)       
-                  .orWhere("sender_id", user.id)
-                  .with("requests", (builder) => builder.where("is_accepted", 1))
-                  .fetch()
 
+                const {user} = auth.current;
+
+
+                const churchRequests  = await Database
+                .table('request_users')
+                .leftJoin('requests', 'request_id', 'requests.id')
+                .where(function () {
+                  this.where("reciever_id", user.id).orWhere("sender_id", user.id)
+                })
+                .andWhere(function () {
+                  this.where('is_accepted', 1)
+                })
+
+               
+                console.log("CHURCH REQUEST", churchRequests);
+              
                   if (!churchRequests) {
                     return response.status(400).json({
                       label: `View Church Requests`,
@@ -178,12 +187,20 @@ class ChurchRequestController {
             async viewRejectedRequests({request , response , auth}){
               try {
               const {user} = auth.current;
+
+
+              const churchRequests  =  await Database
+                .table('request_users')
+                .leftJoin('requests', 'request_id', 'requests.id')
+                .where(function () {
+                  this.where("reciever_id", user.id).orWhere("sender_id", user.id)
+                })
+                .andWhere(function () {
+                  this.where('is_rejected', 1)
+                })
+
               
-                const churchRequests = await churchRequestUser.query()
-                .where("reciever_id", user.id) 
-                .orWhere("sender_id", user.id)
-                .with("requests", (builder) => builder.where("is_accepted", 1))
-                .fetch()
+                
 
                 if (!churchRequests) {
                   return response.status(400).json({
