@@ -3,6 +3,8 @@ const churchRegister = use("App/Models/ChurchRegister");
 const churchRegisterUser = use("App/Models/RegisterUser");
 const Database = use('Database');
 const User  = use("App/Models/User")
+const additionalUserInformation = use("App/Models/AdditionalUserInfo");
+const denomination = use("App/Models/DenominationInfo");
 
 
 class ChurchRegisterController {
@@ -19,7 +21,6 @@ class ChurchRegisterController {
             //        message: `Please enter a recipient destination`,
             //   });
             // }
-
           const userDenomination = await additionalUserInformation.findBy("user_id",  user.id);
 
           const denominationInformation = await denomination.findBy("id",userDenomination.denomination_id )
@@ -34,9 +35,9 @@ class ChurchRegisterController {
             // console.log("request title and body", request_title,request_body , recipient_id );
           const churchRegisterCreation = await churchRegister.create({
             service_id,
-            total_members, 
-            total_females,
-            total_males,
+            total_members:total_number, 
+            total_females:females,
+            total_males:males,
             register_name
           })
 
@@ -78,6 +79,42 @@ class ChurchRegisterController {
           });
         }
       }
+
+         //   view Register sent 
+    async viewChurchRegister({request , response , auth}){
+      try {
+       const {user} = auth.current;
+       
+        const churchRegisters = await churchRegisterUser.query()
+        .where("reciever_id", user.id)
+        .orWhere("sender_id", user.id)
+        .with("register")
+        .fetch()
+
+         if (!churchRegisters) {
+          return response.status(400).json({
+            label: `View Church Register`,
+            statusCode: 400,
+            message: `There was an error fetching Register.`,
+          });
+        }
+        response.status(200).json({
+          label: "View Church Register",
+          message: "Register fetched successfully.",
+          data: churchRegisters,
+        });
+  
+      } catch (ViewRegisterError) {
+        console.log(ViewRegisterError);
+        return response.status(200).json({
+          ViewRegisterError,
+          label: `View Church Register`,
+          statusCode: 500,
+          message: `Internal Server Error`,
+        });
+      }
+  } 
+
 }
 
 module.exports = ChurchRegisterController
