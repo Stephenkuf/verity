@@ -49,11 +49,11 @@ class ChurchRequestController {
           const userDenomination = await additionalUserInformation.findBy("user_id",  user.id)
 
           const denominationInformation = await denomination.findBy("id",userDenomination.denomination_id )
-          if (!branchInformation) {
+          if (!denominationInformation) {
             return response.status(400).json({
               label: `branch Information`,
               statusCode: 400,
-              message: `There was an error fetching user branch.`,
+              message: `There was an error fetching user denomination.`,
             });
           }
           recipient_id = denominationInformation.user_id;
@@ -199,10 +199,7 @@ class ChurchRequestController {
                   this.where('is_rejected', 1)
                 })
 
-              
-                
-
-                if (!churchRequests) {
+              if (!churchRequests) {
                   return response.status(400).json({
                     label: `View Church Requests`,
                     statusCode: 400,

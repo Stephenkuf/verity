@@ -102,6 +102,10 @@ Route.get("/viewDenominationResources","Resources/ChurchResourceController.viewD
 Route.get("/viewSingleResource/:id","Resources/ChurchResourceController.viewSingleResource" ).middleware(["auth"]);
 
 
+//register
+Route.post("/createChurchRegister","Register/ChurchRegisterController.createChurchRegister" ).middleware(["auth"]);
+Route.get("/viewChurchRegister","Register/ChurchRegisterController.viewChurchRegister" ).middleware(["auth"]);
+
 
 
 
