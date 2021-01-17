@@ -10,9 +10,9 @@
     <div slot="id" slot-scope="props">
       <div class="text-capitalize">{{ props.index }}</div>
     </div>
-    <div slot="subject" slot-scope="props">
+    <div slot="requests" slot-scope="props">
       <div>
-        {{ props.row.subject }}
+        {{ props.row.requests && props.row.requests.request_title }}
       </div>
     </div>
     <div slot="created_at" slot-scope="props">
@@ -20,12 +20,12 @@
         {{ props.row.created_at | moment("MMMM DD YYYY, h:mm A") }}
       </div>
     </div>
-    <div slot="user_id" slot-scope="props">
-      <div :id="props.row.user_id">
+    <div slot="reciever_id" slot-scope="props">
+      <div :id="props.row.reciever_id">
         <button
           class="btn btn-sm m-0"
           :class="btn_color"
-          @click="open_modal()"
+          @click="open_modal(props.row)"
           data-toggle="modal"
           data-target="#ViewChurchRequestModal"
         >
@@ -45,20 +45,13 @@ export default {
   },
   data() {
     return {
-      columns: ["id", "subject", "created_at", "user_id"],
+      columns: ["id", "requests", "created_at", "reciever_id"],
       options: {
-        // filterable: [
-        //   "first_name",
-        //   "last_name",
-        //   "email",
-        //   "wallet_status",
-        //   "wallet_alias",
-        //   "phone_number",
-        //   "wallet_code",
-        //   "wallet_balance",
-        //   "wallet_type",
-        //   "user_id",
-        // ],
+        filterable: [
+          "requests.request_title",
+          "requests.request_body",
+          "created_at",
+        ],
         sortable: [],
         perPage: 25,
         pagination: {
@@ -71,18 +64,20 @@ export default {
         },
         headings: {
           id: "S/N",
-          subject: "SUBJECT",
+          requests: "SUBJECT",
           created_at: "DATE/TIME",
-          user_id: "ACTION",
+          reciever_id: "ACTION",
         },
       },
     };
   },
   methods: {
-    open_modal() {
+    open_modal(data) {
       this.$store.state.church_organisation.show_reason = false;
+      this.$store.state.church_organisation.single_request = data;
+
     },
-  },
+  }
 };
 </script>
 

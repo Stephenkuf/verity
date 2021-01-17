@@ -5,6 +5,8 @@ export default {
   state: {
     sidebar_active: { main: "mails", sub: "" },
     show_reason: false,
+    single_request: {},
+    all_request: [],
   },
   actions: {
     async createEmail(store, emailDetails) {
@@ -21,6 +23,82 @@ export default {
       try {
         let result = await apiClient.post("/createChurchRequest", request_data);
         console.log("request payload >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error);
+        throw error.response;
+      }
+    },
+    async createResponse(store, resource_data) {
+      try {
+        let result = await apiClient.post(
+          "/createChurchResource",
+          resource_data
+        );
+        console.log("request payload >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error);
+        throw error.response;
+      }
+    },
+    async allRequest() {
+      try {
+        let result = await apiClient.get("/viewChurchRequests");
+        console.log("view all request >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+
+    async allResponse() {
+      try {
+        let result = await apiClient.get("/viewDenominationResources");
+        console.log("view all request >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async acceptedRequest() {
+      try {
+        let result = await apiClient.get("/viewAcceptedRequests");
+        console.log("view accepted request >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async acceptChurchRequest(store, request_data) {
+      try {
+        let result = await apiClient.post("/acceptChurchRequest", request_data);
+        console.log("accept payload >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error);
+        throw error.response;
+      }
+    },
+    async rejectChurchRequest(store, request_data) {
+      try {
+        let result = await apiClient.post("/rejectChurchRequest", request_data);
+        console.log("accept payload >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error);
+        throw error.response;
+      }
+    },
+    async rejectedRequest() {
+      try {
+        let result = await apiClient.get("/viewRejectedRequests");
+        console.log("reject payload >> ", result);
         return result.data;
       } catch (error) {
         console.log("error >> ", error);

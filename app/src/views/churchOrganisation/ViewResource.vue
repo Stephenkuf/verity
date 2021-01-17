@@ -4,12 +4,12 @@
       :title="'All resources'"
       :sub_title="'View all resources in the system'"
     />
-    <section class="row mx-0 pb-1 px-0 ">
+    <section class="row mx-0 pb-1 px-0" v-if="data_array && data_array.length">
       <div
         class="col-12 mb-4 c-co-card row mx-0 px-0 my-0 c-resource-card"
         data-toggle="modal"
         data-target="#ViewChurchRequestModal"
-        v-for="(i, k) in 5"
+        v-for="(data_array, k) in data_array"
         :key="k"
       >
         <div
@@ -17,7 +17,7 @@
           style="min-height: 12rem; overflow: hidden"
         >
           <img
-            src="/assets/images/bg-locate.png"
+            :src="data_array.resource_file"
             alt="resource img"
             class="c-resource-img"
           />
@@ -27,22 +27,24 @@
           <div class="d-flex">
             <div>
               <p class="f-24 font-weight-bold mb-0 text-uppercase c-brand">
-                This is a new resource
+                {{data_array.resource_title}}
               </p>
-              <span class="c-resource-date">November 12 2020, 9:30 PM</span>
+              <span class="c-resource-date">{{data_array.created_at}}</span>
             </div>
           </div>
           <div>
             <p class="mt-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. At
-              consectetur, sequi harum laborum reiciendis iure facere
-              repellendus. Voluptate dolores architecto cum tenetur similique,
-              repellat laudantium obcaecati facilis.
+              {{data_array.resource_body}}
             </p>
           </div>
         </div>
       </div>
     </section>
+     <PlaceHolder :message="'requests'" :imageTitle="'nofeed.svg'" v-else>
+      <p slot="placeholder-content">
+        Start by creating a request
+      </p>
+    </PlaceHolder>
     <appViewChurchResource />
   </section>
 </template>
@@ -50,12 +52,34 @@
 <script>
 import appChurchOrganizationHeader from "@/components/UI/ChurchOrganizationHeader";
 import appViewChurchResource from "@/components/Modal/ViewChurchResource";
+import Nprogress from "nprogress";
 export default {
   name: "ViewResource",
+  data(){
+    return {
+      data_array: []
+    }
+  },
   components: {
     appChurchOrganizationHeader,
     appViewChurchResource,
   },
+  methods: {
+    async get_response() {
+      try {
+        const get_response = await this.$store.dispatch("church_organisation/allResponse");
+        console.log("get_response >> ", get_response);
+        this.$store.state.church_organisation.all_response = get_response.result;
+        this.data_array = get_response.data;
+      } catch (error) {
+        console.log("error >> ", error);
+        Nprogress.done();
+      }
+    },
+  },
+  async mounted(){
+    await this.get_response();
+  }
 };
 </script>
 

@@ -9,7 +9,8 @@
           <div>
             <span
               class="d-flex mx-auto align-items-center text-uppercase text-white c-co-sidebar-imag"
-              >AI</span
+              >{{ profile.full_name && profile.full_name.split(" ")[0][0].toUpperCase()
+              }}{{ profile.full_name && profile.full_name.split(" ")[1][0].toUpperCase() }}</span
             >
             <div class="mt-2">
               <div class="">
@@ -23,13 +24,13 @@
                   class="f-12 f-med c-grey mb-0 text-center"
                   style="cursor: pointer;"
                 >
-                  Anthony Irogbu (anthony10)
+                  {{ profile.full_name }} ({{ profile.username }})
                 </p>
                 <p
                   class="f-12 f-med c-grey text-center"
                   style="cursor: pointer;"
                 >
-                  anthony@gmail.com | 09076767775
+                  {{ profile.email }} | {{ profile.phone_number }}
                 </p>
               </div>
             </div>
@@ -301,6 +302,9 @@
 <script>
 export default {
   name: "ChurchOrganisationSidebar",
+  props: {
+    profile: Object,
+  },
   computed: {
     get_active_sidebar() {
       return this.$store.state.church_organisation.sidebar_active.main;
