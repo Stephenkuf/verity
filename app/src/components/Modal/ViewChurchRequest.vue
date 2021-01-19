@@ -28,28 +28,17 @@
         <div class="modal-body px-4 pb-5">
           <div class="heading">
             <h3 class="f-30 c-brand font-weight-bold">
-              Request for yealy church renovation
+              {{
+                single_request.requests && single_request.requests.request_title
+              }}
               <span class="c-underline"></span>
             </h3>
             <p class="c-brown mt-3" style="font-size: 1rem;">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio
-              nihil rem asperiores excepturi voluptate. Perferendis quidem
-              voluptate quia veniam veritatis. Ullam harum cum, cumque repellat
-              quia quibusdam. Atque adipisci laudantium harum dolorem dolorum
-              nisi fugiat est, laborum quidem fugit quaerat accusamus doloribus
-              odio culpa blanditiis itaque ipsum minus odit reprehenderit
-              obcaecati aliquam alias. Corrupti aliquam omnis numquam modi
-              inventore nihil exercitationem ex reiciendis cupiditate debitis
-              alias sapiente libero sint facere iure vel tempore, qui distinctio
-              quasi voluptas ullam minus pariatur veritatis. Minima quaerat
-              cupiditate in nemo ipsa modi, officiis optio, omnis minus
-              molestiae expedita obcaecati. Quidem quasi dicta esse quis atque
-              veritatis explicabo? Illo impedit error deleniti quod rem dolores
-              cumque voluptatibus neque, eveniet libero porro obcaecati ipsum
-              natus dicta incidunt molestias ea illum eligendi alias, corporis
-              sed commodi sit mollitia? Temporibus quos voluptatum modi ratione,
-              est natus eos. Nulla eius autem quam perferendis? Nesciunt harum
-              voluptatibus error aliquid impedit.
+              {{
+                single_request.requests
+                  ? single_request.requests.request_body
+                  : "No Content"
+              }}
             </p>
           </div>
           <div v-if="!show_reason">
@@ -78,6 +67,7 @@
                     type="text"
                     class="form-control"
                     id="reason"
+                    v-model="request_reason"
                     rows="5"
                     placeholder="Enter Reason"
                   ></textarea>
@@ -85,9 +75,7 @@
                 <div class="d-flex">
                   <button
                     class="btn btn-success font-weight-bold"
-                    @click.prevent="
-                      $store.state.church_organisation.show_reason = false
-                    "
+                    @click.prevent="accept_or_reject_request()"
                   >
                     CONTINUE
                   </button>
@@ -110,19 +98,53 @@
 </template>
 
 <script>
+import Nprogress from "nprogress";
+import { notifications } from "@/mixins/Notification";
 export default {
   name: "ViewChurchRequest",
   data() {
     return {
       chosen_reason: "acceptance",
+      sending: false,
+      request_reason: "",
     };
   },
+  mixins: [notifications],
   computed: {
+    single_request() {
+      console.log(this.$store.state.church_organisation.single_request);
+      return this.$store.state.church_organisation.single_request;
+    },
     show_reason() {
       return this.$store.state.church_organisation.show_reason;
     },
   },
   methods: {
+    async accept_or_reject_request() {
+      try {
+        this.sending = true;
+
+        Nprogress.start();
+
+        const data = await this.$store.dispatch(
+          `church_organisation/${
+            this.chosen_reason == "acceptance"
+              ? "acceptChurchRequest"
+              : "rejectChurchRequest"
+          }`,
+          { reason: this.request_reason, request_id: this.single_request.id }
+        );
+        // console.log('Im here');
+
+        this.showSuccessNotification(data.message);
+        console.log("get send accept request response >> ", data);
+        this.sending = false;
+      } catch (error) {
+        this.showErrorNotification(error.data.message);
+        this.sending = false;
+        Nprogress.done();
+      }
+    },
     select_reason(param) {
       this.$store.state.church_organisation.show_reason = true;
       this.chosen_reason = param;

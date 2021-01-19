@@ -126,7 +126,7 @@
                     />
                   </template>
 
-                  <PlaceHolder :message="'posts'" v-else>
+                  <PlaceHolder :message="'posts'" :imageTitle="'nofeed.svg'" v-else>
                     <p slot="placeholder-content">
                       Please start by creating a post.
                     </p>
@@ -142,7 +142,7 @@
                       @fetchPost="fetch_denomination_post"
                     />
                   </template>
-                  <PlaceHolder :message="'posts'" v-else>
+                  <PlaceHolder :message="'posts'" :imageTitle="'nofeed.svg'"  v-else>
                     <p slot="placeholder-content">
                       Please start by creating a post.
                     </p>
