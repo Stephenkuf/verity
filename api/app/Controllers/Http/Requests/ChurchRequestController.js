@@ -109,12 +109,17 @@ class ChurchRequestController {
         try {
          const {user} = auth.current;
          
-          const churchRequests = await churchRequestUser.query()
-          .where("reciever_id", user.id)
-          .orWhere("sender_id", user.id)
-          .with("requests")
+          const churchRequests = await Database
+          .table('request_users')
+          .leftJoin('requests', 'request_id', 'requests.id')
+          .where(function () {
+            this.where("reciever_id", user.id).orWhere("sender_id", user.id)
+          })
+          .andWhere(function () {
+            this.where('is_accepted', 0).andWhere("is_rejected", 0)
+          })
           .fetch()
-
+          
            if (!churchRequests) {
             return response.status(400).json({
               label: `View Church Requests`,
@@ -141,9 +146,7 @@ class ChurchRequestController {
               //   view Requests sent 
               async viewAcceptedRequests({request , response , auth}){
                 try {
-
                 const {user} = auth.current;
-
 
                 const churchRequests  = await Database
                 .table('request_users')
@@ -154,9 +157,9 @@ class ChurchRequestController {
                 .andWhere(function () {
                   this.where('is_accepted', 1)
                 })
+                .fetch()
 
                
-                console.log("CHURCH REQUEST", churchRequests);
               
                   if (!churchRequests) {
                     return response.status(400).json({

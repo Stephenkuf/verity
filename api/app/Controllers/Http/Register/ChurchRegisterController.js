@@ -11,7 +11,7 @@ class ChurchRegisterController {
     async createChurchRegister({ request, response, auth }) {
         try {
         let recipient_id;
-            const {register_name, service_id, males, females ,total_number} = request.all();
+            const {register_name, service_id, register_date,  males, females ,total_number, re} = request.all();
             const {user} = auth.current;
            
             // if(!recipient){
@@ -34,11 +34,12 @@ class ChurchRegisterController {
           recipient_id = denominationInformation.user_id;
             // console.log("request title and body", request_title,request_body , recipient_id );
           const churchRegisterCreation = await churchRegister.create({
-            service_id,
+            // service_id,
             total_members:total_number, 
             total_females:females,
             total_males:males,
-            register_name
+            register_name, 
+            register_date
           })
 
           if (!churchRegisterCreation) {
