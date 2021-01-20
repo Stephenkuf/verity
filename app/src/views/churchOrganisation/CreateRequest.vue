@@ -9,7 +9,7 @@
         <form @submit.prevent="createRequest()">
           <div class="form-row">
             <div class="form-group col-md-12">
-              <label for="request_topic" class="c-label">Requst Topic</label>
+              <label for="request_topic" class="c-label">Request Topic</label>
               <input
                 type="text"
                 class="form-control c-input"
@@ -29,7 +29,7 @@
           </div>
           <div class="form-row">
             <div class="form-group col-md-12">
-              <label for="request_topic" class="c-label">Requst Type</label>
+              <label for="request_topic" class="c-label">Request Type</label>
 
                 <select class="custom-select" v-model="request_data.recipient" id="request_topic">
                   <option value="branch">Branch</option>

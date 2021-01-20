@@ -10,7 +10,7 @@
             <span
               class="d-flex mx-auto align-items-center text-uppercase text-white c-co-sidebar-imag"
               >{{ profile.full_name && profile.full_name.split(" ")[0][0].toUpperCase()
-              }}{{ profile.full_name && profile.full_name.split(" ")[1][0].toUpperCase() }}</span
+              }}{{ profile.full_name && profile.full_name.split(" ")[1] && profile.full_name.split(" ")[1][0].toUpperCase() }}</span
             >
             <div class="mt-2">
               <div class="">
