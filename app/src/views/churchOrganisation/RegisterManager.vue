@@ -19,11 +19,11 @@
     <section class="row justify-content-between mx-0 pb-1 px-0 " v-if="data_array.length">
       <div
         class="col-12 col-md-6 mb-4 px-2  my-0 "
-        v-for="(i, k) in data_array"
+        v-for="(each_data, k) in data_array"
         
         :key="k"
       >
-        <appRegisterManagerCard />
+        <appRegisterManagerCard :data="each_data"/>
       </div>
     </section>
     <PlaceHolder :message="'register'" :imageTitle="'nofeed.svg'" v-else>
