@@ -29,15 +29,13 @@
           <div class="heading">
             <h3 class="f-30 c-brand font-weight-bold">
               {{
-                single_request.requests && single_request.requests.request_title
+                single_request.request_title
               }}
               <span class="c-underline"></span>
             </h3>
             <p class="c-brown mt-3" style="font-size: 1rem;">
               {{
-                single_request.requests
-                  ? single_request.requests.request_body
-                  : "No Content"
+                single_request.request_body || "No Content"
               }}
             </p>
           </div>

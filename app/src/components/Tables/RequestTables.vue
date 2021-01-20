@@ -12,7 +12,7 @@
     </div>
     <div slot="requests" slot-scope="props">
       <div>
-        {{ props.row.requests && props.row.requests.request_title }}
+        {{ props.row.request_title }}
       </div>
     </div>
     <div slot="created_at" slot-scope="props">
