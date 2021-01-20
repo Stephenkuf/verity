@@ -3,7 +3,7 @@ const churchRegister = use("App/Models/ChurchRegister");
 const churchRegisterUser = use("App/Models/RegisterUser");
 const Database = use('Database');
 const User  = use("App/Models/User")
-const additionalUserInformation = use("App/Models/AdditionalUserInfo");
+const branchInfos = use("App/Models/BranchInfo");
 const denomination = use("App/Models/DenominationInfo");
 
 
@@ -21,8 +21,12 @@ class ChurchRegisterController {
             //        message: `Please enter a recipient destination`,
             //   });
             // }
-          const userDenomination = await denomination.findBy("user_id",  user.id);
-          const denominationInformation = await denomination.findBy("id",userDenomination.id )
+
+          const userbranchinfo = await branchInfos.findBy("user_id", user.id)
+
+
+          const userDenomination = await denomination.findBy("id",  userbranchinfo.denomination_id);
+          const denominationInformation = await denomination.findBy("id",userDenomination.user_id)
           if (!denominationInformation) {
             return response.status(400).json({
               label: `branch Information`,

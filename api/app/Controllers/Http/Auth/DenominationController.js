@@ -22,6 +22,7 @@ class DenominationController {
       const loggedInUser = await auth.current.user;
       // console.log(loggedInUser.id);
 
+      const denominationString = await UserRole.findBy("role_label", "Denomination")
       const lookUp = await User.findBy("id", loggedInUser.id);
 
       if (lookUp == null || !lookUp) {
@@ -71,6 +72,7 @@ class DenominationController {
 
       const registered = await User.query().where("id", currentUser.id).update({
         is_complete_registration: 1,
+        user_role_id:denominationString.id
 
       });
 
