@@ -1,6 +1,7 @@
 "use strict";
 const DenominationInfo = use("App/Models/DenominationInfo");
 const User = use("App/Models/User");
+const UserRole = use("App/Models/UserRole");
 const safeAwait = require("safe-await");
 
 class DenominationController {
@@ -70,6 +71,7 @@ class DenominationController {
 
       const registered = await User.query().where("id", currentUser.id).update({
         is_complete_registration: 1,
+
       });
 
       if (!registered || registered == null) {

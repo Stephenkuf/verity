@@ -285,15 +285,15 @@ class ChurchRequestController {
 
             const userCheck = await  churchRequestUser.query()
             .where('request_id', request_id)
-            .where('reciever_id', user.id)
+            .andWhere('reciever_id', user.id)
             .fetch()
             const userCheckJson = userCheck.toJSON()
-            
+            console.log("usercheck",userCheckJson);
             if (!userCheckJson || userCheckJson.length == 0) {
                 return response.status(400).json({
                   label: `Accept Church Requests`,
                   statusCode: 400,
-                  message: `Wrong Request details`,
+                  message: `You are not authorized.`,
                 });
               }
 
