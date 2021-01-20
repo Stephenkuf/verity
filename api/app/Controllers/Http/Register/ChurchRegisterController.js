@@ -72,7 +72,7 @@ class ChurchRegisterController {
     
         } catch (error) {
           console.log(error);
-          return response.status(200).json({
+          return response.status(500).json({
             error,
             label: `Register Creation`,
             statusCode: 500,
@@ -107,7 +107,7 @@ class ChurchRegisterController {
   
       } catch (ViewRegisterError) {
         console.log(ViewRegisterError);
-        return response.status(200).json({
+        return response.status(500).json({
           ViewRegisterError,
           label: `View Church Register`,
           statusCode: 500,

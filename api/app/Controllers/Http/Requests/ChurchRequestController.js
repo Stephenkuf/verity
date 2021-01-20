@@ -118,7 +118,6 @@ class ChurchRequestController {
           .andWhere(function () {
             this.where('is_accepted', 0).andWhere("is_rejected", 0)
           })
-          .fetch()
           
            if (!churchRequests) {
             return response.status(400).json({
@@ -157,7 +156,6 @@ class ChurchRequestController {
                 .andWhere(function () {
                   this.where('is_accepted', 1)
                 })
-                .fetch()
 
                
               
