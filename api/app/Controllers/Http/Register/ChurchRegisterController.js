@@ -21,9 +21,8 @@ class ChurchRegisterController {
             //        message: `Please enter a recipient destination`,
             //   });
             // }
-          const userDenomination = await additionalUserInformation.findBy("user_id",  user.id);
-
-          const denominationInformation = await denomination.findBy("id",userDenomination.denomination_id )
+          const userDenomination = await denomination.findBy("user_id",  user.id);
+          const denominationInformation = await denomination.findBy("id",userDenomination.id )
           if (!denominationInformation) {
             return response.status(400).json({
               label: `branch Information`,
@@ -66,7 +65,7 @@ class ChurchRegisterController {
 
           response.status(200).json({
             label: "Register Creation",
-            message: "Register created successfully. Await confirmation",
+            message: "Register created successfully.",
             data: churchRegisterCreation,
           });
     
