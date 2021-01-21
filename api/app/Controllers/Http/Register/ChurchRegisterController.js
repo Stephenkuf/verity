@@ -31,7 +31,6 @@ class ChurchRegisterController {
 
       const userbranchinfo = await branchInfos.findBy("user_id", user.id);
 
-      console.log("USER BEANCH INFOR", userbranchinfo);
       const userDenomination = await denomination.findBy(
         "id",
         userbranchinfo.denomination_id
