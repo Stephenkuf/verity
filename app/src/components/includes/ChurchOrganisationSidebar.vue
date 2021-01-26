@@ -18,7 +18,7 @@
                   class="f-14 f-bold c-blk mb-0 c-hov"
                   style="cursor: pointer;"
                 >
-                  Deeper Life Bibe Church (Branch)
+                  Deeper Life Bibe Church ({{profile.user_role && profile.user_role.role_label}})
                 </p>
                 <p
                   class="f-12 f-med c-grey mb-0 text-center"
@@ -79,6 +79,7 @@
             v-if="get_active_sidebar == 'request'"
           >
             <div
+            v-if="profile.user_role && profile.user_role.role_label && profile.user_role.role_label.toLowerCase() == 'user'"
               class="d-flex justify-content-between c-pl-5 py-2 pr-4 w-100 c-co-pointer c-co-sub-link"
               :class="get_active_sub_sidebar == 'create-request' && 'active'"
               @click="
@@ -112,7 +113,7 @@
                 <span style="font-size: 88%;" class="">New Request</span>
               </div>
               <div>
-                <span class="badge badge-pill badge-primary">20</span>
+                <!-- <span class="badge badge-pill badge-primary">20</span> -->
               </div>
             </div>
             <div
@@ -132,7 +133,7 @@
                 <span style="font-size: 88%;" class="">Accepted Request</span>
               </div>
               <div>
-                <span class="badge badge-pill badge-success">190</span>
+                <!-- <span class="badge badge-pill badge-success">190</span> -->
               </div>
             </div>
             <div
@@ -152,7 +153,7 @@
                 <span style="font-size: 88%;" class="">Rejected Request</span>
               </div>
               <div>
-                <span class="badge badge-pill badge-danger">10</span>
+                <!-- <span class="badge badge-pill badge-danger">10</span> -->
               </div>
             </div>
           </div>
@@ -188,7 +189,8 @@
                 )
               "
             >
-              <div>
+              <div
+              v-if="profile.user_role && (profile.user_role.role_label.toLowerCase() != `user`)">
                 <small style="font-size: 70%;"
                   ><i class="fa fa-circle pr-3" aria-hidden="true"></i
                 ></small>
@@ -215,6 +217,7 @@
           </div>
 
           <div
+          v-if="profile.user_role && (profile.user_role.role_label.toLowerCase() != `user`)"
             class="d-flex px-4 py-3 justify-content-between w-100 c-co-pointer c-co-link"
             :class="{ active: get_active_sidebar == 'register-manager' }"
             style="color: #555;"
@@ -227,7 +230,7 @@
           >
             <div>
               <span><i class="fa fa-users pr-3" aria-hidden="true"></i></span>
-              <span class="font-weight-bold">Register Manager</span>
+              <span class="font-weight-bold">Register Manager </span>
             </div>
             <!-- <div>
               <span

@@ -3,7 +3,7 @@
     ref="serverTableRef"
     name="question-table"
     class="v-table"
-    :data="data"
+    :data="[...data].reverse()"
     :columns="columns"
     :options="options"
   >

@@ -39,7 +39,8 @@
               }}
             </p>
           </div>
-          <div v-if="!show_reason">
+          
+          <div v-if="!show_reason && get_profile.user_role && get_profile.user_role.role_label && get_profile.user_role.role_label.toLowerCase() != 'user'">
             <button
               class="btn btn-success font-weight-bold"
               @click="select_reason('acceptance')"
@@ -53,8 +54,8 @@
               REJECT
             </button>
           </div>
-          <hr v-if="show_reason" />
-          <div v-if="show_reason">
+          <hr v-if="show_reason && get_profile.user_role && get_profile.user_role.role_label && get_profile.user_role.role_label.toLowerCase() != 'user'" />
+          <div v-if="show_reason && get_profile.user_role && get_profile.user_role.role_label && get_profile.user_role.role_label.toLowerCase() != 'user'">
             <form>
               <div class="form-row">
                 <div class="form-group col-md-12">
@@ -109,6 +110,9 @@ export default {
   },
   mixins: [notifications],
   computed: {
+    get_profile(){
+      return this.$store.state.church_organisation.profile
+    },
     single_request() {
       console.log(this.$store.state.church_organisation.single_request);
       return this.$store.state.church_organisation.single_request;

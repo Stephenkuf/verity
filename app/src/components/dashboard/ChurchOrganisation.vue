@@ -40,6 +40,7 @@ export default {
         const get_profile = await this.$store.dispatch("dashboard/viewProfile");
         console.log("get_profile >> ", get_profile);
         this.profile_data = get_profile.result[0];
+        this.$store.state.church_organisation.profile = this.profile_data
       } catch (error) {
         console.log("error >> ", error);
         Nprogress.done();
