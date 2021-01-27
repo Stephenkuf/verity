@@ -2,8 +2,10 @@
 const churchResource = use("App/Models/Resource");
 const churchResourceUser = use("App/Models/ResourceUser");
 const DenominationInformation = use("App/Models/DenominationInfo");
+const additionalUserInfo = use("App/Models/AdditionalUserInfo");
 
 const User  = use("App/Models/User");
+const UserRole  = use("App/Models/UserRole");
 
 class ChurchResourceController {
 
@@ -93,24 +95,37 @@ class ChurchResourceController {
 
 
       // view all resources in a denomination 
-         //   view Requests sent 
+        //   view Requests sent 
     async viewDenominationResources({request , response , auth}){
       try {
+        let findDenomination;
        const {user} = auth.current;
+       const user_role = await UserRole.findBy("role_label", "User");
 
-       const findDenomination = await DenominationInformation.query().where("user_id", user.id).first()
-          
-       if (!findDenomination) {
-         return response.status(400).json({
-           label: `Resource Creation `,
-           statusCode: 400,
-           message: `Could not find denomination.`,
-         });
+       console.log("userrole ",user.user_role_id );
+       if(user.user_role_id == user_role.id){
+         findDenomination = await additionalUserInfo.query().where("user_id", user.id).first()
+            
+        if (!findDenomination) {
+          return response.status(400).json({
+            label: `Resource Creation `,
+            statusCode: 400,
+            message: `Could not find customer denomination.`,
+          });
+        }
+       }else{
+           findDenomination = await DenominationInformation.query().where("user_id", user.id).first()
+            
+          if (!findDenomination) {
+            return response.status(400).json({
+              label: `Resource Creation `,
+              statusCode: 400,
+              message: `Could not find user denomination.`,
+            });
+          }
        }
 
        const getResourcesByDenomination = await churchResourceUser.query().where("denomination_id", findDenomination.id).pluck("resource_id")
-
-
 
         const churchResources = await churchResource.query()
         .whereIn("id", getResourcesByDenomination )
@@ -130,7 +145,7 @@ class ChurchResourceController {
         });
   
       } catch (ViewResourcesError) {
-        console.log(ViewRequestsError);
+        console.log(ViewResourcesError);
         return response.status(200).json({
           ViewResourcesError,
           label: `View Church Resources`,

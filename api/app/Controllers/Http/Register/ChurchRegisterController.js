@@ -33,7 +33,7 @@ class ChurchRegisterController {
 
       const userDenomination = await denomination.findBy(
         "id",
-        userbranchinfo.denomination_id
+       user.id
       );
       // const denominationInformation = await denomination.findBy(
       //   "id",

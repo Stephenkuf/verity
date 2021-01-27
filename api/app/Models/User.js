@@ -68,5 +68,4 @@ class User extends Model {
     return this.hasOne('App/Models/UserRole', 'user_role_id','id' )
   }
 }
-
 module.exports = User

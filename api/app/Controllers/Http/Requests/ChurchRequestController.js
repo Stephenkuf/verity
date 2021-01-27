@@ -47,7 +47,7 @@ class ChurchRequestController {
         }
         if(recipient == "denomination"){
           const userDenomination = await additionalUserInformation.findBy("user_id",  user.id)
-
+          console.log("denomination",userDenomination );
           const denominationInformation = await denomination.findBy("id",userDenomination.denomination_id )
           if (!denominationInformation) {
             return response.status(400).json({
