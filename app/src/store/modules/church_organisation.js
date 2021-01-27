@@ -7,6 +7,7 @@ export default {
     show_reason: false,
     single_request: {},
     all_request: [],
+    profile: {},
   },
   actions: {
     async createEmail(store, emailDetails) {

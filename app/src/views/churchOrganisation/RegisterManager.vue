@@ -5,7 +5,7 @@
         :title="'Register Manager'"
         :sub_title="'Manage all attendance registered in the system'"
       />
-      <div class="">
+      <div class="" v-if="get_profile.user_role && get_profile.user_role.role_label && get_profile.user_role.role_label.toLowerCase() == 'branch'">
         <button
           class="btn btn-primary"
           data-toggle="modal"
@@ -52,6 +52,11 @@ export default {
     return {
       data_array: [],
     };
+  },
+  computed: {
+    get_profile(){
+      return this.$store.state.church_organisation.profile
+    },
   },
   methods: {
     async get_register() {

@@ -40,9 +40,9 @@
         </div>
       </div>
     </section>
-     <PlaceHolder :message="'requests'" :imageTitle="'nofeed.svg'" v-else>
+     <PlaceHolder :message="'resources'" :imageTitle="'nofeed.svg'" v-else>
       <p slot="placeholder-content">
-        Start by creating a request
+        Start by creating a resource
       </p>
     </PlaceHolder>
     <appViewChurchResource />
