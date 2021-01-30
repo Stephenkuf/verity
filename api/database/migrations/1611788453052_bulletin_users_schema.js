@@ -9,7 +9,8 @@ class BulletinUsersSchema extends Schema {
       table.increments()
       table.integer("bulletin_id")
       table.integer("sender_id")
-      table.integer("reciever_id")
+      table.integer("branch_id")
+      table.integer("denomination_id")
       table.timestamps()
     })
   }

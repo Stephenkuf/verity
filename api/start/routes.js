@@ -106,8 +106,9 @@ Route.get("/viewSingleResource/:id","Resources/ChurchResourceController.viewSing
 Route.post("/createChurchRegister","Register/ChurchRegisterController.createChurchRegister" ).middleware(["auth"]);
 Route.get("/viewChurchRegister","Register/ChurchRegisterController.viewChurchRegister" ).middleware(["auth"]);
 // bulettin
-Route.post("/createChurchBulletin","Requests/ChurchBulletinController.createChurchBulletin" ).middleware(["auth"]);
-Route.get("/viewChurchBulletin","Requests/ChurchBulletinController.viewChurchBulletin" ).middleware(["auth"]);
+Route.post("/createChurchBulletin","Bulletins/ChurchBulletinController.createChurchBulletin" ).middleware(["auth"]);
+Route.get("/getChurchBulletin","Bulletins/ChurchBulletinController.viewChurchBulletin" ).middleware(["auth"]);
+Route.get("/getSingleChurchBulletin/:bulletin_id","Bulletins/ChurchBulletinController.viewChurchBulletin" ).middleware(["auth"]);
 
 
 

@@ -1,375 +1,188 @@
 'use strict'
+const additionalUserInfo  = use("App/Models/AdditionalUserInfo");
+const denominationInfo = use("App/Models/DenominationInfo");
+const branchInfo = use("App/Models/BranchInfo");
+const churchBulletin = use("App/Models/ChurchBulletin");
+const churchBulletinLog = use("App/Models/BulletinUser");
+const settingsRoles = use("App/Models/UserRole");
+const Database  = use("Database");
+
+
 
 class ChurchBulletinController {
     async createChurchBulletin({ request, response, auth }) {
 
     try {
-        let recipient_id;
-            const {bulletin_subject, bulletin_body ,branch_id} = request.all();
-            const {user} = auth.current;
+      let userDenomination, churchBulletin;
+      const {bulletin_type, bulletin_subject, bulletin_body ,branch_id} = request.all();
+        const {user} = auth.current;
 
-            if(!recipient){
+      if(!bulletin_type && !branch_id){
+        return response.status(400).json({
+            label: `Recipient Information`,
+            statusCode: 400,
+              message: `Please enter a recipient destination`,
+        });
+      }
+    
+      if(bulletin_type == "denomination"){
+          userDenomination = await denominationInfo.query().where("user_id", user.id).first()
+          console.log("user denomination",userDenomination );
+            if (!userDenomination) {
               return response.status(400).json({
-                  label: `Recipient Information`,
-                  statusCode: 400,
-                   message: `Please enter a recipient destination`,
+                label: `branch Information`,
+                statusCode: 400,
+                message: `Could not find user denomination.`,
               });
             }
-        if(recipient == "branch"){
-          const userBranch = await additionalUserInformation.findBy("user_id",  user.id)
-          if (!userBranch) {
-            return response.status(400).json({
-              label: `branch Information`,
-              statusCode: 400,
-              message: `Could not find user branch.`,
-            });
-          }
-          const branchInformation = await branches.findBy("id",userBranch.branch_id )
+      } else {
+        const branchInformation = await branchInfo.findBy("id",branch_id )
 
-          if (!branchInformation) {
-            return response.status(400).json({
-              label: `Branch Information`,
-              statusCode: 400,
-              message: `There was an error fetching Branch Information`,
-            });
-          }
-          recipient_id = branchInformation.user_id;
-
+        if (!branchInformation) {
+          return response.status(400).json({
+            label: `Branch Information`,
+            statusCode: 400,
+            message: `There was an error fetching Branch Information`,
+          });
         }
-        if(recipient == "denomination"){
-          const userDenomination = await additionalUserInformation.findBy("user_id",  user.id)
-          console.log("denomination",userDenomination );
-          const denominationInformation = await denomination.findBy("id",userDenomination.denomination_id )
-          if (!denominationInformation) {
-            return response.status(400).json({
-              label: `branch Information`,
-              statusCode: 400,
-              message: `There was an error fetching user denomination.`,
-            });
-          }
-          recipient_id = denominationInformation.user_id;
-        }
-
-            // console.log("request title and body", request_title,request_body , recipient_id );
-          const churchRequestCreation = await churchRequests.create({
-            request_title, 
-            request_body
+      }
+          const churchBulletinCreation = await churchBulletin.create({
+            bulletin_subject, 
+            bulletin_body
           })
 
-          if (!churchRequestCreation) {
+          if (!churchBulletinCreation) {
             return response.status(400).json({
-              label: `Request Creation `,
+              label: `Bulletin Creation `,
               statusCode: 400,
-              message: `There was an error creating request.`,
+              message: `There was an error creating Bulletin.`,
             });
           }
-          console.log("request log details", churchRequestCreation.id , recipient_id); 
 
-          const churchRequestLog = await churchRequestUser.findOrCreate({
-              request_id:churchRequestCreation.id,
+         const LogchurchBulletin= await churchBulletinLog.findOrCreate({
+              bulletin_id:churchBulletinCreation.id,
               sender_id:user.id,
-              reciever_id:recipient_id
+              branch_id:branch_id,
+              denomination_id:userDenomination.id
           })
 
-           if (!churchRequestLog) {
+           if (!LogchurchBulletin) {
             return response.status(400).json({
-              label: `Request Creation `,
+              label: `Bulletin Creation `,
               statusCode: 400,
-              message: `There was an error creating request.`,
+              message: `There was an error creating Bulletin.`,
             });
           }
 
           response.status(200).json({
-            label: "Request Creation",
-            message: "Request created successfully. Await confirmation",
-            data: churchRequestCreation,
+            label: "Bulletin Creation",
+            message: "Bulletin created successfully.",
+            data: churchBulletinCreation,
           });
     
         } catch (error) {
           console.log(error);
           return response.status(200).json({
             error,
-            label: `Request Creation`,
+            label: `Bulletin Creation`,
             statusCode: 500,
             message: `Internal Server Error`,
           });
         }
-      }
-    //   view Requests sent 
-    async viewChurchRequests({request , response , auth}){
+    }
+    //  view Requests sent 
+    async viewChurchBulletin({request , response , auth}){
         try {
+          let is_branch, churchBulletin;
          const {user} = auth.current;
-         
-          const churchRequests = await Database
-          .table('request_users')
-          .leftJoin('requests', 'request_id', 'requests.id')
+        //  get userchurch and denomination first 
+        // check if its a denomination 
+        const is_denomination = await denominationInfo.findBy("user_id", user.id);
+        
+        churchBulletin = await Database
+        .table('bulletin_users')
+        .leftJoin('church_bulletins', 'bulletin_id', 'church_bulletins.id')
+        .where("sender_id", user.id).andWhere('is_deleted', 0)
+      
+
+         if (!is_denomination){
+          is_branch = await branchInfo.findBy("user_id", user.id);
+
+          churchBulletin = await Database
+          .table('bulletin_users')
+          .leftJoin('church_bulletin', 'bulletin_id', 'church_bulletin.id')
           .where(function () {
-            this.where("reciever_id", user.id).orWhere("sender_id", user.id)
-          })
+            this.where("branch_id", is_branch.id).orWhere("denomination_id", is_branch.denomination_id)
+          }) 
           .andWhere(function () {
-            this.where('is_accepted', 0).andWhere("is_rejected", 0)
+            this.where('is_deleted', 0)
           })
-          
-           if (!churchRequests) {
-            return response.status(400).json({
-              label: `View Church Requests`,
-              statusCode: 400,
-              message: `There was an error fetching request.`,
-            });
-          }
+           if (!is_branch){
+             userDetails = await additionalUserInfo.query().where("user_id", user.id).first()
+
+             await Database
+              .table('bulletin_users')
+              .leftJoin('church_bulletin', 'bulletin_id', 'church_bulletin.id')
+              .where(function () {
+                this.where("branch_id", userDetails.branch_id).orWhere("denomination_id", userDetails.branch_id)
+              }) 
+              .andWhere(function () {
+                this.where('is_deleted', 0)
+              })
+            
+           }
+         }
+           
+         
           response.status(200).json({
-            label: "View Church Requests",
-            message: "Requests fetched successfully.",
-            data: churchRequests,
+            label: "View Church Bulletins",
+            message: "Bulletins fetched successfully.",
+            data: churchBulletin,
           });
     
-        } catch (ViewRequestsError) {
-          console.log(ViewRequestsError);
+        } catch (ViewAllBulletinError) {
+          console.log(ViewAllBulletinError);
           return response.status(200).json({
-            ViewRequestsError,
-            label: `View Church Requests`,
+            ViewAllBulletinError,
+            label: `View Church Bulletins`,
             statusCode: 500,
             message: `Internal Server Error`,
           });
         }
     } 
-              //   view Requests sent 
-              async viewAcceptedRequests({request , response , auth}){
-                try {
-                const {user} = auth.current;
+    async viewSingleChurchBulletin({params:{bulletin_id} , response , auth}){
+      try {
+        // const {user} = auth.current;
 
-                const churchRequests  = await Database
-                .table('request_users')
-                .leftJoin('requests', 'request_id', 'requests.id')
-                .where(function () {
-                  this.where("reciever_id", user.id).orWhere("sender_id", user.id)
-                })
-                .andWhere(function () {
-                  this.where('is_accepted', 1)
-                })
+        const churchBulletins = await churchBulletinLog.query()
+          .where("id", bulletin_id)
+          .with("bulletin")
+          .fetch();
 
-               
-              
-                  if (!churchRequests) {
-                    return response.status(400).json({
-                      label: `View Church Requests`,
-                      statusCode: 400,
-                      message: `There was an error fetching accepted requests.`,
-                    });
-                  }
-                  response.status(200).json({
-                    label: "View Church Requests",
-                    message: "Accepted Requests fetched successfully.",
-                    data: churchRequests,
-                  });
-            
-                } catch (ViewRequestsError) {
-                  console.log(ViewRequestsError);
-                  return response.status(200).json({
-                    ViewRequestsError,
-                    label: `View Accepted Church Requests`,
-                    statusCode: 500,
-                    message: `Internal Server Error`,
-                  });
-                }
-            }
-
-
-            //   view Requests sent 
-            async viewRejectedRequests({request , response , auth}){
-              try {
-              const {user} = auth.current;
-
-
-              const churchRequests  =  await Database
-                .table('request_users')
-                .leftJoin('requests', 'request_id', 'requests.id')
-                .where(function () {
-                  this.where("reciever_id", user.id).orWhere("sender_id", user.id)
-                })
-                .andWhere(function () {
-                  this.where('is_rejected', 1)
-                })
-
-              if (!churchRequests) {
-                  return response.status(400).json({
-                    label: `View Church Requests`,
-                    statusCode: 400,
-                    message: `There was an error fetching Rejected requests.`,
-                  });
-                }
-                response.status(200).json({
-                  label: "View Church Requests",
-                  message: "Rejected Requests fetched successfully.",
-                  data: churchRequests,
-                });
-          
-              } catch (ViewRequestsError) {
-                console.log(ViewRequestsError);
-                return response.status(200).json({
-                  ViewRequestsError,
-                  label: `View Rejected Church Requests`,
-                  statusCode: 500,
-                  message: `Internal Server Error`,
-                });
-              }
-          }
-
-
-                //   view Requests sent 
-            async viewSingleChurchRequest({params:{request_id} , response , auth}){
-              try {
-              const {user} = auth.current;
-
-              const verifyUser = await churchRequestUser.query()
-              .where(function () {
-                this.where("id", request_id).andWhere("sender_id", user.id);
-              })
-              .orWhere(function () {
-                this.whereIn("id", request_id).andWhere("reciever_id",user.id)
-              })
-              .fetch();
-
-              if (!verifyUser) {
-                return response.status(400).json({
-                  label: `View Single Church Request`,
-                  statusCode: 400,
-                  message: `Youre not authorized to view this request.`,
-                });
-              }
-
-              
-                const churchRequests = await churchRequestUser.query()
-                .where("id", request_id)
-                // .orWhere("sender_id", user_id)
-                .with("requests")
-                .fetch();
-
-                if (!churchRequests) {
-                  return response.status(400).json({
-                    label: `View Single Church Request`,
-                    statusCode: 400,
-                    message: `There was an error fetching request.`,
-                  });
-                }
-                response.status(200).json({
-                  label: "View Church Requests",
-                  message: "Requests fetched successfully.",
-                  data: churchRequests,
-                });
-
-              } catch (ViewRequestsError) {
-                console.log(ViewRequestsError);
-                return response.status(200).json({
-                  ViewRequestsError,
-                  label: `View Church Requests`,
-                  statusCode: 500,
-                  message: `Internal Server Error`,
-                });
-              }
-          }
-        //   view Requests sent 
-        async acceptChurchRequest({ request , response , auth}){
-            try {
-                const {request_id, reason} = request.all()
-                const {user} = auth.current;
-
-            const userCheck = await  churchRequestUser.query()
-            .where('request_id', request_id)
-            .andWhere('reciever_id', user.id)
-            .fetch()
-            const userCheckJson = userCheck.toJSON()
-            console.log("usercheck",userCheckJson);
-            if (!userCheckJson || userCheckJson.length == 0) {
-                return response.status(400).json({
-                  label: `Accept Church Requests`,
-                  statusCode: 400,
-                  message: `You are not authorized.`,
-                });
-              }
-
-             
-              const churchRequestAccept  = await churchRequests.query()
-              .where('id', request_id)
-              .update({ is_accepted: 1, 
-                is_rejected: 0, 
-                reason:reason })
-
-               if (!churchRequestAccept) {
-                return response.status(400).json({
-                  label: `Accept Church Requests`,
-                  statusCode: 400,
-                  message: `There was an error accepting request.`,
-                });
-              }
-              response.status(200).json({
-                label: "Accept Church Requests",
-                message: "Request Accepted",
-                data: churchRequestAccept,
-              });
-        
-            } catch (AcceptRequestsError) {
-              console.log(AcceptRequestsError);
-              return response.status(200).json({
-                AcceptRequestsError,
-                label: `Accept Church Requests`,
-                statusCode: 500,
-                message: `Internal Server Error`,
-              });
-            }
+        if (!churchBulletins) {
+            return response.status(400).json({
+              label: `View Single Church Bulletin`,
+              statusCode: 400,
+              message: `There was an error fetching church Bulletin.`,
+            });
         }
+        response.status(200).json({
+          label: "View Church Bulletins",
+          message: "Bulletins fetched successfully.",
+          data: churchRequests,
+        });
 
-        // reject a request with reasons.
-        //Params : id of request 
-        //          reject reason
-        async rejectChurchRequest({ request , response , auth}){
-         try {
-            const {request_id, reason} = request.all()
-            const {user} = auth.current; 
-
-            const userCheck = await  churchRequestUser.query()
-            .where('request_id', request_id)
-            .where('reciever_id', user.id)
-            .fetch()
-            const userCheckJson = userCheck.toJSON()
-            
-            if (!userCheckJson || userCheckJson.length == 0) {
-                return response.status(400).json({
-                  label: `Reject Church Requests`,
-                  statusCode: 400,
-                  message: `Wrong Request details`,
-                });
-              }
-           const churchRequestReject  = await churchRequests.query()
-              .where('id', request_id)
-              .update({ 
-                  is_accepted:0,
-                  is_rejected: 1, 
-                  reason:reason
-             })
-              
-               if (!churchRequestReject) {
-                return response.status(400).json({
-                  label: `Reject Church Requests`,
-                  statusCode: 400,
-                  message: `There was an error rejecting request.`,
-                });
-              }
-              response.status(200).json({
-                label: "Reject Church Requests",
-                message: "Request Rejected",
-                data: churchRequestReject,
-              });
-            } catch (RejectRequestsError) {
-              console.log(RejectRequestsError);
-              return response.status(200).json({
-                RejectRequestsError,
-                label: `Reject Church Requests`,
-                statusCode: 500,
-                message: `Internal Server Error`,
-              });
-            }
-        }
+      } catch (ViewBulletinError) {
+        console.log(ViewBulletinError);
+        return response.status(200).json({
+          ViewBulletinError,
+          label: `View Church Bulletins`,
+          statusCode: 500,
+          message: `Internal Server Error`,
+        });
+      }
+    }
+       
 }
 
 module.exports = ChurchBulletinController

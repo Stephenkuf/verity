@@ -9,6 +9,7 @@ class ChurchBulletinSchema extends Schema {
       table.increments()
       table.string("bulletin_subject")
       table.string("bulletin_body")
+      table.boolean("is_deleted").defaultTo(0)
       table.timestamps()
     })
   }
