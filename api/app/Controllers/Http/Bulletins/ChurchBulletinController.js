@@ -13,7 +13,7 @@ class ChurchBulletinController {
     async createChurchBulletin({ request, response, auth }) {
 
     try {
-      let userDenomination, churchBulletin;
+      let userDenomination;
       const {bulletin_type, bulletin_subject, bulletin_body ,branch_id} = request.all();
         const {user} = auth.current;
 
