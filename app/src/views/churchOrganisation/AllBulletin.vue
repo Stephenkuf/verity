@@ -13,6 +13,7 @@
         :key="k"
       >
         <div
+        v-if="false"
           class="d-none d-md-block px-0 col-md-3"
           style="min-height: 12rem; overflow: hidden"
         >
@@ -23,7 +24,7 @@
           />
           <span class="c-resource-background-overlay"></span>
         </div>
-        <div class="col-12 col-md-9 my-2" style="min-height: 12rem;">
+        <div class="col-12 col-md-12 my-2 py-3 px-4" style="min-height: 12rem;">
           <div class="d-flex">
             <div>
               <p class="f-24 font-weight-bold mb-0 text-uppercase c-brand">

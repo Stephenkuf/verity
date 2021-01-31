@@ -56,6 +56,19 @@ export default {
         throw error.response;
       }
     },
+    async createBulletin(store, resource_data) {
+      try {
+        let result = await apiClient.post(
+          "/createChurchBulletin",
+          resource_data
+        );
+        console.log("request payload >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error);
+        throw error.response;
+      }
+    },
     async allRequest() {
       try {
         let result = await apiClient.get("/viewChurchRequests");
