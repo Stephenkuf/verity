@@ -9,7 +9,7 @@ const denomination = use("App/Models/DenominationInfo");
 class ChurchRegisterController {
   async createChurchRegister({ request, response, auth }) {
     try {
-      let recipient_id;
+      let recipient_id,userDenomination ;
       const {
         register_name,
         service_id,
@@ -21,24 +21,21 @@ class ChurchRegisterController {
       } = request.all();
       const { user } = auth.current;
 
-      // if(!recipient){
-      //   return response.status(400).json({
-      //       label: `Recipient Information`,
-      //       statusCode: 400,
-      //        message: `Please enter a recipient destination`,
-      //   });
-      // }
 
       const userbranchinfo = await branchInfos.findBy("user_id", user.id);
 
-      const userDenomination = await denomination.findBy(
-        "id",
-       user.id
-      );
-      // const denominationInformation = await denomination.findBy(
-      //   "id",
-      //   userDenomination.user_id
-      // );
+      if(userbranchinfo){
+        userDenomination = await denomination.findBy(
+          "id",
+          userbranchinfo.denomination_id
+        );
+      }
+      else{
+         userDenomination = await denomination.findBy(
+          "id",
+         user.id
+        );
+      }
       if (!userDenomination) {
         return response.status(400).json({
           label: `branch Information`,
