@@ -14,7 +14,7 @@
         Start by creating a request
       </p>
     </PlaceHolder>
-    <appViewChurchRequest />
+    <appViewChurchRequest @triggerNewRequest="triggerNewRequest" />
   </section>
 </template>
 
@@ -37,6 +37,9 @@ export default {
     };
   },
   methods: {
+    async triggerNewRequest(){
+      await this.get_request();
+     },
     async get_request() {
       try {
         const get_request = await this.$store.dispatch("church_organisation/rejectedRequest");

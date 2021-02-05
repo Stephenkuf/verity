@@ -126,6 +126,9 @@ export default {
         );
 
         this.showSuccessNotification(data.message);
+        this.request_data.request_title = ""
+        this.request_data.request_body = ""
+        this.request_data.recipient = ""
         console.log("get send email response >> ");
         Nprogress.done();
         this.is_processing = false;
