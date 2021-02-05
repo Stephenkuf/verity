@@ -262,6 +262,7 @@
             v-if="get_active_sidebar == 'bulletins'"
           >
             <div
+            v-if="profile.user_role && profile.user_role.role_label && profile.user_role.role_label.toLowerCase() != 'user'"
               class="d-flex justify-content-between c-pl-5 py-2 pr-4 w-100 c-co-pointer c-co-sub-link"
               :class="get_active_sub_sidebar == 'create-bulletin' && 'active'"
               @click="

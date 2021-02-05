@@ -7,6 +7,7 @@ export default {
     show_reason: false,
     single_request: {},
     all_request: [],
+    all_bulletin: [],
     profile: {},
   },
   actions: {
@@ -96,6 +97,16 @@ export default {
       try {
         let result = await apiClient.get("/viewDenominationResources");
         console.log("view all request >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async allBulletin() {
+      try {
+        let result = await apiClient.get("/GetChurchBulletin");
+        console.log("view all bulletin >> ", result);
         return result.data;
       } catch (error) {
         console.log("error >> ", error.response);

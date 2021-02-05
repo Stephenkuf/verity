@@ -4,12 +4,12 @@
       :title="'All Bulletin'"
       :sub_title="'View all bulletin in the system'"
     />
-    <section class="row mx-0 pb-1 px-0 ">
+    <section class="row mx-0 pb-1 px-0 " v-if="data_array && data_array.length">
       <div
         class="col-12 mb-4 c-co-card row mx-0 px-0 my-0 c-resource-card"
         data-toggle="modal"
         data-target="#ViewChurchBulletin"
-        v-for="(i, k) in 5"
+        v-for="(data_array, k) in data_array"
         :key="k"
       >
         <div
@@ -28,22 +28,24 @@
           <div class="d-flex">
             <div>
               <p class="f-24 font-weight-bold mb-0 text-uppercase c-brand">
-                This is a new bulletin
+                {{data_array.bulletin_subject}}
               </p>
-              <span class="c-resource-date">November 12 2020, 9:30 PM</span>
+              <span class="c-resource-date">{{data_array.created_at}}</span>
             </div>
           </div>
           <div>
             <p class="mt-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. At
-              consectetur, sequi harum laborum reiciendis iure facere
-              repellendus. Voluptate dolores architecto cum tenetur similique,
-              repellat laudantium obcaecati facilis.
+              {{data_array.bulletin_body}}
             </p>
           </div>
         </div>
       </div>
     </section>
+    <PlaceHolder :message="'bulletins'" :imageTitle="'nofeed.svg'" v-else>
+      <p slot="placeholder-content">
+        Start by creating a bulletin
+      </p>
+    </PlaceHolder>
     <appViewChurchBulletin />
   </section>
 </template>
@@ -51,11 +53,33 @@
 <script>
 import appChurchOrganizationHeader from "@/components/UI/ChurchOrganizationHeader";
 import appViewChurchBulletin from "@/components/Modal/ViewChurchBulletin";
+import Nprogress from "nprogress";
 export default {
-  name: "ViewResource",
+  name: "AllBulletin",
+  data(){
+    return {
+      data_array: []
+    }
+  },
   components: {
     appChurchOrganizationHeader,
     appViewChurchBulletin,
   },
+  methods: {
+    async get_bulletin() {
+      try {
+        const get_bulletin = await this.$store.dispatch("church_organisation/allBulletin");
+        console.log("get_bulletin >> ", get_bulletin);
+        this.$store.state.church_organisation.all_bulletin = get_bulletin.result;
+        this.data_array = get_bulletin.data;
+      } catch (error) {
+        console.log("error >> ", error);
+        Nprogress.done();
+      }
+    },
+  },
+   async mounted(){
+    await this.get_bulletin();
+  }
 };
 </script>

@@ -138,7 +138,7 @@ export default {
           formData.append('bulletin_subject', this.bulletin.bulletin_subject)
           formData.append('bulletin_type', this.bulletin.bulletin_type)
           formData.append('bulletin_body', this.bulletin.bulletin_body)
-          formData.append('branch_id', this.bulletin.branch_id)
+          formData.append('branch_id', this.bulletin.branch_id.id)
           console.log(formData)
 
           const data = await this.$store.dispatch(

@@ -19,6 +19,7 @@
             ref="closeViewChurchRequestModal"
             type="button"
             class="close"
+            id="close-church-request"
             data-dismiss="modal"
             aria-label="Close"
           >
@@ -80,9 +81,7 @@
                   </button>
                   <button
                     class="btn btn-danger font-weight-bold"
-                    @click.prevent="
-                      $store.state.church_organisation.show_reason = false
-                    "
+                    @click.prevent="cancelReason()"
                   >
                     CANCEL
                   </button>
@@ -122,6 +121,10 @@ export default {
     },
   },
   methods: {
+    cancelReason(){
+      this.$store.state.church_organisation.show_reason = false
+      this.request_reason = ""
+    }, 
     async accept_or_reject_request() {
       try {
         this.sending = true;
@@ -137,10 +140,15 @@ export default {
           { reason: this.request_reason, request_id: this.single_request.id }
         );
         // console.log('Im here');
+        this.request_reason = ""
 
         this.showSuccessNotification(data.message);
         console.log("get send accept request response >> ", data);
         this.sending = false;
+
+        this.$emit("triggerNewRequest");
+        document.getElementById("close-church-request").click();
+
       } catch (error) {
         this.showErrorNotification(error.data.message);
         this.sending = false;
