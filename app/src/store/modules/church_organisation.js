@@ -6,6 +6,7 @@ export default {
     sidebar_active: { main: "mails", sub: "" },
     show_reason: false,
     single_request: {},
+    single_resource: {},
     all_request: [],
     all_bulletin: [],
     profile: {},

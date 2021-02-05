@@ -4,12 +4,14 @@
       <img
         :src="`/assets/svg/${imageTitle}`"
         alt
-        :style="{ width: img_width ? img_width : '150px;' }"
+        :style="{ width: img_width ? img_width : '100px;' }"
       />
-      <h3 class="defaultTitle" v-if="message == 'Settlement Account'">
+      <br>
+      <br>
+      <h5 class="defaultTitle" v-if="message == 'Settlement Account'">
         You have not created any {{ message }}
-      </h3>
-      <h3 class="defaultTitle" v-else>There are currently no {{ message }}</h3>
+      </h5>
+      <h5 class="defaultTitle" v-else>There are currently no {{ message }}</h5>
       <slot name="placeholder-content"></slot>
       <slot></slot>
     </div>
