@@ -3,7 +3,7 @@ const churchResource = use("App/Models/Resource");
 const churchResourceUser = use("App/Models/ResourceUser");
 const DenominationInformation = use("App/Models/DenominationInfo");
 const additionalUserInfo = use("App/Models/AdditionalUserInfo");
-
+const branchInfo = use("App/Models/BranchInfo");
 const User  = use("App/Models/User");
 const UserRole  = use("App/Models/UserRole");
 
@@ -101,6 +101,8 @@ class ChurchResourceController {
         let findDenomination;
        const {user} = auth.current;
        const user_role = await UserRole.findBy("role_label", "User");
+       const user_role_branch = await UserRole.findBy("role_label", "Customer");
+
 
        console.log("userrole ",user.user_role_id );
        if(user.user_role_id == user_role.id){
@@ -113,7 +115,17 @@ class ChurchResourceController {
             message: `Could not find customer denomination.`,
           });
         }
-       }else{
+       }else if(user.user_role_id == user_role.id){
+        findDenomination = await branchInfo.query().where("user_id", user.id).first()
+           
+       if (!findDenomination) {
+         return response.status(400).json({
+           label: `Resource Creation `,
+           statusCode: 400,
+           message: `Could not find customer branch.`,
+         });
+       }
+      }else{
            findDenomination = await DenominationInformation.query().where("user_id", user.id).first()
             
           if (!findDenomination) {
