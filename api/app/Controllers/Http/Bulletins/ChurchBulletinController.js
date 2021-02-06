@@ -63,7 +63,6 @@ class ChurchBulletinController {
               bulletin_id:churchBulletinCreation.id,
               sender_id:user.id,
               branch_id:branch_id,
-              denomination_id:userDenomination.id
           })
 
            if (!LogchurchBulletin) {
