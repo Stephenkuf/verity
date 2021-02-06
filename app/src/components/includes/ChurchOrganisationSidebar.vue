@@ -190,7 +190,7 @@
               "
             >
               <div
-              v-if="profile.user_role && (profile.user_role.role_label.toLowerCase() != `user`)">
+              v-if="profile.user_role && (profile.user_role.role_label.toLowerCase() == `denomination`)">
                 <small style="font-size: 70%;"
                   ><i class="fa fa-circle pr-3" aria-hidden="true"></i
                 ></small>

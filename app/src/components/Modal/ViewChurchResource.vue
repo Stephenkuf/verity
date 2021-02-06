@@ -18,7 +18,7 @@
       >
         <div class="col-12 col-md-3 px-0">
           <img
-            src="/assets/images/bg-locate.png"
+            :src="single_resource.resource_file"
             alt="resource img"
             class="c-resource-img"
           />
@@ -50,7 +50,7 @@
                 >{{single_resource.created_at}}</span
               >
             </div>
-            <div class="mt-3">
+            <div class="mt-3" v-if="false">
               <button class="btn btn-primary ml-0 font-weight-bold">
                 Download File
               </button>
