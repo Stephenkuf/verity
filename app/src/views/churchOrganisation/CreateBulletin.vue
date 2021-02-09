@@ -43,7 +43,7 @@
                 >
               </template>
           </div>
-          <div class="form-row">
+          <div class="form-row" v-if="profile.user_role && profile.user_role.role_label && profile.user_role.role_label.toLowerCase() == 'denomination'">
             <div class="form-group col-md-12">
               <label for="bulletin_type" class="c-label">Bulletin Type</label>
               <select
@@ -55,13 +55,13 @@
                 <option value="denomination" selected>Denomination</option>
                 <option value="branch">Branch</option>
               </select>
-              <template v-if="$v.bulletin.bulletin_type.$error">
+              <!-- <template v-if="$v.bulletin.bulletin_type.$error">
               <small
                   v-if="!$v.bulletin.bulletin_type.required"
                   class="text-danger"
                   >Resource type is required</small
                 >
-              </template>
+              </template> -->
             </div>
           </div>
           <div class="form-row" v-if="bulletin.bulletin_type == 'branch'">
@@ -114,13 +114,18 @@ export default {
       bulletin_subject: {
         required,
       },
-      bulletin_type: {
-        required,
-      },
+      // bulletin_type: {
+      //   required,
+      // },
       bulletin_body: {
         required,
       },
     },
+  },
+  computed: {
+    profile(){
+      return  this.$store.state.church_organisation.profile
+    }
   },
   methods: {
     async createBulletin(){
