@@ -7,6 +7,7 @@ export default {
     show_reason: false,
     single_request: {},
     single_resource: {},
+    single_bulletin: {},
     all_request: [],
     all_bulletin: [],
     profile: {},

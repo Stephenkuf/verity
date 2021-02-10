@@ -40,27 +40,17 @@
           <div class="modal-body px-4 pb-5">
             <div class="heading">
               <h3 class="f-30 c-brand font-weight-bold text-uppercase">
-                THIS IS A NEW BULLETIN
+                {{ single_bulletin.bulletin_subject }}
                 <span class="c-underline"></span>
               </h3>
               <p class="c-brown mt-3 mb-2" style="font-size: 1rem;">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio
-                nihil rem asperiores excepturi voluptate. Perferendis quidem
-                voluptate quia veniam veritatis. Ullam harum cum, cumque
-                repellat quia quibusdam. Atque adipisci laudantium harum dolorem
-                dolorum nisi fugiat est, laborum quidem fugit quaerat accusamus
-                doloribus odio culpa blanditiis itaque ipsum minus odit
-                reprehenderit obcaecati aliquam alias. Corrupti aliquam omnis
-                numquam modi inventore nihil exercitationem ex reiciendis
-                cupiditate debitis alias sapiente libero sint facere iure vel
-                tempore, qui distinctio quasi voluptas ullam mintibus error
-                aliquid impedit.
+                {{ single_bulletin.bulletin_body }}
               </p>
-              <span class="c-resource-date text-right"
-                >November 12 2020, 9:30 PM</span
-              >
+              <span class="c-resource-date text-left">{{
+                single_bulletin.created_at
+              }}</span>
             </div>
-            <div class="mt-3">
+            <div class="mt-3" v-if="false">
               <button class="btn btn-danger font-weight-bold">
                 Delete Bulletin
               </button>
@@ -77,6 +67,15 @@ export default {
   name: "ViewChurchRequest",
   data() {
     return {};
+  },
+  computed: {
+    get_profile() {
+      return this.$store.state.church_organisation.profile;
+    },
+    single_bulletin() {
+      // console.log(this.$store.state.church_organisation.single_bulletin);
+      return this.$store.state.church_organisation.single_bulletin;
+    },
   },
 };
 </script>

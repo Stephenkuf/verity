@@ -18,7 +18,7 @@
                 v-model="bulletin.bulletin_subject"
               />
               <template v-if="$v.bulletin.bulletin_subject.$error">
-              <small
+                <small
                   v-if="!$v.bulletin.bulletin_subject.required"
                   class="text-danger"
                   >Resource type is required</small
@@ -37,13 +37,20 @@
             ></textarea>
             <template v-if="$v.bulletin.bulletin_body.$error">
               <small
-                  v-if="!$v.bulletin.bulletin_body.required"
-                  class="text-danger"
-                  >Resource type is required</small
-                >
-              </template>
+                v-if="!$v.bulletin.bulletin_body.required"
+                class="text-danger"
+                >Resource type is required</small
+              >
+            </template>
           </div>
-          <div class="form-row" v-if="profile.user_role && profile.user_role.role_label && profile.user_role.role_label.toLowerCase() == 'denomination'">
+          <div
+            class="form-row"
+            v-if="
+              profile.user_role &&
+                profile.user_role.role_label &&
+                profile.user_role.role_label.toLowerCase() == 'denomination'
+            "
+          >
             <div class="form-group col-md-12">
               <label for="bulletin_type" class="c-label">Bulletin Type</label>
               <select
@@ -68,17 +75,24 @@
             <div class="form-group col-md-12">
               <label for="branch_id" class="c-label">Select A Branch</label>
               <v-select
-                    class="v-select form-control "
-                    v-model="bulletin.branch_id"
-                    placeholder="Branch List"
-                    name="branch"
-                    label="branch_name"
-                    :options="branch_list"
-                  ></v-select>
+                class="v-select form-control "
+                v-model="bulletin.branch_id"
+                placeholder="Branch List"
+                name="branch"
+                label="branch_name"
+                :options="branch_list"
+              ></v-select>
+              <template v-if="branch_id_error_label">
+                <small v-if="branch_id_error_label" class="text-danger">{{
+                  branch_id_error_label
+                }}</small>
+              </template>
             </div>
           </div>
           <div style="margin-top: 2.5rem">
-            <button class="btn-lg btn-primary" @click.prevent="createBulletin">Create Bulletin</button>
+            <button class="btn-lg btn-primary" @click.prevent="createBulletin">
+              Create Bulletin
+            </button>
           </div>
         </form>
       </div>
@@ -97,8 +111,9 @@ export default {
     appChurchOrganizationHeader,
   },
   mixins: [notifications],
-  data(){
-    return{
+  data() {
+    return {
+      branch_id_error_label: "",
       bulletin: {
         bulletin_subject: "",
         bulletin_type: "denomination",
@@ -106,8 +121,8 @@ export default {
         branch_id: "",
       },
       denomination_list: [],
-      branch_list: []
-    }
+      branch_list: [],
+    };
   },
   validations: {
     bulletin: {
@@ -123,56 +138,85 @@ export default {
     },
   },
   computed: {
-    profile(){
-      return  this.$store.state.church_organisation.profile
-    }
+    profile() {
+      return this.$store.state.church_organisation.profile;
+    },
   },
   methods: {
-    async createBulletin(){
-        try{
+    async createBulletin() {
+      try {
+        this.branch_id_error_label = "";
 
         this.$v.bulletin.$touch();
         if (this.$v.bulletin.$invalid) {
           return;
         }
+        if (
+          this.bulletin.bulletin_type == "branch" &&
+          !this.bulletin.branch_id
+        ) {
+          this.branch_id_error_label = "Please select a branch";
+          return;
+        }
+
+        if (
+          this.profile.user_role &&
+          this.profile.user_role.role_label &&
+          this.profile.user_role.role_label.toLowerCase() == "branch"
+        ) {
+          this.bulletin.bulletin_type = "branch";
+        }
+
         Nprogress.start();
 
-          console.log("dhhdh >> ", this.bulletin)
-          let formData = new FormData();
-          // formData.append('file', this.file);
-          formData.append('bulletin_subject', this.bulletin.bulletin_subject)
-          formData.append('bulletin_type', this.bulletin.bulletin_type)
-          formData.append('bulletin_body', this.bulletin.bulletin_body)
-          formData.append('branch_id', this.bulletin.branch_id.id)
-          console.log(formData)
+        console.log("dhhdh >> ", this.bulletin);
+        let formData = new FormData();
+        // formData.append('file', this.file);
+        formData.append("bulletin_subject", this.bulletin.bulletin_subject);
+        formData.append("bulletin_type", this.bulletin.bulletin_type);
+        formData.append("bulletin_body", this.bulletin.bulletin_body);
+        if (this.bulletin.bulletin_type == "branch") {
+          formData.append(
+            "branch_id",
+            this.profile.user_role &&
+              this.profile.user_role.role_label &&
+              this.profile.user_role.role_label.toLowerCase() == "denomination"
+              ? this.bulletin.branch_id.id
+              : 1
+          );
+        } else {
+          formData.append("branch_id", null);
+        }
 
-          const data = await this.$store.dispatch(
+        console.log(formData);
+
+        const data = await this.$store.dispatch(
           "church_organisation/createBulletin",
           formData
         );
         console.log("get send bulletin response >> ", data);
         this.showSuccessNotification(data.message);
 
-         this.bulletin.bulletin_subject = ""
-         this.bulletin.bulletin_type = "denomination"
-         this.bulletin.bulletin_body = ""
-         this.bulletin.branch_id = ""
-        
+        this.bulletin.bulletin_subject = "";
+        this.bulletin.bulletin_type = "denomination";
+        this.bulletin.bulletin_body = "";
+        this.bulletin.branch_id = "";
+
         Nprogress.done();
         this.is_processing = false;
-        }catch(error){
-          console.log(error)
-          this.showErrorNotification(error.data.message);
+      } catch (error) {
+        console.log(error);
+        this.showErrorNotification(error.data.message);
         // this.is_processing = false;
         Nprogress.done();
-        }
       }
+    },
   },
-  async mounted(){
+  async mounted() {
     const get_meta_data = await this.$store.dispatch("getMetaData");
     this.denomination_list = get_meta_data.result.denomination;
     this.branch_list = get_meta_data.result.branch;
-  }
+  },
 };
 </script>
 
