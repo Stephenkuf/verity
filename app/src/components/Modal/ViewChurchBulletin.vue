@@ -16,7 +16,7 @@
         class="modal-content row mx-0"
         style="flex-direction: unset !important;"
       >
-        <div class="col-12 col-md-3 px-0">
+        <div v-if="false" class="col-12 col-md-3 px-0">
           <img
             src="/assets/images/bg-locate.png"
             alt="resource img"
@@ -24,7 +24,7 @@
           />
           <span class="c-resource-background-overlay"></span>
         </div>
-        <div class="col-12 col-md-9 px-0">
+        <div class="col-12 col-md-12 px-0">
           <div class="modal-header border-none py-0">
             <!-- <h5 class="modal-title" id="exampleModalLabel">Choose a denomination</h5> -->
             <button
