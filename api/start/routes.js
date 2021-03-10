@@ -111,6 +111,15 @@ Route.get("/getChurchBulletin","Bulletins/ChurchBulletinController.viewChurchBul
 Route.get("/getSingleChurchBulletin/:bulletin_id","Bulletins/ChurchBulletinController.viewSingleChurchBulletin" ).middleware(["auth"]);
 
 
+// directory/event locator
+Route.post("branch/createEvent","EventLocator/EventLocatorController.createEvent" ).middleware(["auth"]);
+Route.post("denomination/createEvent","EventLocator/EventLocatorController.createEvent" ).middleware(["auth"]);
 
+Route.get("denomination/getEvents","EventLocator/EventLocatorController.viewDenominationEvents" ).middleware(["auth"]);
+Route.get("branch/getEvents","EventLocator/EventLocatorController.viewBranchEvents" ).middleware(["auth"]);
+Route.get("/getAllEvents","EventLocator/EventLocatorController.viewAllEvents" ).middleware(["auth"]);
+
+Route.get("user/getDenominationLocations","EventLocator/EventLocatorController.getDenominationLocations" ).middleware(["auth"]);
+Route.get("/getAllLocations","EventLocator/EventLocatorController.getAllLocations" ).middleware(["auth"]);
 
 
