@@ -14,6 +14,7 @@ import Messages from "@/views/account/Messages.vue";
 //church organisation platform
 import BeliversNetworkDashboard from "@/views/account/Dashboard";
 import ChurchOrganisationDashboard from "@/views/account/ChurchOrganisationDashboard";
+import DirectoryEventLocator from "@/views/account/DirectoryEventLocator";
 
 // church organisation pages
 import ChurchEmails from "@/views/churchOrganisation/Emails";
@@ -26,6 +27,12 @@ import CreateBulletin from "@/views/churchOrganisation/CreateBulletin";
 import ViewResource from "@/views/churchOrganisation/ViewResource";
 import AllBulletin from "@/views/churchOrganisation/AllBulletin";
 import RegisterManager from "@/views/churchOrganisation/RegisterManager";
+
+// directory event locator pages
+import DirectoryDenomination from "@/views/directory/Denomination";
+import DirectoryDenominationBranch from "@/views/directory/DenominationBranches";
+import CreateEvent from "@/views/directory/CreateEvent";
+import DenominationEvent from "@/views/directory/DenominationEvent";
 
 Vue.use(VueRouter);
 
@@ -170,6 +177,52 @@ const routes = [
             name: "RegisterManager",
             meta: {
               title: "Variety - Register Manager",
+              group: "Dashboard",
+            },
+          },
+        ],
+      },
+      {
+        path: "dashboard/directory-event-locator",
+        component: DirectoryEventLocator,
+        meta: {
+          title: "Variety - Directory",
+          group: "Dashboard",
+        },
+        children: [
+          {
+            path: "",
+            component: DirectoryDenomination,
+            name: "DirectoryDenomination",
+            meta: {
+              title: "Variety - Denominations",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "branch/:branch_id",
+            component: DirectoryDenominationBranch,
+            name: "DirectoryDenominationBranch",
+            meta: {
+              title: "Variety - Denomination Branches",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "create-event",
+            component: CreateEvent,
+            name: "CreateEvent",
+            meta: {
+              title: "Variety - Create Events",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "denomination-event",
+            component: DenominationEvent,
+            name: "DenominationEvent",
+            meta: {
+              title: "Variety - Denomination Events",
               group: "Dashboard",
             },
           },

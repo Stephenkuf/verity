@@ -9,6 +9,7 @@ import dashboard from "./modules/dashboard";
 import profile from "./modules/profile";
 import message from "./modules/message";
 import church_organisation from "./modules/church_organisation";
+import directory_event_locator from "./modules/directory_event_locator";
 
 Vue.use(Vuex);
 
@@ -33,5 +34,6 @@ export default new Vuex.Store({
     profile,
     message,
     church_organisation,
+    directory_event_locator,
   },
 });
