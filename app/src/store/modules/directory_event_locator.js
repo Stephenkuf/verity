@@ -24,7 +24,9 @@ export default {
     async allDenomination() {
       try {
         let result = await apiClient.get("getAllLocations");
+        let result2 = await apiClient.get("user/getDenominationLocations");
         console.log("view all denomination >> ", result);
+        console.log("view all denomination >> ", result2);
 
         return result.data;
       } catch (error) {

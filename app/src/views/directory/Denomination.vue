@@ -67,7 +67,7 @@ export default {
     },
   },
   async mounted() {
-    // await this.get_denomination();
+    await this.get_denomination();
   },
 };
 </script>

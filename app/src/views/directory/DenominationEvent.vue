@@ -13,16 +13,34 @@
           class="px-3 py-0 c-co-card mr-3 c-card-direc-deno"
           style="border-top: 5px solid #106191; border-top-left-radius: .4rem; border-top-right-radius: .4rem;"
         >
-          <div class="row">
+          <div class="row ">
             <div class="col-3 p-0 d-flex justify-content-end">
               <div class="py-2 px-3 c-event-icon">
                 <span class="fa fa-calendar pr-0" aria-hidden="true"></span>
               </div>
             </div>
-            <div class="col-9"></div>
+            <div class="col-9 px-2 py-1" style="color: #777; font-size: 90%;">
+              <small class="d-block text-right font-weight-bold"
+                ><span>Start Date: </span>20 Nov 2024</small
+              >
+              <small class="d-block text-right font-weight-bold"
+                ><span>End Date: </span>25 Nov 2024</small
+              >
+            </div>
           </div>
-          <div class="row px-4 mt-3">
-            <p class="c-event-title ">Convenant Sunday</p>
+          <div class="row px-4 mt-4 mb-4">
+            <p class="c-event-title mb-0">Convenant Sunday</p>
+            <small
+              ><span class="font-weight-bold c-primary">THEME: </span>
+              <span class="font-weight-bold c-primary text-capitalize"
+                >September to Remember</span
+              ></small
+            >
+            <small>
+              <span class="font-weight-bold c-primary text-capitalize"
+                >(Abule Jesu - Deeperlife Bible church)</span
+              ></small
+            >
           </div>
         </div>
       </div>
@@ -79,5 +97,8 @@ export default {
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 1px;
+}
+.c-primary {
+  color: #106191;
 }
 </style>
