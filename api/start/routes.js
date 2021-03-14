@@ -18,7 +18,7 @@ const Route = use("Route");
 
 Route.get("/", () => {
   return {
-    greeting: "Hello world in JSON"
+    greeting: "Welcome to Verity APIs."
   };
 });
 // Authentication Routes
@@ -119,7 +119,7 @@ Route.get("denomination/getEvents","EventLocator/EventLocatorController.viewDeno
 Route.get("branch/getEvents","EventLocator/EventLocatorController.viewBranchEvents" ).middleware(["auth"]);
 Route.get("/getAllEvents","EventLocator/EventLocatorController.viewAllEvents" ).middleware(["auth"]);
 
-Route.get("user/getDenominationLocations","EventLocator/EventLocatorController.getDenominationLocations" ).middleware(["auth"]);
-Route.get("/getAllLocations","EventLocator/EventLocatorController.getAllLocations" ).middleware(["auth"]);
+Route.get("user/getAllDenominations","EventLocator/EventLocatorController.getAllDenominations" ).middleware(["auth"]);
+Route.get("/getSingleDenominationLocations/:denomination_id","EventLocator/EventLocatorController.getSingleDenominationLocations" ).middleware(["auth"]);
 
 
