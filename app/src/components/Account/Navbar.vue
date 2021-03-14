@@ -17,7 +17,19 @@
               tag="a"
               to="/account/dashboard/church-organisation"
               class="f-bold v__nav-item c-brand"
-              :class="$route.name == 'ChurchOrganisationDashboard' && 'active'"
+              :class="
+                ($route.name == 'ChurchEmail' ||
+                  $route.name == 'NewRequest' ||
+                  $route.name == 'RejectedRequest' ||
+                  $route.name == 'CreateRequest' ||
+                  $route.name == 'CreateResource' ||
+                  $route.name == 'CreateBulletin' ||
+                  $route.name == 'ViewResource' ||
+                  $route.name == 'AllBulletin' ||
+                  $route.name == 'RegisterManager' ||
+                  $route.name == 'AcceptedRequest') &&
+                  'active'
+              "
               >Church Organization Platform</router-link
             >
           </li>
@@ -30,7 +42,12 @@
             <a href="" class="f-bold v__nav-item">Online Store</a>
           </li>
           <li class="v__nav-list">
-            <a href="" class="f-bold v__nav-item">Directry/Event Locator</a>
+            <router-link
+              tag="a"
+              to="/account/dashboard/directory-event-locator"
+              class="f-bold v__nav-item"
+              >Directry/Event Locator</router-link
+            >
           </li>
           <li class="v__nav-list">
             <a href="welfare.html" class="f-bold v__nav-item">Welfare</a>
