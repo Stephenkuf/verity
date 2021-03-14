@@ -83,6 +83,25 @@
           </div>
           <div
             class="d-flex px-4 py-3 justify-content-between w-100 c-co-pointer c-co-link"
+            :class="{ active: get_active_sidebar == 'all_event' }"
+            style="color: #555;"
+            @click="
+              clickLink(
+                'all_event',
+                '/account/dashboard/directory-event-locator/all-event'
+              )
+            "
+          >
+            <div>
+              <span
+                ><i class="fa fa-calendar pr-4" aria-hidden="true"></i
+              ></span>
+              <span class="font-weight-bold">All Events</span>
+            </div>
+            <div></div>
+          </div>
+          <div
+            class="d-flex px-4 py-3 justify-content-between w-100 c-co-pointer c-co-link"
             :class="{ active: get_active_sidebar == 'denomination_event' }"
             style="color: #555;"
             @click="
@@ -107,7 +126,7 @@
             @click="
               clickLink(
                 'branch_event',
-                '/account/dashboard/directory-event-locator'
+                '/account/dashboard/directory-event-locator/branch-event'
               )
             "
           >

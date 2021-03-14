@@ -33,6 +33,8 @@ import DirectoryDenomination from "@/views/directory/Denomination";
 import DirectoryDenominationBranch from "@/views/directory/DenominationBranches";
 import CreateEvent from "@/views/directory/CreateEvent";
 import DenominationEvent from "@/views/directory/DenominationEvent";
+import AllEvent from "@/views/directory/AllEvent";
+import BranchEvent from "@/views/directory/BranchEvent";
 
 Vue.use(VueRouter);
 
@@ -223,6 +225,24 @@ const routes = [
             name: "DenominationEvent",
             meta: {
               title: "Variety - Denomination Events",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "all-event",
+            component: AllEvent,
+            name: "AllEvent",
+            meta: {
+              title: "Variety - All Events",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "branch-event",
+            component: BranchEvent,
+            name: "BranchEvent",
+            meta: {
+              title: "Variety - Branch Events",
               group: "Dashboard",
             },
           },

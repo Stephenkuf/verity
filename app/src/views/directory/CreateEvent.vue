@@ -129,6 +129,15 @@ export default {
       is_processing: false,
     };
   },
+  computed: {
+    get_profile() {
+      console.log(
+        "this.$store.state.church_organisation.profile; >> ",
+        this.$store.state.church_organisation.profile
+      );
+      return this.$store.state.church_organisation.profile;
+    },
+  },
   validations: {
     event_data: {
       event_title: {
@@ -160,6 +169,10 @@ export default {
         }
         Nprogress.start();
         this.event_data.url = "/denomination/createEvent";
+
+        if (this.profile.user_role.role_label.toLowerCase() == "branch") {
+          this.event_data.url = "/branch/createEvent";
+        }
         // this.sign_up_data.denomination = this.sign_up_data.denomination.id;
         const data = await this.$store.dispatch(
           "directory_event_locator/createEvent",
