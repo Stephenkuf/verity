@@ -2,6 +2,8 @@
 const getUserStatus = use("App/Helpers/getUserInfo")
 const churchEventsLocator = use("App/Models/EventLocator");
 const branchInfo = use("App/Models/BranchInfo");
+const DenominationInfo = use("App/Models/DenominationInfo");
+
 
 
 class EventLocatorController {
@@ -149,59 +151,56 @@ class EventLocatorController {
 
 
       // view all user denomination locations
-      async getDenominationLocations({  response, auth }) {
+      async getAllDenominations({  response }) {
         try {
-          const { user } = auth.current; 
-          const userDetails  = await getUserStatus.getUserDenominationInfo(user);
-          console.log("userDetails", userDetails);
-          const churchDenominationLocations = await branchInfo.query()
-          .where("id", userDetails.branch_id)
+          const churchDenominationInfo = await DenominationInfo.query()
+          .withCount("branches")
+          .withCount("members")
           .fetch()
           
     
-          if (!churchDenominationLocations) {
+          if (!churchDenominationInfo) {
             return response.status(400).json({
-              label: `View Church DenominationLocations`,
+              label: `View Church Denominations`,
               statusCode: 400,
-              message: `There was an error fetching denomination Locations.`,
+              message: `There was an error fetching denominations.`,
             });
           }
           response.status(200).json({
-            label: "View Church Events",
-            message: " Locations fetched successfully.",
-            data: churchDenominationLocations,
+            label: "View Denominations",
+            message: " Denominations fetched successfully.",
+            data: churchDenominationInfo,
           });
-        } catch (ViewLocationsError) {
-          console.log(ViewLocationsError);
+        } catch (churchDenominationInfoError) {
+          console.log(churchDenominationInfoError);
           return response.status(200).json({
-            ViewLocationsError,
-            label: `View  Church Locations`,
+            churchDenominationInfoError,
+            label: `View  church Denomination Info Locations`,
             statusCode: 500,
             message: `Internal Server Error`,
           });
         }
       }
-        // view all user denomination locations
-        async getAllLocations({  response, auth }) {
+        // view SingleDenominationLocations
+        async getSingleDenominationLocations({  response, auth , params:{denomination_id}}) {
           try {
-            const { user } = auth.current; 
-            const userDetails  = await getUserStatus.getUserDenominationInfo(user);
-            console.log("userDetails", userDetails);
+            const { user } = auth.current;
+
             const churchDenominationLocations = await branchInfo.query()
-            .where("id", userDetails.branch_id)
+            .where("denomination_id", denomination_id)
+            .withCount("members")
             .fetch()
-            
-      
+          
             if (!churchDenominationLocations) {
               return response.status(400).json({
-                label: `View Church DenominationLocations`,
+                label: `View Church Denomination Locations`,
                 statusCode: 400,
                 message: `There was an error fetching denomination Locations.`,
               });
             }
             response.status(200).json({
               label: "View Church Events",
-              message: " Locations fetched successfully.",
+              message: "Locations fetched Successfully.",
               data: churchDenominationLocations,
             });
           } catch (ViewLocationsError) {
