@@ -5,11 +5,17 @@
       :sub_title="'View all denominations in the system'"
     />
     <section class="row mx-0 pb-1 pt-0 px-0">
-      <div class="col-6 col-md-4 mb-4 pt-0 px-0" v-for="(i, k) in 8" :key="k">
+      <div
+        class="col-6 col-md-4 mb-4 pt-0 px-0"
+        v-for="(each_data, k) in data_array"
+        :key="k"
+      >
         <div
           class="p-3 c-co-card mr-3 c-card-direc-deno"
           @click="
-            $router.push('/account/dashboard/directory-event-locator/branch/5')
+            $router.push(
+              `/account/dashboard/directory-event-locator/branch/${each_data.id}`
+            )
           "
           style="cursor: pointer;"
         >
@@ -22,10 +28,14 @@
                 class="mb-2"
                 style="font-weight: bold; text-transform: uppercase; font-size: 95%;"
               >
-                Deeper Life Church
+                {{ each_data.denomination_name }}
               </p>
-              <p class="mb-0 c-directory-deno-sub">47 Branches</p>
-              <p class="mb-0 c-directory-deno-sub">69080 Members</p>
+              <p class="mb-0 c-directory-deno-sub">
+                {{ each_data.__meta__.branches_count }} Branches
+              </p>
+              <p class="mb-0 c-directory-deno-sub">
+                {{ each_data.__meta__.members_count }} Members
+              </p>
             </div>
           </div>
         </div>

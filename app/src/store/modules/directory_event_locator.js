@@ -23,10 +23,23 @@ export default {
     },
     async allDenomination() {
       try {
-        let result = await apiClient.get("getAllDenominations");
+        let result = await apiClient.get("user/getAllDenominations");
         // let result2 = await apiClient.get("user/getDenominationLocations");
         console.log("view all denomination >> ", result);
         // console.log("view all denomination >> ", result2);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async getDenominationBranch(_, params) {
+      try {
+        let result = await apiClient.get(
+          `getSingleDenominationLocations/${params.branch_id}`
+        );
+        console.log("view denomination branch >> ", result);
 
         return result.data;
       } catch (error) {
@@ -49,6 +62,17 @@ export default {
       try {
         let result = await apiClient.get("getAllEvents");
         console.log("view branch events >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async denominationEvents() {
+      try {
+        let result = await apiClient.get("denomination/getEvents");
+        console.log("view denomination events >> ", result);
 
         return result.data;
       } catch (error) {

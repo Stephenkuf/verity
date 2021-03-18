@@ -161,7 +161,12 @@ export default {
     async createEvent() {
       try {
         this.is_processing = true;
-        console.log("Creating Event >> ", this.event_data, " >> ", this.$v);
+        console.log(
+          "Creating Event >> ",
+          this.event_data,
+          " >> ",
+          this.get_profile
+        );
 
         this.$v.event_data.$touch();
         if (this.$v.event_data.$invalid) {
@@ -170,7 +175,7 @@ export default {
         Nprogress.start();
         this.event_data.url = "/denomination/createEvent";
 
-        if (this.profile.user_role.role_label.toLowerCase() == "branch") {
+        if (this.get_profile.user_role.role_label.toLowerCase() == "branch") {
           this.event_data.url = "/branch/createEvent";
         }
         // this.sign_up_data.denomination = this.sign_up_data.denomination.id;

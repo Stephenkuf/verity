@@ -19,7 +19,11 @@
     </div>
 
     <section class="row mx-0 pb-1 pt-0 px-0">
-      <div class="col-6 col-md-4 mb-4 pt-0 px-0" v-for="(i, k) in 8" :key="k">
+      <div
+        class="col-6 col-md-4 mb-4 pt-0 px-0"
+        v-for="(each_data, k) in data_array"
+        :key="k"
+      >
         <div class="p-3 c-co-card mr-3 c-card-direc-deno">
           <div class="row">
             <div class="col-3 c-center-content">
@@ -30,13 +34,16 @@
                 class="mb-2"
                 style="font-weight: bold; text-transform: uppercase; font-size: 95%;"
               >
-                Abule Jesu
+                {{ each_data.branch_name }}
               </p>
 
-              <p class="mb-0 c-directory-deno-sub">69080 Members</p>
+              <p class="mb-0 c-directory-deno-sub">
+                {{ each_data.__meta__.members_count }} Members
+              </p>
               <p class="mb-0 c-directory-deno-sub">
                 <small class="font-weight-bold"
-                  >Luke Emmanuel Street Sattelite Town Lagos</small
+                  >{{ each_data.branch_address }}, {{ each_data.branch_city }},
+                  {{ each_data.branch_country }}</small
                 >
               </p>
             </div>
@@ -64,15 +71,15 @@ export default {
   },
   mixins: [notifications],
   methods: {
-    async get_denomination() {
+    async get_denomination_branch() {
       try {
-        const get_denomination = await this.$store.dispatch(
-          "directory_event_locator/allDenomination"
+        console.log("$router >> ", this.$route.params.branch_id);
+        const get_denomination_branch = await this.$store.dispatch(
+          "directory_event_locator/getDenominationBranch",
+          { branch_id: this.$route.params.branch_id }
         );
-        console.log("get_denomination >> ", get_denomination);
-        this.$store.state.church_organisation.all_request =
-          get_denomination.data;
-        this.data_array = get_denomination.data;
+        console.log("get_denomination_branch >> ", get_denomination_branch);
+        this.data_array = get_denomination_branch.data;
       } catch (error) {
         console.log("error >> ", error);
         Nprogress.done();
@@ -80,7 +87,7 @@ export default {
     },
   },
   async mounted() {
-    // await this.get_denomination();
+    await this.get_denomination_branch();
   },
 };
 </script>

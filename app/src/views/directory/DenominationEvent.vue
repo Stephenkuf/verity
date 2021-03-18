@@ -8,7 +8,11 @@
     />
 
     <section class="row mx-0 pb-1 pt-0 px-0">
-      <div class="col-6 col-md-4 mb-4 pt-0 px-0" v-for="(i, k) in 8" :key="k">
+      <div
+        class="col-6 col-md-4 mb-4 pt-0 px-0"
+        v-for="(d_array, k) in data_array"
+        :key="k"
+      >
         <div
           class="px-3 py-0 c-co-card mr-3 c-card-direc-deno"
           style="border-top: 5px solid #106191; border-top-left-radius: .4rem; border-top-right-radius: .4rem;"
@@ -21,20 +25,20 @@
             </div>
             <div class="col-9 px-2 py-1" style="color: #777; font-size: 90%;">
               <small class="d-block text-right font-weight-bold"
-                ><span>Start Date: </span>20 Nov 2024</small
+                ><span>Start Date: </span>{{ d_array.event_start_date }}</small
               >
               <small class="d-block text-right font-weight-bold"
-                ><span>End Date: </span>25 Nov 2024</small
+                ><span>End Date: </span>{{ d_array.event_end_date }}</small
               >
             </div>
           </div>
-          <div class="row px-4 mt-4 mb-4">
-            <p class="c-event-title mb-0">Convenant Sunday</p>
-            <small
+          <div class="row d-block px-4 mt-4 mb-4">
+            <p class="c-event-title d-block mb-0">{{ d_array.event_title }}</p>
+            <small class="d-block"
               ><span class="font-weight-bold c-primary">THEME: </span>
-              <span class="font-weight-bold c-primary text-capitalize"
-                >September to Remember</span
-              ></small
+              <span class="font-weight-bold c-primary text-capitalize">{{
+                d_array.event_theme
+              }}</span></small
             >
             <small>
               <span class="font-weight-bold c-primary text-capitalize"
@@ -65,15 +69,15 @@ export default {
   },
   mixins: [notifications],
   methods: {
-    async get_denomination() {
+    async get_denomination_event() {
       try {
-        const get_denomination = await this.$store.dispatch(
-          "directory_event_locator/allDenomination"
+        const get_denomination_event = await this.$store.dispatch(
+          "directory_event_locator/denominationEvents"
         );
-        console.log("get_denomination >> ", get_denomination);
+        console.log("get_denomination_event >> ", get_denomination_event);
         this.$store.state.church_organisation.all_request =
-          get_denomination.data;
-        this.data_array = get_denomination.data;
+          get_denomination_event.data;
+        this.data_array = get_denomination_event.data;
       } catch (error) {
         console.log("error >> ", error);
         Nprogress.done();
@@ -81,7 +85,7 @@ export default {
     },
   },
   async mounted() {
-    // await this.get_denomination();
+    await this.get_denomination_event();
   },
 };
 </script>

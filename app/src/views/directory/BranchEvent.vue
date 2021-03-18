@@ -6,7 +6,7 @@
     />
 
     <section class="row mx-0 pb-1 pt-0 px-0">
-      {{ get_profile }}
+      <!-- {{ get_profile }} -->
       <div
         class="col-6 col-md-4 mb-4 pt-0 px-0"
         v-for="(d_array, k) in data_array"
