@@ -60,7 +60,7 @@ export default {
     },
     async branchEvents() {
       try {
-        let result = await apiClient.get("getAllEvents");
+        let result = await apiClient.get("branch/getEvents");
         console.log("view branch events >> ", result);
 
         return result.data;

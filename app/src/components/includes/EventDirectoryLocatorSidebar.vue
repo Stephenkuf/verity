@@ -121,6 +121,10 @@
           </div>
           <div
             class="d-flex px-4 py-3 justify-content-between w-100 c-co-pointer c-co-link"
+            v-if="
+              profile.user_role &&
+                profile.user_role.role_label != 'Denomination'
+            "
             :class="{ active: get_active_sidebar == 'branch_event' }"
             style="color: #555;"
             @click="
