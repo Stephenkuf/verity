@@ -25,6 +25,9 @@ const denominations = [{
   },
   {
     denomination_label: "Mountain of Fire and Miracles Ministries"
+  },
+  {
+    denomination_label: "Church of Christ"
   }
 ]
 
