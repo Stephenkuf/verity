@@ -111,7 +111,7 @@ export default {
         this.showSuccessNotification(data.message);
         console.log("create individual response >> ", data);
         this.is_processing = false;
-        location.replace("/account/dashboard/belivers-network");
+        location.replace("#/account/dashboard/belivers-network");
       } catch (error) {
         console.log("showing error >> ", error);
         Nprogress.done();

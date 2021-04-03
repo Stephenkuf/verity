@@ -217,7 +217,7 @@ export default {
         this.showSuccessNotification(data.message);
         console.log("get signup response >> ", data);
         this.is_processing = false;
-        location.replace("/login");
+        location.replace("#/login");
       } catch (error) {
         this.showErrorNotification(error.data.message);
         this.is_processing = false;

@@ -91,7 +91,7 @@ export default {
         this.$store.state.landing_page.platformModal = title;
         document.getElementById("OpenCOMREGMOD").click();
       } else {
-        location.replace(`/account/dashboard/${link}`);
+        location.replace(`#/account/dashboard/${link}`);
       }
     },
 

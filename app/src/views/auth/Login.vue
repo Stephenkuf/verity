@@ -124,7 +124,7 @@ export default {
         console.log("get login response >> ", data);
         this.is_processing = false;
         Nprogress.done();
-        location.replace("/account");
+        location.replace("#/account");
       } catch (error) {
         this.showErrorNotification(error.data.message);
         this.is_processing = false;
