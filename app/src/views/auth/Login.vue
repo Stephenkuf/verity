@@ -10,10 +10,10 @@
             <h3 class="f-24 c-black font-weight-bold">
               Login to your verity Account Now
             </h3>
-            <p class="f-16 c-brown">
+            <!-- <p class="f-16 c-brown">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem
-            </p>
+            </p> -->
           </div>
           <form class="f-16" @submit.prevent="loginUser()">
             <div class="form-group ">
