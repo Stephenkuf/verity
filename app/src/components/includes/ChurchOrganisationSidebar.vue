@@ -9,8 +9,14 @@
           <div>
             <span
               class="d-flex mx-auto align-items-center text-uppercase text-white c-co-sidebar-imag"
-              >{{ profile.full_name && profile.full_name.split(" ")[0][0].toUpperCase()
-              }}{{ profile.full_name && profile.full_name.split(" ")[1] && profile.full_name.split(" ")[1][0].toUpperCase() }}</span
+              >{{
+                profile.full_name &&
+                  profile.full_name.split(" ")[0][0].toUpperCase()
+              }}{{
+                profile.full_name &&
+                  profile.full_name.split(" ")[1] &&
+                  profile.full_name.split(" ")[1][0].toUpperCase()
+              }}</span
             >
             <div class="mt-2">
               <div class="">
@@ -18,7 +24,9 @@
                   class="f-14 f-bold c-blk mb-0 c-hov"
                   style="cursor: pointer;"
                 >
-                  Deeper Life Bibe Church ({{profile.user_role && profile.user_role.role_label}})
+                  Deeper Life Bibe Church ({{
+                    profile.user_role && profile.user_role.role_label
+                  }})
                 </p>
                 <p
                   class="f-12 f-med c-grey mb-0 text-center"
@@ -79,7 +87,11 @@
             v-if="get_active_sidebar == 'request'"
           >
             <div
-            v-if="profile.user_role && profile.user_role.role_label && profile.user_role.role_label.toLowerCase() == 'user'"
+              v-if="
+                profile.user_role &&
+                  profile.user_role.role_label &&
+                  profile.user_role.role_label.toLowerCase() == 'user'
+              "
               class="d-flex justify-content-between c-pl-5 py-2 pr-4 w-100 c-co-pointer c-co-sub-link"
               :class="get_active_sub_sidebar == 'create-request' && 'active'"
               @click="
@@ -110,7 +122,7 @@
                 <small style="font-size: 70%;"
                   ><i class="fa fa-circle pr-3" aria-hidden="true"></i
                 ></small>
-                <span style="font-size: 88%;" class="">New Request</span>
+                <span style="font-size: 88%;" class="">Pending Request</span>
               </div>
               <div>
                 <!-- <span class="badge badge-pill badge-primary">20</span> -->
@@ -190,7 +202,11 @@
               "
             >
               <div
-              v-if="profile.user_role && (profile.user_role.role_label.toLowerCase() == `denomination`)">
+                v-if="
+                  profile.user_role &&
+                    profile.user_role.role_label.toLowerCase() == `denomination`
+                "
+              >
                 <small style="font-size: 70%;"
                   ><i class="fa fa-circle pr-3" aria-hidden="true"></i
                 ></small>
@@ -211,13 +227,16 @@
                 <small style="font-size: 70%;"
                   ><i class="fa fa-circle pr-3" aria-hidden="true"></i
                 ></small>
-                <span style="font-size: 88%;" class="">All Resource</span>
+                <span style="font-size: 88%;" class="">All Resources</span>
               </div>
             </div>
           </div>
 
           <div
-          v-if="profile.user_role && (profile.user_role.role_label.toLowerCase() != `user`)"
+            v-if="
+              profile.user_role &&
+                profile.user_role.role_label.toLowerCase() != `user`
+            "
             class="d-flex px-4 py-3 justify-content-between w-100 c-co-pointer c-co-link"
             :class="{ active: get_active_sidebar == 'register-manager' }"
             style="color: #555;"
@@ -262,7 +281,11 @@
             v-if="get_active_sidebar == 'bulletins'"
           >
             <div
-            v-if="profile.user_role && profile.user_role.role_label && profile.user_role.role_label.toLowerCase() != 'user'"
+              v-if="
+                profile.user_role &&
+                  profile.user_role.role_label &&
+                  profile.user_role.role_label.toLowerCase() != 'user'
+              "
               class="d-flex justify-content-between c-pl-5 py-2 pr-4 w-100 c-co-pointer c-co-sub-link"
               :class="get_active_sub_sidebar == 'create-bulletin' && 'active'"
               @click="

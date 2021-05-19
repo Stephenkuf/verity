@@ -1,5 +1,21 @@
 <template>
-  <div :class="$route.meta.group == 'Dashboard' && 'bg-grey-light'">
+  <div
+    :class="
+      $route.meta.group == 'Dashboard' &&
+      ($route.name == 'ChurchEmail' ||
+        $route.name == 'NewRequest' ||
+        $route.name == 'RejectedRequest' ||
+        $route.name == 'CreateRequest' ||
+        $route.name == 'CreateResource' ||
+        $route.name == 'CreateBulletin' ||
+        $route.name == 'ViewResource' ||
+        $route.name == 'AllBulletin' ||
+        $route.name == 'RegisterManager' ||
+        $route.name == 'AcceptedRequest')
+        ? 'bg-blue-light'
+        : 'bg-grey-light'
+    "
+  >
     <appTopbar v-if="!($route.name == 'Landing')"></appTopbar>
     <router-view></router-view>
   </div>

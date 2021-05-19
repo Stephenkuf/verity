@@ -1,7 +1,22 @@
 <template>
   <header class="dashboard__header">
     <nav class="navbar navbar-expand-lg bg-white">
-      <div class="container">
+      <div
+        :class="
+          $route.name == 'ChurchEmail' ||
+          $route.name == 'NewRequest' ||
+          $route.name == 'RejectedRequest' ||
+          $route.name == 'CreateRequest' ||
+          $route.name == 'CreateResource' ||
+          $route.name == 'CreateBulletin' ||
+          $route.name == 'ViewResource' ||
+          $route.name == 'AllBulletin' ||
+          $route.name == 'RegisterManager' ||
+          $route.name == 'AcceptedRequest'
+            ? 'co_container'
+            : 'container'
+        "
+      >
         <button
           class="navbar-toggler bd-brand"
           type="button"

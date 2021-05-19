@@ -25,10 +25,10 @@
                 placeholder="Full Name"
                 required
               />
-              <small v-if="$v.sign_up_data.full_name.$error" class="text-danger"
-                >Full name is required</small
-              >
             </div>
+            <small v-if="$v.sign_up_data.full_name.$error" class="text-danger"
+              >Full name is required</small
+            >
             <div class="form-group">
               <input
                 type="text"
