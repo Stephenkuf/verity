@@ -108,7 +108,7 @@ class RegisterController {
     response.status(200).json({
       status: success,
       label: `user Registration`,
-      message: "Your Email has ben confirmed , LogIn",
+      message: "Your Email has been confirmed , LogIn",
     });
   }
 }

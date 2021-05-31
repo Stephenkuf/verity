@@ -4,6 +4,9 @@ const safeAwait = require("safe-await");
 const User = use("App/Models/User");
 const Posts = use("App/Models/Post")
 const UserRole = use("App/Models/UserRole");
+const randomString = require("random-string");
+const DenominationInfo = use("App/Models/DenominationInfo");
+const BranchInfo = use("App/Models/BranchInfo");
 
 
 class UserController {
@@ -37,10 +40,33 @@ class UserController {
         })
       }
 
+      const denomination = await DenominationInfo.query().where("id" ,denomination_id).first()
+      if (!denomination) {
+        return response.status(400).json({
+          label: `User denomination`,
+          statusCode: 400,
+          message: `We were unable to find denomination`,
+        })
+      }
+
+      const branch = await BranchInfo.query().where("id" ,branch_id).first()
+      if (!denomination) {
+        return response.status(400).json({
+          label: `User branch`,
+          statusCode: 400,
+          message: `We were unable to find branch`,
+        })
+      }
+
+      const userString = `${denomination.denomination_name.substr(0, 5).toLowerCase()}
+      -${branch.branch_name.substr(0,3).toLowerCase()}
+      -${randomString.generate({length: 7,charset: "numeric" })}`.toLowerCase();
+
       const registered = await
       User.query()
         .where('id', user.id)
         .update({
+          user_string:userString,
           is_complete_registration: 1,
           user_role_id:denominationString.id
         })

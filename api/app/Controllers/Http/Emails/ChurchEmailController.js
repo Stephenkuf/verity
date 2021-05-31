@@ -17,7 +17,7 @@ class ChurchEmailController {
      const mailSend =  await Mail.send("auth.emails.confirm-email", {email_title , email_body}, message => {
         message
           .to(recipient_email)
-          .from("Verity Administrator")
+          .from("Verity")
           .subject("(Verity) New Denomination Email.");
       });
 
@@ -36,12 +36,6 @@ class ChurchEmailController {
           message: `There was an error sending Mail `,
         });
       }
-
-      // const logMailDetails = await EmailUser.create({
-      //     sender_id :user.id,
-      //     reciever_id,
-      //     email_id:sendMail.id
-      // })
 
       response.status(200).json({
         label: "Send Mail",
