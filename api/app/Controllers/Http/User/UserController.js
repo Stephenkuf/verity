@@ -58,9 +58,7 @@ class UserController {
         })
       }
 
-      const userString = `${denomination.denomination_name.substr(0, 5).toLowerCase()}
-      -${branch.branch_name.substr(0,3).toLowerCase()}
-      -${randomString.generate({length: 7,charset: "numeric" })}`.toLowerCase();
+      const userString = `${denomination.denomination_name.substr(0, 5).toLowerCase()}-${branch.branch_name.substr(0,3).toLowerCase()}-${randomString.generate({length: 7,charset: "numeric" })}`.toLowerCase();
 
       const registered = await
       User.query()
