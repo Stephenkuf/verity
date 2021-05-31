@@ -31,7 +31,12 @@
         </div>
       </div>
       <div class="square-container">
-        <div class="square">
+        <div
+          class="square"
+          @click="
+            completeReg('church organisation platform', 'church-organisation')
+          "
+        >
           <span>Church Organisation Platform</span>
         </div>
         <!-- <div

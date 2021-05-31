@@ -106,7 +106,7 @@ const routes = [
             component: NewRequest,
             name: "NewRequest",
             meta: {
-              title: "Variety - New Request",
+              title: "Variety - Pending Request",
               group: "Dashboard",
             },
           },
