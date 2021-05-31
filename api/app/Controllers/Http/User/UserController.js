@@ -4,7 +4,7 @@ const safeAwait = require("safe-await");
 const User = use("App/Models/User");
 const Posts = use("App/Models/Post")
 const UserRole = use("App/Models/UserRole");
-const randomString = require("random-string");
+var randomString = require("randomstring");
 const DenominationInfo = use("App/Models/DenominationInfo");
 const BranchInfo = use("App/Models/BranchInfo");
 
