@@ -30,7 +30,7 @@ class LoginController {
           return response.status(200).json({
             result: [user, data],
             label: "User Login",
-            message: 'Successful! , User as been logged in'
+            message: 'Login Successful .'
           })
         } else {
           response.status(401).json({

@@ -19,6 +19,7 @@
             ref="closeViewChurchRequestModal"
             type="button"
             class="close"
+            id="close-church-request"
             data-dismiss="modal"
             aria-label="Close"
           >
@@ -29,19 +30,18 @@
           <div class="heading">
             <h3 class="f-30 c-brand font-weight-bold">
               {{
-                single_request.requests && single_request.requests.request_title
+                single_request.request_title
               }}
               <span class="c-underline"></span>
             </h3>
             <p class="c-brown mt-3" style="font-size: 1rem;">
               {{
-                single_request.requests
-                  ? single_request.requests.request_body
-                  : "No Content"
+                single_request.request_body || "No Content"
               }}
             </p>
           </div>
-          <div v-if="!show_reason">
+          
+          <div v-if="!show_reason && get_profile.user_role && get_profile.user_role.role_label && get_profile.user_role.role_label.toLowerCase() != 'user'">
             <button
               class="btn btn-success font-weight-bold"
               @click="select_reason('acceptance')"
@@ -55,8 +55,8 @@
               REJECT
             </button>
           </div>
-          <hr v-if="show_reason" />
-          <div v-if="show_reason">
+          <hr v-if="show_reason && get_profile.user_role && get_profile.user_role.role_label && get_profile.user_role.role_label.toLowerCase() != 'user'" />
+          <div v-if="show_reason && get_profile.user_role && get_profile.user_role.role_label && get_profile.user_role.role_label.toLowerCase() != 'user'">
             <form>
               <div class="form-row">
                 <div class="form-group col-md-12">
@@ -81,9 +81,7 @@
                   </button>
                   <button
                     class="btn btn-danger font-weight-bold"
-                    @click.prevent="
-                      $store.state.church_organisation.show_reason = false
-                    "
+                    @click.prevent="cancelReason()"
                   >
                     CANCEL
                   </button>
@@ -111,6 +109,9 @@ export default {
   },
   mixins: [notifications],
   computed: {
+    get_profile(){
+      return this.$store.state.church_organisation.profile
+    },
     single_request() {
       console.log(this.$store.state.church_organisation.single_request);
       return this.$store.state.church_organisation.single_request;
@@ -120,6 +121,10 @@ export default {
     },
   },
   methods: {
+    cancelReason(){
+      this.$store.state.church_organisation.show_reason = false
+      this.request_reason = ""
+    }, 
     async accept_or_reject_request() {
       try {
         this.sending = true;
@@ -135,10 +140,15 @@ export default {
           { reason: this.request_reason, request_id: this.single_request.id }
         );
         // console.log('Im here');
+        this.request_reason = ""
 
         this.showSuccessNotification(data.message);
         console.log("get send accept request response >> ", data);
         this.sending = false;
+
+        this.$emit("triggerNewRequest");
+        document.getElementById("close-church-request").click();
+
       } catch (error) {
         this.showErrorNotification(error.data.message);
         this.sending = false;

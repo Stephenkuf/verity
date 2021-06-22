@@ -14,6 +14,7 @@ import Messages from "@/views/account/Messages.vue";
 //church organisation platform
 import BeliversNetworkDashboard from "@/views/account/Dashboard";
 import ChurchOrganisationDashboard from "@/views/account/ChurchOrganisationDashboard";
+import DirectoryEventLocator from "@/views/account/DirectoryEventLocator";
 
 // church organisation pages
 import ChurchEmails from "@/views/churchOrganisation/Emails";
@@ -26,6 +27,14 @@ import CreateBulletin from "@/views/churchOrganisation/CreateBulletin";
 import ViewResource from "@/views/churchOrganisation/ViewResource";
 import AllBulletin from "@/views/churchOrganisation/AllBulletin";
 import RegisterManager from "@/views/churchOrganisation/RegisterManager";
+
+// directory event locator pages
+import DirectoryDenomination from "@/views/directory/Denomination";
+import DirectoryDenominationBranch from "@/views/directory/DenominationBranches";
+import CreateEvent from "@/views/directory/CreateEvent";
+import DenominationEvent from "@/views/directory/DenominationEvent";
+import AllEvent from "@/views/directory/AllEvent";
+import BranchEvent from "@/views/directory/BranchEvent";
 
 Vue.use(VueRouter);
 
@@ -97,7 +106,7 @@ const routes = [
             component: NewRequest,
             name: "NewRequest",
             meta: {
-              title: "Variety - New Request",
+              title: "Variety - Pending Request",
               group: "Dashboard",
             },
           },
@@ -176,6 +185,70 @@ const routes = [
         ],
       },
       {
+        path: "dashboard/directory-event-locator",
+        component: DirectoryEventLocator,
+        meta: {
+          title: "Variety - Directory",
+          group: "Dashboard",
+        },
+        children: [
+          {
+            path: "",
+            component: DirectoryDenomination,
+            name: "DirectoryDenomination",
+            meta: {
+              title: "Variety - Denominations",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "branch/:branch_id",
+            component: DirectoryDenominationBranch,
+            name: "DirectoryDenominationBranch",
+            meta: {
+              title: "Variety - Denomination Branches",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "create-event",
+            component: CreateEvent,
+            name: "CreateEvent",
+            meta: {
+              title: "Variety - Create Events",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "denomination-event",
+            component: DenominationEvent,
+            name: "DenominationEvent",
+            meta: {
+              title: "Variety - Denomination Events",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "all-event",
+            component: AllEvent,
+            name: "AllEvent",
+            meta: {
+              title: "Variety - All Events",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "branch-event",
+            component: BranchEvent,
+            name: "BranchEvent",
+            meta: {
+              title: "Variety - Branch Events",
+              group: "Dashboard",
+            },
+          },
+        ],
+      },
+      {
         path: "profile",
         component: Profile,
         name: "Profile",
@@ -198,7 +271,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  mode: "hash",
   base: process.env.BASE_URL,
   routes,
 });

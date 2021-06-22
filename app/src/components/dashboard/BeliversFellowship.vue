@@ -19,7 +19,7 @@
                   :class="selected_tab == 'denomination-tab' && 'active'"
                   @click.prevent="selected_tab = 'denomination-tab'"
                 >
-                  Denomination
+                  Custom
                 </a>
               </li>
             </ul>
@@ -126,7 +126,11 @@
                     />
                   </template>
 
-                  <PlaceHolder :message="'posts'" :imageTitle="'nofeed.svg'" v-else>
+                  <PlaceHolder
+                    :message="'posts'"
+                    :imageTitle="'nofeed.svg'"
+                    v-else
+                  >
                     <p slot="placeholder-content">
                       Please start by creating a post.
                     </p>
@@ -142,7 +146,11 @@
                       @fetchPost="fetch_denomination_post"
                     />
                   </template>
-                  <PlaceHolder :message="'posts'" :imageTitle="'nofeed.svg'"  v-else>
+                  <PlaceHolder
+                    :message="'posts'"
+                    :imageTitle="'nofeed.svg'"
+                    v-else
+                  >
                     <p slot="placeholder-content">
                       Please start by creating a post.
                     </p>

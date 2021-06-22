@@ -31,7 +31,12 @@
         </div>
       </div>
       <div class="square-container">
-        <div class="square">
+        <div
+          class="square"
+          @click="
+            completeReg('church organisation platform', 'church-organisation')
+          "
+        >
           <span>Church Organisation Platform</span>
         </div>
         <!-- <div
@@ -91,7 +96,7 @@ export default {
         this.$store.state.landing_page.platformModal = title;
         document.getElementById("OpenCOMREGMOD").click();
       } else {
-        location.replace(`/account/dashboard/${link}`);
+        location.replace(`#/account/dashboard/${link}`);
       }
     },
 

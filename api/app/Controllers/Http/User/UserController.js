@@ -3,6 +3,10 @@ const AdditionalUserInfo = use("App/Models/AdditionalUserInfo");
 const safeAwait = require("safe-await");
 const User = use("App/Models/User");
 const Posts = use("App/Models/Post")
+const UserRole = use("App/Models/UserRole");
+var randomString = require("randomstring");
+const DenominationInfo = use("App/Models/DenominationInfo");
+const BranchInfo = use("App/Models/BranchInfo");
 
 
 class UserController {
@@ -11,44 +15,19 @@ class UserController {
     response,
     auth
   }) {
+    const {user} = await auth.current;
 
     try {
+      const denominationString = await UserRole.findBy("role_label", "User")
+
       const {
         denomination_id,
         branch_id
       } = request.all();
 
-
-      const loggedInUser = await auth.current.user;
-      // console.log(loggedInUser.id);
-
-      const lookUp = await User.findBy("id", loggedInUser.id)
-      if (!lookUp || lookUp == null) {
-        return response.status(400).json({
-          label: `User Lookup`,
-          statusCode: 400,
-          message: `We were unable to find that User`,
-        })
-      }
-
-      lookUp.is_complete_registration = 1
-
-      const saveconfirmation = await lookUp.save()
-
-      if (saveconfirmation == null || !saveconfirmation) {
-       return response.status(400).json({
-          label: `User registration completion update`,
-          statusCode: 400,
-          message: `We were unable to update user status `,
-        })
-      }
-
-      const currentUser = lookUp.toJSON()
-      console.log(currentUser.id);
-
       const additionalInfo = await
       AdditionalUserInfo.create({
-        user_id: currentUser.id,
+        user_id: user.id,
         denomination_id,
         branch_id
       })
@@ -61,11 +40,33 @@ class UserController {
         })
       }
 
+      const denomination = await DenominationInfo.query().where("id" ,denomination_id).first()
+      if (!denomination) {
+        return response.status(400).json({
+          label: `User denomination`,
+          statusCode: 400,
+          message: `We were unable to find denomination`,
+        })
+      }
+
+      const branch = await BranchInfo.query().where("id" ,branch_id).first()
+      if (!denomination) {
+        return response.status(400).json({
+          label: `User branch`,
+          statusCode: 400,
+          message: `We were unable to find branch`,
+        })
+      }
+
+      const userString = `${denomination.denomination_name.substr(0, 5).toLowerCase()}-${branch.branch_name.substr(0,3).toLowerCase()}-${randomString.generate({length: 7,charset: "numeric" })}`.toLowerCase();
+
       const registered = await
       User.query()
-        .where('id', loggedInUser.id)
+        .where('id', user.id)
         .update({
-          is_complete_registration: 1
+          user_string:userString,
+          is_complete_registration: 1,
+          user_role_id:denominationString.id
         })
 
       if (!registered) {
@@ -141,6 +142,7 @@ class UserController {
       User.query()
         .where("id", user.id)
         .with('additionalUserInfo', (builder) => builder.with("denominationInfo"), (builder) => builder.with('branchInfo'))
+        .with("user_role")
         .withCount('posts')
         // .withCount('group')
         .withCount('followers', (builder) => builder.where("user_id", user.id))

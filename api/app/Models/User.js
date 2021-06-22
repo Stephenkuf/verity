@@ -64,6 +64,8 @@ class User extends Model {
   additionalUserInfo() {
     return this.hasOne('App/Models/AdditionalUserInfo')
   }
+  user_role() {
+    return this.hasOne('App/Models/UserRole', 'user_role_id','id' )
+  }
 }
-
 module.exports = User

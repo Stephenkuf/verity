@@ -151,6 +151,11 @@ export default {
         );
         console.log("get send resource response >> ", data);
         this.showSuccessNotification(data.message);
+
+        this.resource_data.resource_title = ''
+        this.resource_data.resource_type = ""
+        this.resource_data.resource_body = ""
+        this.resource_data.resource_file = ""
         
         Nprogress.done();
         this.is_processing = false;

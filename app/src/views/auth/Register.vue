@@ -10,10 +10,10 @@
             <h3 class="f-24 c-black font-weight-bold">
               Create Your Account On Verity Now
             </h3>
-            <p class="f-16 c-brown">
+            <!-- <p class="f-16 c-brown">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem
-            </p>
+            </p> -->
           </div>
           <form @submit.prevent="registerUser()" class="f-16" action="">
             <div class="form-group">
@@ -25,10 +25,10 @@
                 placeholder="Full Name"
                 required
               />
-              <small v-if="$v.sign_up_data.full_name.$error" class="text-danger"
-                >Full name is required</small
-              >
             </div>
+            <small v-if="$v.sign_up_data.full_name.$error" class="text-danger"
+              >Full name is required</small
+            >
             <div class="form-group">
               <input
                 type="text"
@@ -217,7 +217,7 @@ export default {
         this.showSuccessNotification(data.message);
         console.log("get signup response >> ", data);
         this.is_processing = false;
-        location.replace("/login");
+        location.replace("#/login");
       } catch (error) {
         this.showErrorNotification(error.data.message);
         this.is_processing = false;

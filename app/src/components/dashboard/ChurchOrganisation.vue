@@ -1,18 +1,31 @@
 <template>
-  <div class="container mt-3">
+  <div
+    class="mt-3"
+    :class="
+      $route.name == 'ChurchEmail' ||
+      $route.name == 'NewRequest' ||
+      $route.name == 'RejectedRequest' ||
+      $route.name == 'CreateRequest' ||
+      $route.name == 'CreateResource' ||
+      $route.name == 'CreateBulletin' ||
+      $route.name == 'ViewResource' ||
+      $route.name == 'AllBulletin' ||
+      $route.name == 'RegisterManager' ||
+      $route.name == 'AcceptedRequest'
+        ? 'co_container'
+        : 'container'
+    "
+  >
     <div class="row justify-content-center">
       <div class="col-md-3">
         <appChurchOrganisationSidebar :profile="profile_data" />
         <appChurchBranch v-if="false" />
-
-        
       </div>
 
       <div class="col-md-9">
         <transition name="fade" mode="out-in" appear>
           <router-view></router-view>
         </transition>
-       
       </div>
     </div>
   </div>
@@ -25,10 +38,10 @@ import Nprogress from "nprogress";
 
 export default {
   name: "ChurchOrganisationDashboard",
-  data(){
+  data() {
     return {
-       profile_data: {},
-    }
+      profile_data: {},
+    };
   },
   components: {
     appChurchOrganisationSidebar,
@@ -40,6 +53,7 @@ export default {
         const get_profile = await this.$store.dispatch("dashboard/viewProfile");
         console.log("get_profile >> ", get_profile);
         this.profile_data = get_profile.result[0];
+        this.$store.state.church_organisation.profile = this.profile_data;
       } catch (error) {
         console.log("error >> ", error);
         Nprogress.done();

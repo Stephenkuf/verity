@@ -20,6 +20,19 @@ class RegisterController {
       } = request.all();
 
       //create user
+      const usernameLookup = await User.findBy("username", username);
+
+      if (usernameLookup) {
+        const val = usernameLookup.toJSON();
+        if (val != null) {
+          return response.status(400).json({
+            label: `User Registration`,
+            statusCode: 400,
+            message: `That username has been used to register`,
+          });
+        }
+      }
+
 
       const userLookup = await User.findBy("email", email);
 
@@ -54,15 +67,15 @@ class RegisterController {
         });
       }
 
-      // //send confirmation Email
-      // await Mail.send("auth.emails.confirm-email", user.toJSON(), message => {
-      //   message
-      //     .to(user.email)
-      //     .from("Verity.com")
-      //     .subject("Please confirm your email address");
-      // });
+      //send confirmation Email
+      await Mail.send("auth.emails.confirm-email", user.toJSON(), message => {
+        message
+          .to(user.email)
+          .from("Verity.com")
+          .subject("Please confirm your email address");
+      });
 
-      // // display success message
+      // display success message
       response.status(200).json({
         label: "User Registration",
         message:
@@ -95,7 +108,7 @@ class RegisterController {
     response.status(200).json({
       status: success,
       label: `user Registration`,
-      message: "Your Email has ben confirmed , LogIn",
+      message: "Your Email has been confirmed , LogIn",
     });
   }
 }

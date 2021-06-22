@@ -9,15 +9,17 @@
         class="col-12 mb-4 c-co-card row mx-0 px-0 my-0 c-resource-card"
         data-toggle="modal"
         data-target="#ViewChurchRequestModal"
-        v-for="(data_array, k) in data_array"
+        v-for="(data, k) in data_array"
         :key="k"
+        @click="open_modal(data)"
       >
         <div
           class="d-none d-md-block px-0 col-md-3"
           style="min-height: 12rem; overflow: hidden"
+          
         >
           <img
-            :src="data_array.resource_file"
+            :src="data.resource_file"
             alt="resource img"
             class="c-resource-img"
           />
@@ -27,23 +29,23 @@
           <div class="d-flex">
             <div>
               <p class="f-24 font-weight-bold mb-0 text-uppercase c-brand">
-                {{data_array.resource_title}}
+                {{data.resource_title}}
               </p>
-              <span class="c-resource-date">{{data_array.created_at}}</span>
+              <span class="c-resource-date">{{data.created_at}}</span>
             </div>
           </div>
           <div>
             <p class="mt-3">
-              {{data_array.resource_body}}
+              {{data.resource_body}}
             </p>
           </div>
         </div>
       </div>
     </section>
-     <PlaceHolder :message="'requests'" :imageTitle="'nofeed.svg'" v-else>
-      <p slot="placeholder-content">
-        Start by creating a request
-      </p>
+     <PlaceHolder :message="'resources'" :imageTitle="'nofeed.svg'" v-else>
+      <!-- <p slot="placeholder-content">
+        Start by creating a resource
+      </p> -->
     </PlaceHolder>
     <appViewChurchResource />
   </section>
@@ -65,6 +67,10 @@ export default {
     appViewChurchResource,
   },
   methods: {
+    open_modal(data) {
+      console.log("data >> ", data);
+      this.$store.state.church_organisation.single_resource = data;
+    },
     async get_response() {
       try {
         const get_response = await this.$store.dispatch("church_organisation/allResponse");
