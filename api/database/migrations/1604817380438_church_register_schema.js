@@ -8,6 +8,8 @@ class ChurchRegisterSchema extends Schema {
     this.create('church_registers', (table) => {
       table.increments()
       table.integer("service_id")
+      table.string("register_name")
+      table.string("register_date")
       table.integer("total_members")
       table.integer("total_females")
       table.integer("total_males")

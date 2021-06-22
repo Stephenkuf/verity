@@ -7,9 +7,20 @@
     </div>
 
     <div class="resources pt-0 bg-white">
-      <li class="list-unstyled py-2 px-3 v-hover-list" v-for="i in 10" :key="i">
-        <a class="f-16 f-med d-block" href="">Stephen Kuforiji (stephen10)</a>
-        <span class="c-grey f-12 f-med">stephen.kufo@gmail.com</span>
+      <li
+        class="list-unstyled py-2 px-3 v-hover-list"
+        v-for="(each_friend, i) in friends"
+        :key="i"
+        @click.prevent="select_chat(each_friend)"
+      >
+        <a class="f-16 f-med d-block" href=""
+          >{{ each_friend.followers[0].full_name }} ({{
+            each_friend.followers[0].username
+          }})</a
+        >
+        <span class="c-grey f-12 f-med">{{
+          each_friend.followers[0].email
+        }}</span>
       </li>
 
       <!-- <a href="resources.html" class="btn bg-brand btn-md btn-block white-text"
@@ -22,6 +33,16 @@
 <script>
 export default {
   name: "FriendList",
+  props: {
+    friends: {
+      type: Array,
+    },
+  },
+  methods: {
+    select_chat(each_friend) {
+      this.$emit("select_chat", each_friend);
+    },
+  },
 };
 </script>
 

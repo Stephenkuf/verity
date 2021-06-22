@@ -14,6 +14,27 @@ import Messages from "@/views/account/Messages.vue";
 //church organisation platform
 import BeliversNetworkDashboard from "@/views/account/Dashboard";
 import ChurchOrganisationDashboard from "@/views/account/ChurchOrganisationDashboard";
+import DirectoryEventLocator from "@/views/account/DirectoryEventLocator";
+
+// church organisation pages
+import ChurchEmails from "@/views/churchOrganisation/Emails";
+import NewRequest from "@/views/churchOrganisation/NewRequest";
+import CreateRequest from "@/views/churchOrganisation/CreateRequest";
+import AcceptedRequest from "@/views/churchOrganisation/AcceptedRequest";
+import RejectedRequest from "@/views/churchOrganisation/RejectedRequest";
+import CreateResource from "@/views/churchOrganisation/CreateResource";
+import CreateBulletin from "@/views/churchOrganisation/CreateBulletin";
+import ViewResource from "@/views/churchOrganisation/ViewResource";
+import AllBulletin from "@/views/churchOrganisation/AllBulletin";
+import RegisterManager from "@/views/churchOrganisation/RegisterManager";
+
+// directory event locator pages
+import DirectoryDenomination from "@/views/directory/Denomination";
+import DirectoryDenominationBranch from "@/views/directory/DenominationBranches";
+import CreateEvent from "@/views/directory/CreateEvent";
+import DenominationEvent from "@/views/directory/DenominationEvent";
+import AllEvent from "@/views/directory/AllEvent";
+import BranchEvent from "@/views/directory/BranchEvent";
 
 Vue.use(VueRouter);
 
@@ -66,11 +87,166 @@ const routes = [
       {
         path: "dashboard/church-organisation",
         component: ChurchOrganisationDashboard,
-        name: "ChurchOrganisationDashboard",
         meta: {
           title: "Variety - Dashboard",
           group: "Dashboard",
         },
+        children: [
+          {
+            path: "",
+            component: ChurchEmails,
+            name: "ChurchEmail",
+            meta: {
+              title: "Variety - Emails",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "incoming-request",
+            component: NewRequest,
+            name: "NewRequest",
+            meta: {
+              title: "Variety - Pending Request",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "accepted-request",
+            component: AcceptedRequest,
+            name: "AcceptedRequest",
+            meta: {
+              title: "Variety - Accepted Request",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "rejected-request",
+            component: RejectedRequest,
+            name: "RejectedRequest",
+            meta: {
+              title: "Variety - Rejected Request",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "create-request",
+            component: CreateRequest,
+            name: "CreateRequest",
+            meta: {
+              title: "Variety - Create Request",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "create-resource",
+            component: CreateResource,
+            name: "CreateResource",
+            meta: {
+              title: "Variety - Create Resource",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "create-bulletin",
+            component: CreateBulletin,
+            name: "CreateBulletin",
+            meta: {
+              title: "Variety - Create Bulletin",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "view-resource",
+            component: ViewResource,
+            name: "ViewResource",
+            meta: {
+              title: "Variety - View Resource",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "all-bulletin",
+            component: AllBulletin,
+            name: "AllBulletin",
+            meta: {
+              title: "Variety - All Bulletin",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "register-manager",
+            component: RegisterManager,
+            name: "RegisterManager",
+            meta: {
+              title: "Variety - Register Manager",
+              group: "Dashboard",
+            },
+          },
+        ],
+      },
+      {
+        path: "dashboard/directory-event-locator",
+        component: DirectoryEventLocator,
+        meta: {
+          title: "Variety - Directory",
+          group: "Dashboard",
+        },
+        children: [
+          {
+            path: "",
+            component: DirectoryDenomination,
+            name: "DirectoryDenomination",
+            meta: {
+              title: "Variety - Denominations",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "branch/:branch_id",
+            component: DirectoryDenominationBranch,
+            name: "DirectoryDenominationBranch",
+            meta: {
+              title: "Variety - Denomination Branches",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "create-event",
+            component: CreateEvent,
+            name: "CreateEvent",
+            meta: {
+              title: "Variety - Create Events",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "denomination-event",
+            component: DenominationEvent,
+            name: "DenominationEvent",
+            meta: {
+              title: "Variety - Denomination Events",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "all-event",
+            component: AllEvent,
+            name: "AllEvent",
+            meta: {
+              title: "Variety - All Events",
+              group: "Dashboard",
+            },
+          },
+          {
+            path: "branch-event",
+            component: BranchEvent,
+            name: "BranchEvent",
+            meta: {
+              title: "Variety - Branch Events",
+              group: "Dashboard",
+            },
+          },
+        ],
       },
       {
         path: "profile",
@@ -95,7 +271,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  mode: "hash",
   base: process.env.BASE_URL,
   routes,
 });

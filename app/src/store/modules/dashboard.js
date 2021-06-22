@@ -5,6 +5,7 @@ export default {
   state: {
     switch_navigation: "belivers",
     profile: {},
+    third_panel: "initial",
     all_users: [],
   },
   mutations: {
@@ -53,10 +54,42 @@ export default {
         throw error.response;
       }
     },
+    async joinGroup(store, group_id) {
+      try {
+        let result = await apiClient.post(`/joinGroup/${group_id}`);
+        console.log("join group >> ", result);
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async viewDenominationPosts() {
+      try {
+        let result = await apiClient.get("/ViewDenominationTimeline");
+        console.log("view denomination post >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
     async viewPosts() {
       try {
         let result = await apiClient.get("/ViewTimelinePosts");
         console.log("view post >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async viewGroupPosts(group_id) {
+      try {
+        let result = await apiClient.get(`/createGroupPost/${group_id}`);
+        console.log("view denomination post >> ", result);
 
         return result.data;
       } catch (error) {
@@ -75,10 +108,76 @@ export default {
         throw error.response;
       }
     },
+    async getFollowing() {
+      try {
+        let result = await apiClient.get("/getFollowing");
+        console.log("view following >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async getFollowers() {
+      try {
+        let result = await apiClient.get("/getFollowers");
+        console.log("view followers >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async getDenominationWhoToFollow() {
+      try {
+        let result = await apiClient.get("/whoToFollowDenomination");
+        console.log("view deno people to follow >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
     async getPeopleToFollow() {
       try {
         let result = await apiClient.get("/whoToFollow");
         console.log("view people to follow >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async getNonJoinedGroup() {
+      try {
+        let result = await apiClient.get("/nonJoinedGroups");
+        console.log("view group to join >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async getDenominationGroups() {
+      try {
+        let result = await apiClient.get("/ViewDenominationGroups");
+        console.log("view deno group to join >> ", result);
+
+        return result.data;
+      } catch (error) {
+        console.log("error >> ", error.response);
+        throw error.response;
+      }
+    },
+    async myGroups() {
+      try {
+        let result = await apiClient.get("/joinedGroups");
+        console.log("view my group >> ", result);
 
         return result.data;
       } catch (error) {

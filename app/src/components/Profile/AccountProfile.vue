@@ -60,22 +60,23 @@
                 </p> -->
               </div>
               <div>
-                <appMyGroups />
+                <appMyGroups :groups="groups" />
               </div>
             </div>
             <div class="col-md-6" v-if="selected_tab == 'general-tab'">
               <section class="posts">
-                <appCreatePostSection @fetchPost="fetch_post_n_profile" />
+                <!-- <appCreatePostSection @fetchPost="fetch_post_n_profile" /> -->
                 <template v-if="post_list.length">
                   <appSinglePost
                     v-for="(post, index) in post_list"
+                    :profile="profile_data"
                     :key="index"
                     :post_data="post"
                     @fetchPost="fetch_post"
                   />
                 </template>
 
-                <PlaceHolder :message="'posts'" v-else>
+                <PlaceHolder :message="'posts'" :margin_style="'mb-3'" v-else>
                   <p slot="placeholder-content">
                     Please start by creating a post.
                   </p>
@@ -84,11 +85,18 @@
             </div>
             <div class="col-md-3">
               <section class="sidebar__right ">
-                <appMyFriends />
+                <appMyFriends :friends="friends" />
                 <!-- friends  -->
-                <appPeopleYouMayKnow />
+                <appPeopleYouMayKnow
+                  :selected_tab="'general-tab'"
+                  :key="`${'general-tab'}-2`"
+                />
                 <!-- Groups -->
-                <appGroupYouMayJoin />
+                <appGroupYouMayJoin
+                  :selected_tab="'general-tab'"
+                  :key="`${'general-tab'}-1`"
+                  @triggerMyGroup="triggerMyGroup"
+                />
               </section>
             </div>
           </div>
@@ -101,13 +109,13 @@
         ></div>
       </div>
     </div>
-    <appCreateGroup />
+    <appCreateGroup @triggerMyGroup="triggerMyGroup" />
   </div>
 </template>
 
 <script>
 import appProfileCard from "@/components/UI/ProfileCard";
-import appCreatePostSection from "@/components/UI/CreatePostSection";
+// import appCreatePostSection from "@/components/UI/CreatePostSection";
 import appSinglePost from "@/components/UI/SinglePost";
 import appGroupYouMayJoin from "@/components/UI/GroupYouMayJoin";
 import appMyGroups from "@/components/UI/MyGroups";
@@ -127,12 +135,14 @@ export default {
       post_list: [],
       profile_data: {},
       all_users: [],
+      groups: [],
+      friends: [],
     };
   },
   mixins: [notifications],
   components: {
     appProfileCard,
-    appCreatePostSection,
+    // appCreatePostSection,
     appSinglePost,
     appGroupYouMayJoin,
     appPeopleYouMayKnow,
@@ -182,11 +192,35 @@ export default {
         Nprogress.done();
       }
     },
+    async myGroups() {
+      try {
+        const get_people = await this.$store.dispatch("dashboard/myGroups");
+        console.log("get_people >> ", get_people);
+        this.groups = get_people.result;
+      } catch (error) {
+        console.log("error >> ", error);
+      }
+    },
+    async myFriends() {
+      try {
+        const get_people = await this.$store.dispatch("profile/getFriends");
+        console.log("get my friends >> ", get_people);
+        this.friends = get_people.result;
+      } catch (error) {
+        console.log("error >> ", error);
+      }
+    },
+    async triggerMyGroup() {
+      await this.myGroups();
+      await this.get_user_profile();
+    },
   },
   async mounted() {
     await this.fetch_post();
     await this.get_user_profile();
     await this.get_all_users();
+    await this.myGroups();
+    await this.myFriends();
     this.is_fetching = false;
   },
 };

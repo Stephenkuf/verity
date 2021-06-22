@@ -8,10 +8,12 @@ class ResourcesSchema extends Schema {
     this.create('resources', (table) => {
       table.increments()
       table.string("resource_title")
-      table.string("resource_body")
+      table.text("resource_body")
+      table.text("resource_file")
       table.boolean("is_video")
-      table.boolean("is_link")
+      table.boolean("is_audio")
       table.boolean("is_photo")
+      table.boolean("is_link")
       table.timestamps()
     })
   }

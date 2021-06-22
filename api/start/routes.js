@@ -18,7 +18,7 @@ const Route = use("Route");
 
 Route.get("/", () => {
   return {
-    greeting: "Hello world in JSON"
+    greeting: "Welcome to Verity APIs."
   };
 });
 // Authentication Routes
@@ -54,8 +54,9 @@ Route.post("/createGroupPost/:groupId", "Posts/PostController.createGroupPost").
 Route.get("/getUserPosts", "User/UserController.getUserPosts").middleware(["auth"]);
 Route.get("/getUserProfile", "User/UserController.getUserProfile").middleware(["auth"]);
 Route.get("/getAllUsers", "User/UserController.getAllUsers").middleware(["auth"]);
-
-
+Route.get("/getFriends","User/FriendController.getAllFriends").middleware(["auth"]); 
+Route.get('/getFollowers' ,"User/FriendController.getAllFollowers").middleware(["auth"]); 
+Route.get('/getFollowing' ,"User/FriendController.getAllFollowing").middleware(["auth"]); 
 
 //metadata routes
 Route.get("/getMetadata", "Metadata/MetadatumController.getMetadata");
@@ -66,11 +67,59 @@ Route.post("/followUser", "Follow/FollowController.followUser").middleware(["aut
 
 // create groups
 Route.post("/createGroup", "Group/GroupController.createGroup").middleware(["auth"]);
-Route.get("/joinGroup/:group_id", "Group/GroupController.joinGroup").middleware(["auth"]);
+Route.post("/joinGroup/:group_id", "Group/GroupController.joinGroup").middleware(["auth"]);
 Route.get("/joinedGroups","Group/GroupController.joinedGroups").middleware(["auth"]);
-Route.get("/nonjoinedGroups","Group/GroupController.joinGroup").middleware(["auth"]);
+Route.get("/nonJoinedGroups","Group/GroupController.nonJoinedGroups").middleware(["auth"]);
+Route.get("/ViewGroupTimeline/:group_id", "Posts/PostController.ViewGroupTimeline").middleware(["auth"]);
 
 // messaging
 Route.post("/createMessage", "Messaging/MessageController.createMessage").middleware(["auth"]);
 Route.get("/getMessages", "Messaging/MessageController.getMessages").middleware(["auth"]);
 Route.get("/getSingleMessage", "Messaging/MessageController.getSingleMessage").middleware(["auth"]);
+
+// Denomination Routes 
+Route.get("/whoToFollowDenomination", "Follow/FollowController.whoToFollowDenomination").middleware(["auth"]);
+Route.get("/ViewDenominationTimeline", "Posts/PostController.ViewDenominationTimeline").middleware(["auth"]);
+Route.get("/ViewDenominationGroups","Group/GroupController.ViewDenominationGroups").middleware(["auth"]);
+
+
+// CHURCH ADMINISTRATION
+//Emails
+Route.post("/sendEmail","Emails/ChurchEmailController.sendDenominationMail" ).middleware(["auth"]);
+Route.get("/viewEmails","Emails/ChurchEmailController.viewDenominationMail" ).middleware(["auth"]);
+// Requests
+Route.post("/createChurchRequest","Requests/ChurchRequestController.createChurchRequest" ).middleware(["auth"]);
+Route.get("/viewChurchRequests","Requests/ChurchRequestController.viewChurchRequests" ).middleware(["auth"]);
+Route.post("/acceptChurchRequest","Requests/ChurchRequestController.acceptChurchRequest" ).middleware(["auth"]);
+Route.post("/rejectChurchRequest","Requests/ChurchRequestController.rejectChurchRequest" ).middleware(["auth"]);
+Route.get("/viewSingleChurchRequest/:request_id","Requests/ChurchRequestController.viewSingleChurchRequest");
+Route.get("/viewAcceptedRequests","Requests/ChurchRequestController.viewAcceptedRequests" ).middleware(["auth"]);
+Route.get("/viewRejectedRequests","Requests/ChurchRequestController.viewRejectedRequests" ).middleware(["auth"]);
+
+//resources
+Route.post("/createChurchResource","Resources/ChurchResourceController.createChurchResource" ).middleware(["auth"]);
+Route.get("/viewDenominationResources","Resources/ChurchResourceController.viewDenominationResources" ).middleware(["auth"]);
+Route.get("/viewSingleResource/:id","Resources/ChurchResourceController.viewSingleResource" ).middleware(["auth"]);
+
+
+//register
+Route.post("/createChurchRegister","Register/ChurchRegisterController.createChurchRegister" ).middleware(["auth"]);
+Route.get("/viewChurchRegister","Register/ChurchRegisterController.viewChurchRegister" ).middleware(["auth"]);
+// bulettin
+Route.post("/createChurchBulletin","Bulletins/ChurchBulletinController.createChurchBulletin" ).middleware(["auth"]);
+Route.get("/getChurchBulletin","Bulletins/ChurchBulletinController.viewChurchBulletin" ).middleware(["auth"]);
+Route.get("/getSingleChurchBulletin/:bulletin_id","Bulletins/ChurchBulletinController.viewSingleChurchBulletin" ).middleware(["auth"]);
+
+
+// directory/event locator
+Route.post("branch/createEvent","EventLocator/EventLocatorController.createEvent" ).middleware(["auth"]);
+Route.post("denomination/createEvent","EventLocator/EventLocatorController.createEvent" ).middleware(["auth"]);
+
+Route.get("denomination/getEvents","EventLocator/EventLocatorController.viewDenominationEvents" ).middleware(["auth"]);
+Route.get("branch/getEvents","EventLocator/EventLocatorController.viewBranchEvents" ).middleware(["auth"]);
+Route.get("/getAllEvents","EventLocator/EventLocatorController.viewAllEvents" ).middleware(["auth"]);
+
+Route.get("user/getAllDenominations","EventLocator/EventLocatorController.getAllDenominations" ).middleware(["auth"]);
+Route.get("/getSingleDenominationLocations/:denomination_id","EventLocator/EventLocatorController.getSingleDenominationLocations" ).middleware(["auth"]);
+
+

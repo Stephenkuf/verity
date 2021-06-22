@@ -7,6 +7,7 @@ class RegisterUsersSchema extends Schema {
   up () {
     this.create('register_users', (table) => {
       table.increments()
+      table.integer("register_id")
       table.integer("sender_id")
       table.integer("reciever_id")
       table.timestamps()

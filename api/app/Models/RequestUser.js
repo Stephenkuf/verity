@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class RequestUser extends Model {
+    requests(){
+        return this.hasOne("App/Models/Request", "request_id", "id")
+    }
 }
 
 module.exports = RequestUser

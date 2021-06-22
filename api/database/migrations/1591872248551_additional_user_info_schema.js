@@ -9,6 +9,7 @@ class AdditionalUserInfoSchema extends Schema {
       table.increments()
       table.integer('user_id')
       table.integer('denomination_id')
+      table.integer('branch_id')
       table.string('location').nullable()
       table.string('website_url').nullable()
       table.string('bio').nullable()

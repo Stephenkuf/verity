@@ -1,7 +1,22 @@
 <template>
   <header class="dashboard__header">
     <nav class="navbar navbar-expand-lg bg-white">
-      <div class="container">
+      <div
+        :class="
+          $route.name == 'ChurchEmail' ||
+          $route.name == 'NewRequest' ||
+          $route.name == 'RejectedRequest' ||
+          $route.name == 'CreateRequest' ||
+          $route.name == 'CreateResource' ||
+          $route.name == 'CreateBulletin' ||
+          $route.name == 'ViewResource' ||
+          $route.name == 'AllBulletin' ||
+          $route.name == 'RegisterManager' ||
+          $route.name == 'AcceptedRequest'
+            ? 'co_container'
+            : 'container'
+        "
+      >
         <button
           class="navbar-toggler bd-brand"
           type="button"
@@ -16,28 +31,39 @@
         <div class="collapse navbar-collapse" id="basicExampleNav">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a
+              <router-link
+                tag="a"
+                to="/account/dashboard/belivers-network"
                 class="nav-link"
                 :class="$route.name == 'BeliversNetworkDashboard' && 'active'"
-                href="#"
               >
                 <i class="fas fa-home f-24 mr-1 c-blue"></i>
                 <span class="c-blue f-bold f-14">HOME</span>
-              </a>
+              </router-link>
             </li>
             <li class="nav-item">
+              <router-link
+                to="/account/profile"
+                tag="a"
+                class="nav-link mx-4 mx-md-0"
+                :class="$route.name == 'Profile' && 'active'"
+              >
+                <i class="fas fa-user f-24 c-blue mr-1"></i>
+                <span class="c-blue font-weight-bold f-14">PROFILE</span>
+              </router-link>
+            </li>
+            <!-- <li class="nav-item">
               <a class="nav-link mx-4 mx-md-0" href="#">
                 <i class="fas fa-bell f-24 c-blue mr-1"></i>
                 <span class="c-blue font-weight-bold f-14">NOTIFICATIONS</span>
               </a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <router-link
                 tag="a"
                 to="/account/messages"
                 class="nav-link"
                 :class="$route.name == 'Messages' && 'active'"
-                href="#"
               >
                 <i class="fas fa-envelope f-24 c-blue mr-1"></i>
                 <span class="c-blue font-weight-bold f-14">MESSAGES</span>
@@ -46,7 +72,11 @@
           </ul>
           <ul class="m-auto">
             <a class="navbar-brand" href="#">
-              <img src="/assets/images/s4.png" alt="logo" />
+              <img
+                src="/assets/images/s4.png"
+                style="height: 75px;"
+                alt="logo"
+              />
             </a>
           </ul>
           <ul class="navbar-nav ml-auto">
@@ -75,7 +105,7 @@
               >
                 <img
                   src="/assets/images/user.png"
-                  class="user-img img-fluid"
+                  class="user-img img-fluid c-img--hover"
                   alt="user"
                 />
                 <span class="blue-dot"></span>
@@ -106,6 +136,9 @@ export default {
 </script>
 
 <style>
+c-img--hover:hover {
+  box-shadow: 0 2px 5px #0b6391;
+}
 .navbar .nav-item .nav-link .fab,
 .navbar .nav-item .nav-link .far,
 .navbar .nav-item .nav-link .fas {

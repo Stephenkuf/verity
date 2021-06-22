@@ -8,6 +8,7 @@ import { apiClient } from "@/services/api-client";
 // 3rd party packages
 import Vuelidate from "vuelidate";
 import VueIziToast from "vue-izitoast";
+import { ClientTable } from "vue-tables-2";
 import "izitoast/dist/css/iziToast.css";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
@@ -23,6 +24,7 @@ Vue.component("PlaceHolder", PlaceHolder);
 // Registering Plugins
 Vue.use(Vuelidate);
 Vue.use(VueIziToast);
+Vue.use(ClientTable);
 Vue.use(require("vue-moment"));
 
 //regixtered component

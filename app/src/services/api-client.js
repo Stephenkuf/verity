@@ -2,6 +2,7 @@ import axios from "axios";
 import Nprogress from "nprogress";
 
 export const apiClient = axios.create({
+  // baseURL: process.env.VUE_APP_BASE_URL,
   baseURL: process.env.VUE_APP_BASE_URL,
   headers: {
     Accept: "application/json",

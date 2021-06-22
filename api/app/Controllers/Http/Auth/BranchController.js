@@ -1,6 +1,7 @@
 'use strict'
 const BranchInfo = use("App/Models/BranchInfo");
 const User = use("App/Models/User");
+const UserRole = use("App/Models/UserRole");
 
 
 class BranchController {
@@ -11,9 +12,13 @@ class BranchController {
     response,
     auth
   }) {
+    const {user} = await auth.current;
+
     try {
+      const denominationString = await UserRole.findBy("role_label", "Branch")
 
       const {
+        denomination_id,
         branch_name,
         branch_email,
         branch_phone,
@@ -23,40 +28,9 @@ class BranchController {
         branch_designation
       } = request.all();
 
-
-      const loggedInUser = await auth.current.user;
-      // console.log(loggedInUser.id);
-
-
-      const lookUp = await User.findBy("id", loggedInUser.id)
-
-
-      if (lookUp == null || !lookUp) {
-        return response.status(400).json({
-          label: `User Lookup`,
-          statusCode: 400,
-          message: `We were unable to find that Userr`,
-        })
-      }
-
-      lookUp.is_complete_registration = 1
-
-      const saveconfirmation = await lookUp.save()
-
-      if (saveconfirmation == null || !saveconfirmation) {
-       return response.status(400).json({
-          label: `User registration completion update`,
-          statusCode: 400,
-          message: `We were unable to update user status `,
-        })
-      }
-
-
-      const currentUser = lookUp.toJSON()
-      console.log(currentUser.id);
-
       const branch = await BranchInfo.create({
-        user_id: currentUser.id,
+        user_id: user.id,
+        denomination_id,
         branch_name,
         branch_email,
         branch_phone,
@@ -67,7 +41,7 @@ class BranchController {
       })
 
 
-      if (!branchError) {
+      if (!branch) {
         return response.status(400).json({
           label: `Branch Registeration`,
           statusCode: 400,
@@ -75,13 +49,14 @@ class BranchController {
         })
       }
 
-      const registered = await safeAwait(
+      const registered = await 
         User.query()
-        .where('id', loggedInUser.id)
+        .where('id', user.id)
         .update({
-          is_complete_registration: 1
+          is_complete_registration: 1,
+          user_role_id:denominationString.id
         })
-      )
+      
       if (!registered) {
         return response.status(400).json({
           label: `is registered Error`,
@@ -91,10 +66,10 @@ class BranchController {
       }
 
       return response.status(200).json({
-        error: branch,
-        label: `Denomination Registration`,
+        result: branch,
+        label: `Branch Registration`,
         statusCode: 200,
-        message: `Denomination Registered successfully`,
+        message: `Branch Registered successfully`,
       })
 
     } catch (error) {

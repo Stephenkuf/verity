@@ -1,11 +1,17 @@
 <template>
-  <div class="card my-3 py-5">
+  <div class="card py-5" :class="margin_style || 'my-3'">
     <div class="text-center">
-      <img :src="`/assets/svg/${imageTitle}`" alt style="width: 150px;" />
-      <h3 class="defaultTitle" v-if="message == 'Settlement Account'">
+      <img
+        :src="`/assets/svg/${imageTitle}`"
+        alt
+        :style="{ width: img_width ? img_width : '100px;' }"
+      />
+      <br>
+      <br>
+      <h5 class="defaultTitle" v-if="message == 'Settlement Account'">
         You have not created any {{ message }}
-      </h3>
-      <h3 class="defaultTitle" v-else>There are currently no {{ message }}</h3>
+      </h5>
+      <h5 class="defaultTitle" v-else>There are currently no {{ message }}</h5>
       <slot name="placeholder-content"></slot>
       <slot></slot>
     </div>
@@ -20,6 +26,12 @@ export default {
       default: "note.svg",
     },
     message: {
+      type: String,
+    },
+    margin_style: {
+      type: String,
+    },
+    img_width: {
       type: String,
     },
   },
