@@ -123,3 +123,23 @@ Route.get("user/getAllDenominations","EventLocator/EventLocatorController.getAll
 Route.get("/getSingleDenominationLocations/:denomination_id","EventLocator/EventLocatorController.getSingleDenominationLocations" ).middleware(["auth"]);
 
 
+// Church devotional
+//Devotional Creation and view
+Route.post("/createDevotionals","ChurchDevotional/UserDevotionalController.createDevotional" ).middleware(["auth"]);
+Route.get("/viewAllDevotionals","ChurchDevotional/UserDevotionalController.viewAllDevotionals" ).middleware(["auth"]);
+Route.get("/viewDenominationDevotionals/:denomination_id","ChurchDevotional/UserDevotionalController.viewChurchDevotionals" ).middleware(["auth"]);
+Route.get("/viewSingleDevotional/:devotional_id","ChurchDevotional/UserDevotionalController.viewSingleDevotionals" ).middleware(["auth"]);
+Route.get("/viewMyDevotionals","ChurchDevotional/UserDevotionalController.viewMyDevotionals" ).middleware(["auth"]);
+
+// Devotional approval and rejection
+Route.post("/denominationViewDevotionals","ChurchDevotional/DenominationDevotionalController.denominationViewDevotional" ).middleware(["auth"]);
+Route.post("/acceptDevotional","ChurchDevotional/DenominationDevotionalController.acceptDevotional" ).middleware(["auth"]);
+Route.post("/rejectDevotional","ChurchDevotional/DenominationDevotionalController.rejectDevotional" ).middleware(["auth"]);
+Route.get("/viewAcceptedDevotionals","ChurchDevotional/DenominationDevotionalController.viewAcceptedDevotionals" ).middleware(["auth"]);
+Route.get("/viewRejectedDevotionals","ChurchDevotional/DenominationDevotionalController.viewRejectedDevotionals" ).middleware(["auth"]);
+
+// Bible Research
+//Emails
+Route.post("/createResearchMaterial","BibleResearch/BibleResearchController.createResearchMaterial" ).middleware(["auth"]);
+Route.get("/viewResearchPost","BibleResearch/BibleResearchController.createResearchPost" ).middleware(["auth"]);
+Route.get("/viewSingleResearchPost","BibleResearch/BibleResearchController.createResearchPost" ).middleware(["auth"]);
