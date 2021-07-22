@@ -50,8 +50,11 @@
             >
           </li>
           <li class="v__nav-list">
-            <a href="denomination.html" class="f-bold v__nav-item"
-              >Bible Search & Devotional</a
+            <router-link
+              to="/account/dashboard/bible-search"
+              tag="a"
+              class="f-bold v__nav-item"
+              >Bible Search & Devotional</router-link
             >
           </li>
           <li class="v__nav-list">

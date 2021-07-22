@@ -15,6 +15,7 @@ import Messages from "@/views/account/Messages.vue";
 import BeliversNetworkDashboard from "@/views/account/Dashboard";
 import ChurchOrganisationDashboard from "@/views/account/ChurchOrganisationDashboard";
 import DirectoryEventLocator from "@/views/account/DirectoryEventLocator";
+import BibleSearchDevotionals from "@/views/account/BibleSearchDevotionals";
 
 // church organisation pages
 import ChurchEmails from "@/views/churchOrganisation/Emails";
@@ -35,6 +36,9 @@ import CreateEvent from "@/views/directory/CreateEvent";
 import DenominationEvent from "@/views/directory/DenominationEvent";
 import AllEvent from "@/views/directory/AllEvent";
 import BranchEvent from "@/views/directory/BranchEvent";
+
+//bible Search
+import ViewBibleSearch from "@/views/BibleSearch/ViewBibleSearch";
 
 Vue.use(VueRouter);
 
@@ -243,6 +247,25 @@ const routes = [
             name: "BranchEvent",
             meta: {
               title: "Variety - Branch Events",
+              group: "Dashboard",
+            },
+          },
+        ],
+      },
+      {
+        path: "dashboard/bible-search",
+        component: BibleSearchDevotionals,
+        meta: {
+          title: "Variety - Bible Search",
+          group: "Dashboard",
+        },
+        children: [
+          {
+            path: "",
+            component: ViewBibleSearch,
+            name: "BibleSearch",
+            meta: {
+              title: "Variety - Bible Search",
               group: "Dashboard",
             },
           },
